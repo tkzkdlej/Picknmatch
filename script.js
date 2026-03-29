@@ -26,7 +26,8 @@
     });
   });
 
-  // 의뢰 폼 제출 처리
+  // 의뢰 폼 제출 처리 (비활성: 복원 시 주석 해제)
+  /*
   document.querySelectorAll(".request-form").forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -43,4 +44,5 @@
       form.reset();
     });
   });
+  */
 })();
