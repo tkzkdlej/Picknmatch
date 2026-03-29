@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" id="top">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" href="favicon-light.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
   </head>
@@ -26,7 +27,7 @@
         <a href="index.html" class="logo"><img src="images/logo.png" alt="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치" /></a>
         <nav class="nav">
           <div class="nav-item has-dropdown">
-            <button class="nav-link">ABOUT US</button>
+            <a href="greeting.html#top" class="nav-link">ABOUT US</a>
             <ul class="nav-dropdown">
               <li><a href="greeting.html">인사말</a></li>
               <li><a href="company.html">회사소개</a></li>
@@ -35,7 +36,7 @@
             </ul>
           </div>
           <div class="nav-item has-dropdown">
-            <button class="nav-link">BUSINESS</button>
+            <a href="headhunting.html#top" class="nav-link">BUSINESS</a>
             <ul class="nav-dropdown">
               <li><a href="headhunting.html">헤드헌팅서비스</a></li>
               <!-- 비활성: 채용대행·취업이직컨설팅
@@ -46,7 +47,7 @@
             </ul>
           </div>
           <div class="nav-item has-dropdown">
-            <button class="nav-link">CLIENTS</button>
+            <a href="strength.html#top" class="nav-link">CLIENTS</a>
             <ul class="nav-dropdown">
               <li><a href="strength.html">픽앤매치의 강점</a></li>
               <!-- 비활성: 의뢰 폼
@@ -57,7 +58,7 @@
             </ul>
           </div>
           <div class="nav-item has-dropdown">
-            <button class="nav-link">CANDIDATES</button>
+            <a href="position.html#top" class="nav-link">CANDIDATES</a>
             <ul class="nav-dropdown">
               <li><a href="position.html">채용핵심분야/포지션</a></li>
               <!-- 비활성: 이력서 등록·컨설팅 의뢰
@@ -66,16 +67,21 @@
               -->
             </ul>
           </div>
-          <div class="nav-item"><a href="sitemap.html" class="nav-link">SITEMAP</a></div>
+          <div class="nav-item"><a href="sitemap.html#top" class="nav-link">SITEMAP</a></div>
         </nav>
         <button class="nav-toggle" type="button" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
       </div>
     </header>
 
     <main>
-      <div class="page-header">
-        <h1 class="page-title">인사말</h1>
+      <div class="page-header page-header--about">
+        <h1 class="page-title">ABOUT US</h1>
         <p class="page-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+      </div>
+      <div class="page-intro">
+        <div class="container">
+          <h2 class="page-name">인사말</h2>
+        </div>
       </div>
       <section class="section section-alt">
         <div class="container">
@@ -91,9 +97,16 @@
 
     <footer class="footer">
       <div class="container footer-inner">
-        <p class="footer-logo">픽앤매치</p>
-        <p class="footer-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
-        <p class="footer-text">© 2026 픽앤매치. All rights reserved.</p>
+        <a href="index.html" class="footer-brand"><img src="images/logo.png" alt="픽앤매치" /></a>
+        <div class="footer-body">
+          <p class="footer-nav">
+            <a href="privacy.html">개인정보처리방침</a><span class="footer-sep" aria-hidden="true">|</span><a href="terms.html">이용약관</a><span class="footer-sep" aria-hidden="true">|</span><span class="footer-no-collect">이메일 무단수집 거부</span>
+          </p>
+          <p class="footer-meta">
+            주식회사 픽앤매치<span class="footer-sep" aria-hidden="true">|</span><a href="location.html">충남 천안시 동남구 청수14로 60 (서미법조타워) 6층</a><span class="footer-sep" aria-hidden="true">|</span>대표이사 김승환<span class="footer-sep" aria-hidden="true">|</span>대표전화 010-5404-1672<span class="footer-sep" aria-hidden="true">|</span>shkim@picknmatch.co.kr
+          </p>
+          <p class="footer-copy">© 2026 픽앤매치. All rights reserved.</p>
+        </div>
       </div>
     </footer>
     <script src="script.js"></script>

@@ -1,0 +1,4 @@
+#!/bin/sh
+# 커밋 직후 현재 브랜치를 origin에 push (네트워크·인증은 로컴 환경에 따름)
+branch=$(git symbolic-ref --short HEAD 2>/dev/null) || exit 0
+exec git push origin "$branch"

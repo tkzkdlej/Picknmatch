@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" id="top">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" href="favicon-light.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
   </head>
   <body>
@@ -23,17 +24,21 @@
       <div class="header-inner">
         <a href="index.html" class="logo"><img src="images/logo.png" alt="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치" /></a>
         <nav class="nav">
-          <div class="nav-item"><a href="index.html" class="nav-link">홈</a></div>
-          <div class="nav-item"><a href="greeting.html" class="nav-link">인사말</a></div>
-          <div class="nav-item"><a href="sitemap.html" class="nav-link">SITEMAP</a></div>
+          <div class="nav-item"><a href="sitemap.html#top" class="nav-link">SITEMAP</a></div>
         </nav>
         <button class="nav-toggle" type="button" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
       </div>
     </header>
 
     <main>
-      <div class="page-header">
-        <h1 class="page-title">개인정보처리방침</h1>
+      <div class="page-header page-header--privacy">
+        <h1 class="page-title">PRIVACY</h1>
+        <p class="page-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+      </div>
+      <div class="page-intro">
+        <div class="container">
+          <h2 class="page-name">개인정보처리방침</h2>
+        </div>
       </div>
       <section class="section">
         <div class="container">
@@ -57,7 +62,7 @@
             <h3>4. 개인정보의 제3자 제공</h3>
             <p>회사는 이용자의 개인정보를 원칙적으로 제3자에게 제공하지 않습니다. 다만, 이용자가 사전에 동의한 경우 또는 법령에 의해 요구되는 경우에는 예외로 합니다.</p>
             <h3>5. 개인정보 보호 담당자</h3>
-            <p>이메일: goldage77@naver.com | 대표전화: 010-5404-1672</p>
+            <p>이메일: shkim@picknmatch.co.kr | 대표전화: 010-5404-1672</p>
             <p style="margin-top: 2rem;"><a href="index.html" class="btn btn-primary">홈으로</a></p>
           </div>
         </div>
@@ -66,12 +71,16 @@
 
     <footer class="footer">
       <div class="container footer-inner">
-        <div class="footer-main">
-          <p class="footer-logo">픽앤매치</p>
-          <p class="footer-info">대표이사: 김승환 | 010-5404-1672 | goldage77@naver.com</p>
-          <p class="footer-legal"><a href="privacy.html">개인정보처리방침</a> | <a href="terms.html">이용약관</a></p>
+        <a href="index.html" class="footer-brand"><img src="images/logo.png" alt="픽앤매치" /></a>
+        <div class="footer-body">
+          <p class="footer-nav">
+            <a href="privacy.html">개인정보처리방침</a><span class="footer-sep" aria-hidden="true">|</span><a href="terms.html">이용약관</a><span class="footer-sep" aria-hidden="true">|</span><span class="footer-no-collect">이메일 무단수집 거부</span>
+          </p>
+          <p class="footer-meta">
+            주식회사 픽앤매치<span class="footer-sep" aria-hidden="true">|</span><a href="location.html">충남 천안시 동남구 청수14로 60 (서미법조타워) 6층</a><span class="footer-sep" aria-hidden="true">|</span>대표이사 김승환<span class="footer-sep" aria-hidden="true">|</span>대표전화 010-5404-1672<span class="footer-sep" aria-hidden="true">|</span>shkim@picknmatch.co.kr
+          </p>
+          <p class="footer-copy">© 2026 픽앤매치. All rights reserved.</p>
         </div>
-        <p class="footer-text">© 2026 픽앤매치. All rights reserved.</p>
       </div>
     </footer>
     <script src="script.js"></script>
