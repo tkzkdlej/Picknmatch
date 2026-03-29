@@ -1395,9 +1395,10 @@ main > .page-intro + .section {
 
 .footer-copy {
   margin: 0.15rem 0 0;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--color-text-soft);
   letter-spacing: 0.02em;
+  opacity: 0.72;
 }
 
 /* 맨 위로 스크롤 */
