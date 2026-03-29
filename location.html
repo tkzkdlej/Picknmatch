@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="픽앤매치 오시는길 - 충남 천안시 동남구 청수14로 60 서미법조타워 6층. 기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치" />
+    <title>픽앤매치</title>
+        <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo"><img src="images/logo.png" alt="픽앤매치 Pick &amp; Match" /></a>
+        <nav class="nav">
+          <div class="nav-item has-dropdown">
+            <button class="nav-link">ABOUT US</button>
+            <ul class="nav-dropdown">
+              <li><a href="greeting.html">인사말</a></li>
+              <li><a href="company.html">회사소개</a></li>
+              <li><a href="members.html">MEMBERS</a></li>
+              <li><a href="location.html">오시는길</a></li>
+            </ul>
+          </div>
+          <div class="nav-item has-dropdown">
+            <button class="nav-link">BUSINESS</button>
+            <ul class="nav-dropdown">
+              <li><a href="headhunting.html">헤드헌팅서비스</a></li>
+              <li><a href="recruitment.html">채용대행서비스</a></li>
+              <li><a href="reference.html">평판조회서비스</a></li>
+              <li><a href="career.html">취업이직컨설팅</a></li>
+            </ul>
+          </div>
+          <div class="nav-item has-dropdown">
+            <button class="nav-link">CLIENTS</button>
+            <ul class="nav-dropdown">
+              <li><a href="strength.html">픽앤매치의 강점</a></li>
+              <li><a href="request-headhunting.html">헤드헌팅의뢰</a></li>
+              <li><a href="request-recruitment.html">채용대행의뢰</a></li>
+              <li><a href="request-reference.html">평판조회의뢰</a></li>
+            </ul>
+          </div>
+          <div class="nav-item has-dropdown">
+            <button class="nav-link">CANDIDATES</button>
+            <ul class="nav-dropdown">
+              <li><a href="position.html">채용핵심분야/포지션</a></li>
+              <li><a href="resume.html">이력서 등록</a></li>
+              <li><a href="request-career.html">취업이직컨설팅의뢰</a></li>
+            </ul>
+          </div>
+          <div class="nav-item"><a href="sitemap.html" class="nav-link">SITEMAP</a></div>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-header">
+        <h1 class="page-title">오시는길</h1>
+        <p class="page-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+      </div>
+      <section class="section">
+        <div class="container">
+          <div class="contact-box">
+            <div class="contact-info">
+              <div class="contact-item">
+                <strong>대표전화</strong>
+                <p>010-5404-1672</p>
+              </div>
+              <div class="contact-item">
+                <strong>이메일</strong>
+                <p>goldage77@naver.com</p>
+              </div>
+              <div class="contact-item">
+                <strong>운영시간</strong>
+                <p>평일 09:00 - 18:00</p>
+              </div>
+              <div class="contact-item">
+                <strong>주소</strong>
+                <p>충남 천안시 동남구 청수14로 60 (서미법조타워) 6층</p>
+              </div>
+            </div>
+
+            <!-- 지도 영역 -->
+            <div class="map-section">
+              <h3 class="map-title">위치</h3>
+              <div id="map" class="map-container" style="width:100%;height:400px;min-height:400px;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p class="footer-logo">픽앤매치</p>
+        <p class="footer-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+        <p class="footer-text">© 2026 픽앤매치. All rights reserved.</p>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+    <!-- 카카오맵 API: https://developers.kakao.com/ 에서 JavaScript 키 발급 후 map-config.js에 설정하세요 -->
+    <script src="map-config.js"></script>
+    <script>
+      (function () {
+        var appKey = (window.KAKAO_MAP_APP_KEY || "").trim();
+        var fullAddress = "충남 천안시 동남구 청수14로 60 (서미법조타워) 6층";
+        var addressCandidates = [
+          fullAddress,
+          "충남 천안시 동남구 청수14로 60 서미법조타워 6층",
+          "충남 천안시 동남구 청수14로 60 서미법조타워",
+          "충남 천안시 동남구 청수14로 60"
+        ];
+
+        if (!appKey || appKey === "YOUR_KAKAO_MAP_APP_KEY") {
+          document.getElementById("map").innerHTML =
+            "<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.75rem;\">" +
+            "<div style=\"font-weight:700;color:var(--color-primary);\">지도 설정이 필요합니다</div>" +
+            "<a href=\"https://map.kakao.com/?q=" + encodeURIComponent(fullAddress) + "\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--color-accent);font-weight:700;\">카카오맵에서 보기 →</a>" +
+            "</div>";
+          return;
+        }
+
+        var mapContainer = document.getElementById("map");
+
+        // 카카오 SDK/지오코딩이 실패해도 "지도 + 마커"가 보이도록 좌표 폴백을 사용합니다.
+        // (청수14로 60 / 서미법조타워 기준 공개 좌표)
+        var FIXED_COORDS = [
+          { lat: 36.785375913496, lng: 127.15679767986 }
+        ];
+
+        var fallbackHtml =
+          "<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.75rem;\">" +
+          "<div style=\"font-weight:700;color:var(--color-primary);\">지도 로딩 중…</div>" +
+          "<div style=\"font-size:0.9rem;color:var(--color-text-muted);\">네트워크 상태에 따라 잠시 후 마커가 표시됩니다.</div>" +
+          "</div>";
+
+        // 초기에는 폴백 문구를 보여줍니다(빈 화면 방지).
+        mapContainer.innerHTML = fallbackHtml;
+
+        var showFixedCoords = function () {
+          if (typeof kakao === "undefined" || !kakao.maps) return;
+          try {
+            var coords = new kakao.maps.LatLng(FIXED_COORDS[0].lat, FIXED_COORDS[0].lng);
+            showMap(coords);
+          } catch (e) {
+            // 마지막 수단: 폴백 문구
+            mapContainer.innerHTML = fallbackHtml;
+          }
+        };
+
+        var showFallback = function () {
+          // SDK가 이미 준비되었으면 좌표 폴백으로 무조건 지도/마커를 띄웁니다.
+          if (typeof kakao !== "undefined" && kakao.maps) {
+            showFixedCoords();
+            return;
+          }
+          mapContainer.innerHTML = fallbackHtml;
+        };
+
+        function showMap(coords) {
+          try {
+            clearTimeout(loadTimeout);
+            // 주소/건물 위치를 더 또렷하게 보이도록 줌을 조금 더 당깁니다.
+            var mapOption = { center: coords, level: 4 };
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+            var marker = new kakao.maps.Marker({ position: coords });
+            marker.setMap(map);
+            var iwContent = "<div style=\"padding:8px 12px;white-space:nowrap;\"><strong>픽앤매치</strong><br>" + fullAddress + "</div>";
+            var infowindow = new kakao.maps.InfoWindow({ content: iwContent });
+            infowindow.open(map, marker);
+            kakao.maps.event.addListener(marker, "click", function () { infowindow.open(map, marker); });
+            setTimeout(function () { map.relayout(); }, 100);
+          } catch (e) {
+            showFallback();
+          }
+        }
+
+        function geocodeByCandidates(geocoder, idx) {
+          if (idx >= addressCandidates.length) {
+            showFallback();
+            return;
+          }
+          geocoder.addressSearch(addressCandidates[idx], function (result, status) {
+            try {
+              if (status === kakao.maps.services.Status.OK && result && result.length) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                showMap(coords);
+              } else {
+                geocodeByCandidates(geocoder, idx + 1);
+              }
+            } catch (e) {
+              geocodeByCandidates(geocoder, idx + 1);
+            }
+          });
+        }
+
+        var s = document.createElement("script");
+        s.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=" + appKey + "&libraries=services&autoload=false";
+        s.onerror = showFallback;
+        // 지도/지오코딩이 비정상적으로 오래 걸리면 좌표 폴백으로 무조건 지도/마커를 띄웁니다.
+        var loadTimeout = setTimeout(function () {
+          if (typeof kakao !== "undefined" && kakao.maps) {
+            showFixedCoords();
+          } else {
+            showFallback();
+          }
+        }, 12000);
+        s.onload = function () {
+          if (typeof kakao === "undefined" || !kakao.maps) {
+            showFallback();
+            return;
+          }
+          kakao.maps.load(function () {
+            try {
+              var geocoder = new kakao.maps.services.Geocoder();
+              geocodeByCandidates(geocoder, 0);
+            } catch (e) {
+              showFallback();
+            }
+          });
+        };
+        document.head.appendChild(s);
+      })();
+    </script>
+  </body>
+</html>
