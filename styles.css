@@ -1298,19 +1298,11 @@ main > .page-intro + .section {
   font-weight: 600;
 }
 
-/* 푸터 — 좌측 로고 · 우측 단계형 정보 · PM 골드(#b89454 계열)와 톤 통일 */
+/* 푸터 — 배경을 로고 PNG와 동일한 흰색으로 통일 */
 .footer {
-  background:
-    linear-gradient(180deg, rgba(var(--color-accent-rgb), 0.2) 0%, transparent 45%),
-    linear-gradient(
-      165deg,
-      #756445 0%,
-      #5a4830 26%,
-      #3d2f1c 55%,
-      #15120c 100%
-    );
-  box-shadow: inset 0 1px 0 rgba(232, 217, 184, 0.28);
-  color: rgba(255, 255, 255, 0.9);
+  background: #fff;
+  box-shadow: inset 0 1px 0 var(--color-border-soft);
+  color: var(--color-text);
   padding: 2rem 1.5rem 2.25rem;
   text-align: left;
 }
@@ -1328,14 +1320,13 @@ main > .page-intro + .section {
   display: block;
   flex-shrink: 0;
   line-height: 0;
-  border-radius: var(--radius-md);
-  background: #fff;
-  padding: 0.45rem 0.7rem;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  padding: 0;
 }
 
 .footer-brand:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid rgba(var(--color-accent-rgb), 0.55);
   outline-offset: 3px;
 }
 
@@ -1361,23 +1352,23 @@ main > .page-intro + .section {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.55;
-  color: #fff;
+  color: var(--color-primary);
 }
 
 .footer-nav a {
-  color: #fff;
+  color: var(--color-primary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .footer-nav a:hover {
-  color: var(--color-gold-highlight);
+  color: var(--color-accent-dark);
 }
 
 .footer-sep {
   display: inline-block;
   margin: 0 0.4rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-border);
   font-weight: 400;
   user-select: none;
 }
@@ -1388,24 +1379,24 @@ main > .page-intro + .section {
   font-weight: 400;
   line-height: 1.65;
   letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--color-text-muted);
 }
 
 .footer-meta a {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--color-text-muted);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.2s ease;
 }
 
 .footer-meta a:hover {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--color-primary);
 }
 
 .footer-copy {
   margin: 0.15rem 0 0;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-text-soft);
   letter-spacing: 0.02em;
 }
 
