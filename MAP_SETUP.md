@@ -13,6 +13,10 @@
 5. **[Web 플랫폼 등록]** 클릭
    - **브라우저 주소창에 보이는 URL을 그대로** 등록하세요 (포트 번호까지 정확히!)
    - 예: `http://127.0.0.1:5500` (Live Server), `http://localhost:3000`, `file://` 불가
+   - **Vercel 미리보기/배포:** 반드시 아래를 **추가** 등록하세요 (HTTPS, 슬래시 없이).
+     - `https://picknmatch.vercel.app`
+     - (나중에 연결하는) 구매한 도메인 예: `https://www.example.com` → 콘솔에 `https://www.example.com` 형태로 등록
+   - 도메인을 바꾸거나 새로 쓰면 카카오 콘솔에 등록하지 않으면 지도가 **“로딩 중”에 멈추거나** 타일이 안 뜰 수 있습니다.
 6. **[앱 키]** 탭에서 **JavaScript 키** 복사
 7. **[제품 설정]** → **[카카오맵]** → **활성화 상태 ON** 확인
 8. `map-config.js` 파일 열어서 `YOUR_KAKAO_MAP_APP_KEY`를 복사한 키로 교체

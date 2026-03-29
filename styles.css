@@ -656,9 +656,9 @@ button, input, textarea {
   --page-header-bg: url("https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1920&q=80");
 }
 
-/* 이용약관 — 법률·문서 톤 */
+/* 이용약관 — 계약·문서 검토 톤 */
 .page-header--terms {
-  --page-header-bg: url("https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=1920&q=80");
+  --page-header-bg: url("https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1920&q=80");
 }
 
 .page-header .page-title {
