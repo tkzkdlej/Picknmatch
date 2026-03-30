@@ -121,15 +121,17 @@
     });
   });
 
-  // 메인 히어로 이미지 슬라이드
+  // 메인 히어로 이미지 슬라이드 (가로 트랙 + 드래그 시 이미지가 손가락/마우스를 따라 이동)
   (function initHeroSlider() {
     var root = document.querySelector("[data-hero-slider]");
     if (!root) return;
 
+    var heroSlides = root.querySelector(".hero-slides");
+    var track = root.querySelector(".hero-slides-track");
+    if (!heroSlides || !track) return;
+
     var slides = root.querySelectorAll(".hero-slide");
     var dots = root.querySelectorAll(".hero-dot");
-    var prevBtn = root.querySelector(".hero-arrow-prev");
-    var nextBtn = root.querySelector(".hero-arrow-next");
     var index = 0;
     var timer = null;
     var intervalMs = 6500;
@@ -137,14 +139,25 @@
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    function slideWidth() {
+      return heroSlides.clientWidth || 0;
+    }
+
+    function setTrackPx(offsetPx, animate) {
+      if (prefersReduced) animate = false;
+      root.classList.toggle("hero-slider--no-transition", !animate);
+      track.style.transform = "translateX(" + offsetPx + "px)";
+    }
+
     function goTo(i) {
       var n = slides.length;
       if (n === 0) return;
       index = ((i % n) + n) % n;
+      var w = slideWidth();
+      setTrackPx(-index * w, true);
 
       slides.forEach(function (slide, j) {
         var active = j === index;
-        slide.classList.toggle("is-active", active);
         slide.setAttribute("aria-hidden", active ? "false" : "true");
         slide.querySelectorAll("a, button").forEach(function (el) {
           if (active) {
@@ -189,18 +202,82 @@
       timer = setInterval(next, intervalMs);
     }
 
-    if (prevBtn) {
-      prevBtn.addEventListener("click", function () {
-        prev();
-        startAutoplay();
-      });
+    var swipeThreshold = 56;
+    var dragStartX = 0;
+    var dragStartY = 0;
+    var swipePointerId = null;
+
+    function swipeTargetOk(el) {
+      return el && !el.closest(".hero-dot");
     }
-    if (nextBtn) {
-      nextBtn.addEventListener("click", function () {
-        next();
-        startAutoplay();
-      });
+
+    root.addEventListener(
+      "pointerdown",
+      function (e) {
+        if (prefersReduced) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        if (!swipeTargetOk(e.target)) return;
+        swipePointerId = e.pointerId;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        try {
+          root.setPointerCapture(e.pointerId);
+        } catch (err) {}
+        stopAutoplay();
+        root.classList.add("hero-slider--no-transition");
+      },
+      true
+    );
+
+    root.addEventListener(
+      "pointermove",
+      function (e) {
+        if (prefersReduced) return;
+        if (swipePointerId !== e.pointerId) return;
+        var w = slideWidth();
+        if (w <= 0) return;
+        var n = slides.length;
+        var dx = e.clientX - dragStartX;
+        var minX = -(n - 1) * w;
+        var x = -index * w + dx;
+        if (x > 0) x = 0;
+        if (x < minX) x = minX;
+        track.style.transform = "translateX(" + x + "px)";
+      },
+      true
+    );
+
+    function endSwipe(e) {
+      if (swipePointerId !== e.pointerId) return;
+      try {
+        root.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+      swipePointerId = null;
+      var dx = e.clientX - dragStartX;
+      var dy = e.clientY - dragStartY;
+      if (Math.abs(dx) >= swipeThreshold && Math.abs(dx) >= Math.abs(dy) * 0.85) {
+        if (dx < 0) next();
+        else prev();
+      } else {
+        goTo(index);
+      }
+      startAutoplay();
     }
+
+    root.addEventListener("pointerup", endSwipe, true);
+    root.addEventListener(
+      "pointercancel",
+      function (e) {
+        if (swipePointerId !== e.pointerId) return;
+        try {
+          root.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+        swipePointerId = null;
+        goTo(index);
+        startAutoplay();
+      },
+      true
+    );
 
     dots.forEach(function (dot) {
       dot.addEventListener("click", function () {
@@ -230,7 +307,18 @@
       else startAutoplay();
     });
 
+    var resizeTimer = null;
+    window.addEventListener("resize", function () {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        goTo(index);
+      }, 80);
+    });
+
     goTo(0);
+    requestAnimationFrame(function () {
+      goTo(index);
+    });
     startAutoplay();
   })();
 

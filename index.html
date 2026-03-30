@@ -70,11 +70,12 @@
         class="hero hero-slider"
         data-hero-slider
         aria-roledescription="carousel"
-        aria-label="메인 비주얼"
+        aria-label="메인 비주얼. 좌우로 드래그하거나 스와이프하여 슬라이드를 넘길 수 있습니다."
         tabindex="0"
       >
         <div class="hero-slides">
-          <article id="hero-slide-0" class="hero-slide is-active" data-slide-index="0" aria-hidden="false">
+          <div class="hero-slides-track">
+          <article id="hero-slide-0" class="hero-slide" data-slide-index="0" aria-hidden="false">
             <div class="hero-slide-media">
               <img
                 src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&amp;fit=crop&amp;w=1920&amp;q=80"
@@ -136,6 +137,7 @@
               <p class="hero-sub">검증된 프로세스로 최적의 인재 전략을 제안합니다</p>
             </div>
           </article>
+          </div>
         </div>
 
         <div class="hero-slider-ui">
@@ -143,18 +145,6 @@
             <button type="button" class="hero-dot is-active" aria-current="true" aria-label="1번 슬라이드 (현재)" data-slide-to="0"></button>
             <button type="button" class="hero-dot" aria-label="2번 슬라이드" data-slide-to="1"></button>
             <button type="button" class="hero-dot" aria-label="3번 슬라이드" data-slide-to="2"></button>
-          </div>
-          <div class="hero-arrows">
-            <button type="button" class="hero-arrow hero-arrow-prev" aria-label="이전 슬라이드">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </button>
-            <button type="button" class="hero-arrow hero-arrow-next" aria-label="다음 슬라이드">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </button>
           </div>
         </div>
       </section>
