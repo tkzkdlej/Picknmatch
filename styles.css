@@ -110,6 +110,7 @@ button, input, textarea {
   left: 0;
   right: 0;
   z-index: 100;
+  isolation: isolate;
   background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
   border-bottom: 1px solid rgba(18, 28, 46, 0.08);
   box-shadow:
@@ -150,11 +151,10 @@ button, input, textarea {
 .logo {
   display: inline-flex;
   align-items: center;
-  background: var(--color-surface);
-  border-radius: var(--radius-sm);
+  padding: 0.15rem 0;
+  background: transparent;
+  border-radius: 0;
   overflow: visible;
-  transform: scale(var(--logo-visual-scale));
-  transform-origin: left center;
 }
 
 .logo img {
@@ -163,7 +163,8 @@ button, input, textarea {
   display: block;
   max-width: min(340px, 100%);
   object-fit: contain;
-  background-color: var(--color-surface);
+  background-color: transparent;
+  mix-blend-mode: multiply;
   image-rendering: auto;
 }
 

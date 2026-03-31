@@ -1,4 +1,4 @@
-/* 픽앤매치 - 네비게이션 & 폼 처리 */
+﻿/* 픽앤매치 - 네비게이션 & 폼 처리 */
 
 (function () {
   "use strict";
@@ -24,28 +24,28 @@
       '<div class="sitemap-col">' +
       "<h4>ABOUT US</h4>" +
       "<ul>" +
-      '<li><a href="greeting.html">인사말</a></li>' +
-      '<li><a href="company.html">회사소개</a></li>' +
-      '<li><a href="members.html">MEMBERS</a></li>' +
-      '<li><a href="location.html">오시는길</a></li>' +
+      '<li><a href="/greeting/">인사말</a></li>' +
+      '<li><a href="/introduce/">회사소개</a></li>' +
+      '<li><a href="/members/">MEMBERS</a></li>' +
+      '<li><a href="/location/">오시는길</a></li>' +
       "</ul></div>" +
       '<div class="sitemap-col">' +
       "<h4>CLIENT</h4>" +
       "<ul>" +
-      '<li><a href="strength.html">픽앤매치의 강점</a></li>' +
-      '<li><a href="headhunting.html">헤드헌팅서비스</a></li>' +
-      '<li><a href="reference.html">평판조회서비스</a></li>' +
+      '<li><a href="/strength/">픽앤매치의 강점</a></li>' +
+      '<li><a href="/headhunting/">헤드헌팅서비스</a></li>' +
+      '<li><a href="/reference/">평판조회서비스</a></li>' +
       "</ul></div>" +
       '<div class="sitemap-col">' +
       "<h4>POSITION</h4>" +
       "<ul>" +
-      '<li><a href="position.html">채용핵심분야/포지션</a></li>' +
+      '<li><a href="/position/">채용핵심분야/포지션</a></li>' +
       "</ul></div>" +
       '<div class="sitemap-col">' +
       "<h4>법적 고지</h4>" +
       "<ul>" +
-      '<li><a href="privacy.html">개인정보처리방침</a></li>' +
-      '<li><a href="terms.html">이용약관</a></li>' +
+      '<li><a href="/privacy/">개인정보처리방침</a></li>' +
+      '<li><a href="/terms/">이용약관</a></li>' +
       "</ul></div>" +
       "</div></div></div>";
 
@@ -376,3 +376,4 @@
   });
   */
 })();
+
