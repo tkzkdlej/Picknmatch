@@ -217,6 +217,11 @@ button, input, textarea {
   background: transparent;
   border-radius: 0;
   overflow: visible;
+  transition:
+    background 0.32s var(--ease-out),
+    padding 0.32s var(--ease-out),
+    box-shadow 0.32s var(--ease-out),
+    border-radius 0.32s var(--ease-out);
 }
 
 .logo img {
@@ -228,6 +233,24 @@ button, input, textarea {
   background-color: transparent;
   mix-blend-mode: multiply;
   image-rendering: auto;
+  transition: filter 0.32s var(--ease-out);
+}
+
+/*
+  스크롤 후 헤더는 반투명·블러 — multiply만으로는 PNG 흰 박스가 바와 어긋나 보일 수 있음.
+  로고 영역에 상단바와 동일 톤의 실배경을 깔아 블렌딩 기준을 맞춤.
+*/
+.header.header--elevated .logo {
+  padding: 0.18rem 0.45rem 0.18rem 0.2rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
+  box-shadow: 0 0 0 1px rgba(18, 28, 46, 0.05);
+}
+
+.header.header--elevated .logo img {
+  mix-blend-mode: multiply;
+  /* 블러 바 위에서 흰색이 과하게 튀는 현상 완화 */
+  filter: brightness(0.99) contrast(1.02);
 }
 
 .header-inner .nav {
