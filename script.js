@@ -1,4 +1,4 @@
-﻿/* 픽앤매치 - 네비게이션 & 폼 처리 */
+/* 픽앤매치 - 네비게이션 & 폼 처리 */
 
 (function () {
   "use strict";
@@ -120,6 +120,83 @@
       }
     });
   });
+
+  // 헤더: 스크롤 시 글래스 효과 + (데스크톱) 아래 방향 스크롤 시 숨김
+  (function initHeaderScroll() {
+    var header = document.querySelector(".header");
+    if (!header) return;
+
+    var nav = document.querySelector(".nav");
+    var lastY = window.scrollY || document.documentElement.scrollTop || 0;
+    var ticking = false;
+    var minScrollForHide = 96;
+    var desktopMinWidth = 901;
+
+    var prefersReduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function apply() {
+      ticking = false;
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+
+      header.classList.toggle("header--elevated", y > 12);
+
+      if (
+        prefersReduced ||
+        window.innerWidth < desktopMinWidth ||
+        (nav && nav.classList.contains("is-open"))
+      ) {
+        header.classList.remove("header--hidden");
+        lastY = y;
+        return;
+      }
+
+      if (y < minScrollForHide) {
+        header.classList.remove("header--hidden");
+      } else if (y > lastY) {
+        header.classList.add("header--hidden");
+      } else if (y < lastY) {
+        header.classList.remove("header--hidden");
+      }
+
+      lastY = y;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          apply();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    apply();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", function () {
+      lastY = window.scrollY || document.documentElement.scrollTop || 0;
+      apply();
+    });
+
+    if (nav) {
+      nav.addEventListener(
+        "transitionend",
+        function () {
+          apply();
+        },
+        true
+      );
+    }
+
+    var navToggle = document.querySelector(".nav-toggle");
+    if (navToggle) {
+      navToggle.addEventListener("click", function () {
+        window.requestAnimationFrame(apply);
+      });
+    }
+  })();
 
   // 메인 히어로 이미지 슬라이드 (가로 트랙 + 드래그 시 이미지가 손가락/마우스를 따라 이동)
   (function initHeroSlider() {

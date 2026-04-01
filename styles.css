@@ -116,7 +116,63 @@ button, input, textarea {
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.85) inset,
     0 4px 20px rgba(15, 23, 42, 0.05);
-  transition: box-shadow 0.28s var(--ease-out), background 0.28s var(--ease-out);
+  transform: translate3d(0, 0, 0);
+  transition:
+    transform 0.42s var(--ease-out),
+    box-shadow 0.32s var(--ease-out),
+    background 0.32s var(--ease-out),
+    border-color 0.32s var(--ease-out),
+    backdrop-filter 0.32s var(--ease-out);
+  will-change: transform;
+}
+
+/* 스크롤 후: 반투명 + 블러로 콘텐츠와 분리감 */
+.header.header--elevated {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(18, 28, 46, 0.11);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 10px 40px rgba(15, 23, 42, 0.09);
+}
+
+.header.header--elevated::after {
+  opacity: 1;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--color-accent-rgb), 0.45) 20%,
+    rgba(var(--color-accent-rgb), 0.65) 50%,
+    rgba(var(--color-accent-rgb), 0.45) 80%,
+    transparent 100%
+  );
+}
+
+/* 데스크톱: 아래로 스크롤 시 헤더 숨김(위로 스크롤 시 재등장) */
+.header.header--hidden {
+  transform: translate3d(0, -100%, 0);
+  pointer-events: none;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .header.header--hidden {
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* 모바일·태블릿: 햄버거·오버레이 메뉴와 충돌 방지 — 자동 숨김 비활성(스크롤 효과는 elevated만) */
+@media (max-width: 900px) {
+  .header.header--hidden {
+    transform: none;
+    pointer-events: auto;
+  }
 }
 
 .header::after {
@@ -146,6 +202,12 @@ button, input, textarea {
   align-items: center;
   justify-content: space-between;
   min-height: calc(var(--header-logo-h) + 0.95rem);
+  transition: padding 0.32s var(--ease-out), min-height 0.32s var(--ease-out);
+}
+
+.header.header--elevated .header-inner {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
 }
 
 .logo {
