@@ -424,6 +424,11 @@ button, input, textarea {
   object-position: center;
 }
 
+/* 3번 슬라이드: 악수 클로즈업 — 프레임을 손·팔 쪽으로 두어 얼굴이 잘리도록 */
+#hero-slide-2 .hero-slide-media img {
+  object-position: center 62%;
+}
+
 .hero-slide-scrim {
   position: absolute;
   inset: 0;
