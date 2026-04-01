@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>픽앤매치 | 기업 맞춤형 인재 서치 전문</title>
+    <link>https://picknmatch.co.kr/main/</link>
+    <description>정확한 안목으로 뽑고(Pick), 최적의 자리에 맞춥니다(Match). 헤드헌팅 및 채용 대행 전문 픽앤매치입니다.</description>
+    <language>ko-KR</language>
+    <lastBuildDate>Wed, 02 Apr 2026 00:00:00 +0900</lastBuildDate>
+    <atom:link href="https://picknmatch.co.kr/rss.xml" rel="self" type="application/rss+xml" />
+    <image>
+      <url>https://picknmatch.co.kr/images/logo.png</url>
+      <title>픽앤매치</title>
+      <link>https://picknmatch.co.kr/main/</link>
+    </image>
+    <item>
+      <title>메인 | 픽앤매치</title>
+      <link>https://picknmatch.co.kr/main/</link>
+      <guid isPermaLink="true">https://picknmatch.co.kr/main/</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
+      <description><![CDATA[Executive Search, 헤드헌팅, 채용 대행. 화학·화공·반도체·친환경·2차전지 전문 서치펌 픽앤매치입니다.]]></description>
+    </item>
+    <item>
+      <title>인사말 | 픽앤매치</title>
+      <link>https://picknmatch.co.kr/greeting/</link>
+      <guid isPermaLink="true">https://picknmatch.co.kr/greeting/</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
+      <description><![CDATA[ABOUT US · 인사말]]></description>
+    </item>
+    <item>
+      <title>회사소개 | 픽앤매치</title>
+      <link>https://picknmatch.co.kr/introduce/</link>
+      <guid isPermaLink="true">https://picknmatch.co.kr/introduce/</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
+      <description><![CDATA[회사소개]]></description>
+    </item>
+    <item>
+      <title>헤드헌팅서비스 | 픽앤매치</title>
+      <link>https://picknmatch.co.kr/headhunting/</link>
+      <guid isPermaLink="true">https://picknmatch.co.kr/headhunting/</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
+      <description><![CDATA[Executive Search 진행과정 및 헤드헌팅 서비스 안내]]></description>
+    </item>
+    <item>
+      <title>오시는길 | 픽앤매치</title>
+      <link>https://picknmatch.co.kr/location/</link>
+      <guid isPermaLink="true">https://picknmatch.co.kr/location/</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
+      <description><![CDATA[연락처 및 위치 안내]]></description>
+    </item>
+    <item>
+      <title>채용핵심분야/포지션 | 픽앤매치</title>
+      <link>https://picknmatch.co.kr/position/</link>
+      <guid isPermaLink="true">https://picknmatch.co.kr/position/</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
+      <description><![CDATA[POSITION · 채용 핵심 분야]]></description>
+    </item>
+  </channel>
+</rss>
