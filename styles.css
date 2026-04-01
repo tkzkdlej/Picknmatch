@@ -197,10 +197,11 @@ button, input, textarea {
 .header-inner {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0.5rem 0.85rem 0.5rem 1.5rem;
+  padding: 0.5rem max(0.85rem, env(safe-area-inset-right, 0px)) 0.5rem max(1.5rem, env(safe-area-inset-left, 0px));
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.65rem;
   min-height: calc(var(--header-logo-h) + 0.95rem);
   transition: padding 0.32s var(--ease-out), min-height 0.32s var(--ease-out);
 }
@@ -213,6 +214,8 @@ button, input, textarea {
 .logo {
   display: inline-flex;
   align-items: center;
+  min-width: 0;
+  flex-shrink: 1;
   padding: 0.15rem 0;
   background: transparent;
   border-radius: 0;
@@ -1537,6 +1540,7 @@ main > .page-intro + .section {
 
 /* 연락처/지도 */
 .contact-box {
+  width: 100%;
   max-width: 640px;
   margin: 0 auto;
   background: var(--color-surface);
@@ -1544,6 +1548,7 @@ main > .page-intro + .section {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-soft);
   box-shadow: var(--shadow-sm);
+  min-width: 0;
 }
 
 .contact-info {
@@ -1568,6 +1573,8 @@ main > .page-intro + .section {
 .contact-item p { font-weight: 500; color: var(--color-primary); }
 
 .map-section {
+  width: 100%;
+  min-width: 0;
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid var(--color-border-soft);
@@ -1582,10 +1589,14 @@ main > .page-intro + .section {
 
 .map-container {
   width: 100%;
-  height: 400px;
+  max-width: 100%;
+  min-width: 0;
+  height: clamp(240px, 42vh, 400px);
+  min-height: 240px;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--color-border);
+  box-sizing: border-box;
 }
 
 .map-fallback {
@@ -1595,7 +1606,7 @@ main > .page-intro + .section {
   justify-content: center;
   width: 100%;
   height: 100%;
-  min-height: 400px;
+  min-height: clamp(240px, 42vh, 400px);
   padding: 2rem;
   background: var(--color-bg-cream);
   color: var(--color-text);
@@ -1864,16 +1875,24 @@ main > .page-intro + .section {
   .stat-grid { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   :root {
     --header-logo-h: 44px;
-    --header-offset: 78px;
+    --header-offset: calc(78px + env(safe-area-inset-top, 0px));
     --logo-visual-scale: 1;
+  }
+
+  .header {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  body {
+    overflow-x: hidden;
   }
 
   .logo img {
     height: var(--header-logo-h);
-    max-width: 280px;
+    max-width: min(240px, calc(100vw - 5.5rem));
   }
 
   .footer {
@@ -1964,8 +1983,8 @@ main > .page-intro + .section {
   .nav {
     position: fixed;
     top: calc(var(--header-offset) + 0.25rem);
-    left: 1rem;
-    right: 1rem;
+    left: max(1rem, env(safe-area-inset-left, 0px));
+    right: max(1rem, env(safe-area-inset-right, 0px));
     background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
     flex-direction: column;
     padding: 1.25rem;
@@ -2031,21 +2050,23 @@ main > .page-intro + .section {
 
   .nav-toggle { display: flex; }
 
-  /* 연락처/지도 영역(인라인 height:400px override) */
+  /* 연락처/지도 — 뷰포트 높이에 맞춤, 가로 100% 유지 */
   .contact-box { padding: 1.5rem; }
 
   .map-container {
-    height: 260px !important;
-    min-height: 260px !important;
+    width: 100%;
+    max-width: 100%;
+    height: clamp(220px, 38vh, 340px);
+    min-height: 220px;
   }
 
   .map-fallback {
-    min-height: 260px !important;
+    min-height: clamp(220px, 38vh, 340px);
   }
 
   .scroll-top {
-    right: 1rem;
-    bottom: 1.2rem;
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: max(1.2rem, env(safe-area-inset-bottom, 0px));
     width: 2.5rem;
     height: 2.5rem;
   }
@@ -2056,10 +2077,31 @@ main > .page-intro + .section {
   }
 }
 
+@media (max-width: 640px) {
+  .contact-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.35rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.75rem;
+  }
+}
+
 @media (max-width: 480px) {
   .industry-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 420px) {
   .position-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --header-logo-h: 40px;
+    --header-offset: calc(72px + env(safe-area-inset-top, 0px));
+  }
+
+  .logo img {
+    max-width: min(200px, calc(100vw - 4.5rem));
+  }
 }

@@ -115,7 +115,7 @@
           });
         }
       }
-      if (window.innerWidth <= 600 && nav) {
+      if (window.innerWidth <= 768 && nav) {
         nav.classList.remove("is-open");
       }
     });

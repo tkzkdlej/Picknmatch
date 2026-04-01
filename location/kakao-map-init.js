@@ -66,6 +66,17 @@
     setTimeout(() => {
       mapInstance.relayout();
     }, 200);
+
+    var onResize = function () {
+      if (!mapInstance) return;
+      requestAnimationFrame(function () {
+        try {
+          mapInstance.relayout();
+        } catch (_e) {}
+      });
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("orientationchange", onResize, { passive: true });
   }
 
   function applyGeocodeResult(coords) {
