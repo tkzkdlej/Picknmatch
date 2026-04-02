@@ -3,83 +3,27 @@
 (function () {
   "use strict";
 
-  // 사이트맵 — 단일 페이지 제거, <dialog>로만 표시
-  (function initSitemapDialog() {
-    if (document.getElementById("sitemap-dialog")) return;
+  /** 메인(/main/)에서만: 로고 클릭 시 맨 위로 스크롤. 그 외 페이지는 href="/main/" 그대로 이동. */
+  function isMainPagePath() {
+    var p = (window.location.pathname || "").replace(/\/index\.html$/i, "");
+    if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
+    return p === "/main";
+  }
 
-    var dialog = document.createElement("dialog");
-    dialog.id = "sitemap-dialog";
-    dialog.className = "sitemap-dialog";
-    dialog.setAttribute("aria-modal", "true");
-    dialog.setAttribute("aria-labelledby", "sitemap-dialog-title");
-    dialog.innerHTML =
-      '<div class="sitemap-dialog__inner">' +
-      '<header class="sitemap-dialog__header">' +
-      '<h2 id="sitemap-dialog-title" class="sitemap-dialog__title">사이트맵</h2>' +
-      '<button type="button" class="sitemap-dialog__close" aria-label="닫기">' +
-      '<span aria-hidden="true">\u00d7</span></button>' +
-      "</header>" +
-      '<div class="sitemap-dialog__body">' +
-      '<div class="sitemap-grid">' +
-      '<div class="sitemap-col">' +
-      "<h4>ABOUT US</h4>" +
-      "<ul>" +
-      '<li><a href="/greeting/">인사말</a></li>' +
-      '<li><a href="/introduce/">회사소개</a></li>' +
-      '<li><a href="/members/">MEMBERS</a></li>' +
-      '<li><a href="/location/">오시는길</a></li>' +
-      "</ul></div>" +
-      '<div class="sitemap-col">' +
-      "<h4>CLIENT</h4>" +
-      "<ul>" +
-      '<li><a href="/strength/">픽앤매치의 강점</a></li>' +
-      '<li><a href="/headhunting/">헤드헌팅서비스</a></li>' +
-      '<li><a href="/reference/">평판조회서비스</a></li>' +
-      "</ul></div>" +
-      '<div class="sitemap-col">' +
-      "<h4>POSITION</h4>" +
-      "<ul>" +
-      '<li><a href="/position/">채용핵심분야/포지션</a></li>' +
-      "</ul></div>" +
-      '<div class="sitemap-col">' +
-      "<h4>법적 고지</h4>" +
-      "<ul>" +
-      '<li><a href="/privacy/">개인정보처리방침</a></li>' +
-      '<li><a href="/terms/">이용약관</a></li>' +
-      "</ul></div>" +
-      "</div></div></div>";
+  (function initLogoScrollToTop() {
+    if (!isMainPagePath()) return;
+    var logo = document.querySelector("a.logo");
+    if (!logo) return;
+    var prefersReduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    document.body.appendChild(dialog);
-
-    dialog.addEventListener("animationend", function (e) {
-      if (e.target === dialog && e.animationName === "sitemap-dialog-in") {
-        dialog.classList.add("sitemap-dialog--motion-done");
-      }
-    });
-
-    dialog.addEventListener("close", function () {
-      dialog.classList.remove("sitemap-dialog--motion-done");
-    });
-
-    var closeBtn = dialog.querySelector(".sitemap-dialog__close");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function () {
-        dialog.close();
-      });
-    }
-
-    dialog.addEventListener("click", function (e) {
-      if (e.target === dialog) {
-        dialog.close();
-      }
-    });
-
-    dialog.addEventListener("click", function (e) {
-      var a = e.target.closest("a[href]");
-      if (!a || !dialog.contains(a)) return;
-      var href = a.getAttribute("href") || "";
-      if (href && href.charAt(0) !== "#") {
-        dialog.close();
+    logo.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (prefersReduced) {
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
   })();
@@ -98,23 +42,9 @@
     });
   }
 
-  // 모바일에서 메뉴 링크 클릭 시 메뉴 닫기 · SITEMAP은 다이얼로그
+  // 모바일에서 메뉴 링크 클릭 시 메뉴 닫기
   document.querySelectorAll(".nav a").forEach(function (link) {
-    link.addEventListener("click", function (e) {
-      if (link.classList.contains("nav-link--sitemap")) {
-        e.preventDefault();
-        var dlg = document.getElementById("sitemap-dialog");
-        if (dlg && typeof dlg.showModal === "function") {
-          dlg.showModal();
-          dlg.classList.remove("sitemap-dialog--motion-done");
-          requestAnimationFrame(function () {
-            var closeEl = dlg.querySelector(".sitemap-dialog__close");
-            if (closeEl) {
-              closeEl.focus({ preventScroll: true });
-            }
-          });
-        }
-      }
+    link.addEventListener("click", function () {
       if (window.innerWidth <= 768 && nav) {
         nav.classList.remove("is-open");
       }
@@ -136,11 +66,28 @@
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    function updateHeaderOverHero() {
+      if (!document.body.classList.contains("page-main")) {
+        header.classList.remove("header--over-hero");
+        return false;
+      }
+      var hero = document.querySelector("[data-hero-slider]");
+      if (!hero) {
+        header.classList.remove("header--over-hero");
+        return false;
+      }
+      var rect = hero.getBoundingClientRect();
+      var overHero = rect.bottom > 8;
+      header.classList.toggle("header--over-hero", overHero);
+      return overHero;
+    }
+
     function apply() {
       ticking = false;
       var y = window.scrollY || document.documentElement.scrollTop || 0;
+      var overHero = updateHeaderOverHero();
 
-      header.classList.toggle("header--elevated", y > 12);
+      header.classList.toggle("header--elevated", y > 12 && !overHero);
 
       if (
         prefersReduced ||
