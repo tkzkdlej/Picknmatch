@@ -28,28 +28,55 @@
     });
   })();
 
-  // 모바일 네비게이션 토글
-  const navToggle = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".nav");
+  // 모바일 네비게이션 토글 · 배경 스크롤 잠금(CSS body.is-nav-open)
+  var MOBILE_NAV_MAX = 900;
+  var navToggle = document.querySelector(".nav-toggle");
+  var nav = document.querySelector(".nav");
 
-  if (navToggle && nav) {
-    navToggle.addEventListener("click", function () {
-      nav.classList.toggle("is-open");
-      navToggle.setAttribute(
-        "aria-label",
-        nav.classList.contains("is-open") ? "메뉴 닫기" : "메뉴 열기"
-      );
-    });
+  function setNavOpen(open) {
+    if (!nav || !navToggle) return;
+    nav.classList.toggle("is-open", open);
+    document.body.classList.toggle("is-nav-open", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute(
+      "aria-label",
+      open ? "메뉴 닫기" : "메뉴 열기"
+    );
   }
 
-  // 모바일에서 메뉴 링크 클릭 시 메뉴 닫기
-  document.querySelectorAll(".nav a").forEach(function (link) {
-    link.addEventListener("click", function () {
-      if (window.innerWidth <= 768 && nav) {
-        nav.classList.remove("is-open");
+  if (navToggle && nav) {
+    if (!navToggle.hasAttribute("aria-expanded")) {
+      navToggle.setAttribute("aria-expanded", "false");
+    }
+    navToggle.addEventListener("click", function () {
+      setNavOpen(!nav.classList.contains("is-open"));
+    });
+
+    document.querySelectorAll(".nav a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (window.innerWidth <= MOBILE_NAV_MAX) {
+          setNavOpen(false);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("is-open")) {
+        setNavOpen(false);
+        navToggle.focus();
       }
     });
-  });
+
+    window.addEventListener(
+      "resize",
+      function () {
+        if (window.innerWidth > MOBILE_NAV_MAX) {
+          setNavOpen(false);
+        }
+      },
+      { passive: true }
+    );
+  }
 
   // 헤더: 스크롤 시 글래스 효과 + (데스크톱) 아래 방향 스크롤 시 숨김
   (function initHeaderScroll() {

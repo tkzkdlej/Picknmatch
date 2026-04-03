@@ -59,6 +59,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -446,11 +448,17 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
 .nav-toggle {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-toggle span {
@@ -494,7 +502,8 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   padding: 0;
   overflow: hidden;
   background: var(--color-primary);
-  touch-action: pan-y;
+  /* pan-y는 가로 스와이프를 방해할 수 있어 manipulation 사용 */
+  touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -670,6 +679,7 @@ body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-sub {
 }
 
 .hero-dot {
+  position: relative;
   width: 9px;
   height: 9px;
   padding: 0;
@@ -678,6 +688,18 @@ body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-sub {
   background: rgba(255, 255, 255, 0.28);
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+/* 모바일: 도트 시각 크기는 유지하고 터치 영역만 확대 */
+.hero-dot::after {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: transparent;
 }
 
 .hero-dot:hover {
@@ -1809,6 +1831,8 @@ main > .page-intro + .section {
 .company-table-wrap {
   margin-top: 0.75rem;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .company-profile-table {
@@ -1883,6 +1907,35 @@ main > .page-intro + .section {
   .footer-col--contact {
     justify-self: stretch;
     min-width: 0;
+  }
+
+  /* iOS: 입력란 포커스 시 자동 확대 방지(16px 이상) */
+  .request-form input,
+  .request-form textarea,
+  .request-form select {
+    font-size: 1rem;
+  }
+}
+
+/* 모바일 메뉴 열림: 배경 스크롤 잠금(script.js가 body에 is-nav-open 부여) */
+body.is-nav-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+/* 열린 메뉴 패널 안에서는 세로 스크롤 허용 */
+body.is-nav-open .nav.is-open {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 901px) {
+  body.is-nav-open {
+    overflow: auto;
+    overscroll-behavior: auto;
+    touch-action: auto;
   }
 }
 
@@ -1996,6 +2049,23 @@ main > .page-intro + .section {
     padding: 5.5rem 1.1rem 5.25rem;
   }
 
+  .hero-main-phrase {
+    font-size: clamp(1.35rem, 6.5vw, 2.35rem);
+    line-height: 1.28;
+    padding: 0 0.15rem;
+    word-break: keep-all;
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    padding: 0 0.35rem;
+    line-height: 1.65;
+  }
+
+  .hero-kicker {
+    font-size: 0.65rem;
+  }
+
   body.page-main .hero-slider .hero-slides,
   body.page-main .hero-slider .hero-slides-track,
   body.page-main .hero-slider .hero-slide {
@@ -2016,10 +2086,14 @@ main > .page-intro + .section {
     top: calc(var(--header-offset) + 0.25rem);
     left: max(1rem, env(safe-area-inset-left, 0px));
     right: max(1rem, env(safe-area-inset-right, 0px));
+    max-height: min(70vh, calc(100dvh - var(--header-offset) - 1.5rem));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
     flex-direction: column;
     padding: 1.25rem;
-    gap: 0.5rem;
+    gap: 0.35rem;
     border-radius: var(--radius-md);
     box-shadow:
       0 4px 24px rgba(15, 23, 42, 0.1),
@@ -2072,7 +2146,52 @@ main > .page-intro + .section {
     margin: 0.25rem 0;
   }
 
+  .nav.is-open .nav-link,
+  .nav.is-open .nav-item > a.nav-link {
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    align-items: center;
+    font-size: 0.8125rem;
+  }
+
+  .nav.is-open .nav-dropdown a {
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+  }
+
   .request-form .form-row { grid-template-columns: 1fr; }
+
+  .btn {
+    min-height: 44px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .btn-lg {
+    min-height: 48px;
+  }
+
+  .strength-card {
+    padding: 1.35rem 1.1rem;
+  }
+
+  .stat-card {
+    padding: 1.35rem 1rem;
+  }
+
+  .stat-card .stat-num {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+
+  .footer-list a {
+    display: inline-block;
+    padding: 0.4rem 0;
+    min-height: 2.75rem;
+    line-height: 1.45;
+    box-sizing: border-box;
+  }
 
   /* 모바일에서는 가로 여백을 줄이기 위해 2열 구성 */
   .position-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2102,8 +2221,10 @@ main > .page-intro + .section {
   .scroll-top {
     right: max(1rem, env(safe-area-inset-right, 0px));
     bottom: max(1.2rem, env(safe-area-inset-bottom, 0px));
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .scroll-top svg {
@@ -2138,5 +2259,18 @@ main > .page-intro + .section {
 
   .logo img {
     max-width: min(200px, calc(100vw - 4.5rem));
+  }
+}
+
+/* 가로 모드·낮은 뷰포트: 서브 헤더·히어로가 과도하게 크지 않게 */
+@media (max-height: 520px) and (max-width: 900px) {
+  .page-header {
+    padding: max(5rem, calc(env(safe-area-inset-top, 0px) + 3.5rem)) 1rem 2.5rem;
+  }
+
+  body.page-main .hero-slider .hero-slides,
+  body.page-main .hero-slider .hero-slides-track,
+  body.page-main .hero-slider .hero-slide {
+    min-height: min(100dvh, 640px);
   }
 }
