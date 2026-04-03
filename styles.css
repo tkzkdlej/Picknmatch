@@ -37,6 +37,8 @@
   --radius-lg: 14px;
   --radius-xl: 18px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-dur: 0.55s;
   --container: 1120px;
   --prose-width: 42rem;
   /* 타이트 헤더 — 로고 작게(선명도 체감) · 앵커 오프셋 동기화 */
@@ -563,6 +565,26 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   object-position: center;
 }
 
+/* 활성 슬라이드: 아주 느린 줌(비즈니스 톤, 정적 이미지에 생동감) */
+@keyframes hero-bg-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.045);
+  }
+}
+
+.hero-slide[aria-hidden="false"] .hero-slide-media img {
+  animation: hero-bg-drift 20s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide .hero-slide-media img {
+    animation: none !important;
+  }
+}
+
 .hero-slide-scrim {
   position: absolute;
   inset: 0;
@@ -928,6 +950,9 @@ body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-sub {
   height: 2px;
   margin-top: 0.65rem;
   border-radius: 1px;
+  transform-origin: left center;
+  transform: scaleX(1);
+  transition: transform 0.55s var(--reveal-ease);
   background: linear-gradient(
     90deg,
     var(--color-accent) 0%,
@@ -967,6 +992,9 @@ main > .page-intro + .section {
   display: block;
   width: 52px;
   height: 3px;
+  transform-origin: center;
+  transform: scaleX(1);
+  transition: transform 0.65s var(--reveal-ease);
   background: linear-gradient(90deg, var(--color-accent-dark) 0%, var(--color-accent) 45%, var(--color-accent-soft) 100%);
   margin: 0.75rem auto 0;
 }
@@ -982,6 +1010,9 @@ main > .page-intro + .section {
   max-width: var(--prose-width);
   margin-left: auto;
   margin-right: auto;
+  transition:
+    opacity var(--reveal-dur) var(--reveal-ease),
+    transform var(--reveal-dur) var(--reveal-ease);
 }
 
 .section-alt {
@@ -1288,13 +1319,218 @@ main > .page-intro + .section {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-accent);
-  transition: color 0.2s;
+  transition:
+    color 0.2s ease,
+    transform 0.22s var(--ease-out);
 }
 
 .service-link:hover {
   color: var(--color-accent-dark);
   text-decoration: underline;
   text-underline-offset: 3px;
+  transform: translateX(3px);
+}
+
+/* ========================================
+   스크롤 등장 · 비즈니스 톤 모션 (html.reveal — script.js)
+   ======================================== */
+html.reveal .section:not(.is-inview) .section-title::after {
+  transform: scaleX(0);
+}
+
+html.reveal .section:not(.is-inview) .section-tagline {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+html.reveal .section:not(.is-inview) .intro-block,
+html.reveal .section:not(.is-inview) .industry-card,
+html.reveal .section:not(.is-inview) .flow-step,
+html.reveal .section:not(.is-inview) .flow-arrow,
+html.reveal .section:not(.is-inview) .service-card,
+html.reveal .section:not(.is-inview) .stat-item,
+html.reveal .section:not(.is-inview) .strength-card,
+html.reveal .section:not(.is-inview) .stat-card,
+html.reveal .section:not(.is-inview) .position-card,
+html.reveal .section:not(.is-inview) .content-box {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+html.reveal .section.is-inview .intro-block,
+html.reveal .section.is-inview .industry-card,
+html.reveal .section.is-inview .flow-step,
+html.reveal .section.is-inview .flow-arrow,
+html.reveal .section.is-inview .service-card,
+html.reveal .section.is-inview .stat-item,
+html.reveal .section.is-inview .strength-card,
+html.reveal .section.is-inview .stat-card,
+html.reveal .section.is-inview .position-card,
+html.reveal .section.is-inview .content-box {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity calc(var(--reveal-dur) + 0.1s) var(--reveal-ease),
+    transform calc(var(--reveal-dur) + 0.1s) var(--reveal-ease);
+}
+
+html.reveal .section.is-inview .intro-block:nth-child(1) {
+  transition-delay: 0.05s;
+}
+html.reveal .section.is-inview .intro-block:nth-child(2) {
+  transition-delay: 0.11s;
+}
+html.reveal .section.is-inview .intro-block:nth-child(3) {
+  transition-delay: 0.17s;
+}
+
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(1) {
+  transition-delay: 0.04s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(2) {
+  transition-delay: 0.09s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(3) {
+  transition-delay: 0.14s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(4) {
+  transition-delay: 0.19s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(5) {
+  transition-delay: 0.24s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(6) {
+  transition-delay: 0.29s;
+}
+
+html.reveal .section.is-inview .process-flow .flow-step:nth-child(1) {
+  transition-delay: 0.03s;
+}
+html.reveal .section.is-inview .process-flow .flow-step:nth-child(3) {
+  transition-delay: 0.08s;
+}
+html.reveal .section.is-inview .process-flow .flow-step:nth-child(5) {
+  transition-delay: 0.13s;
+}
+html.reveal .section.is-inview .process-flow .flow-step:nth-child(7) {
+  transition-delay: 0.18s;
+}
+html.reveal .section.is-inview .process-flow .flow-step:nth-child(9) {
+  transition-delay: 0.23s;
+}
+html.reveal .section.is-inview .process-flow .flow-arrow {
+  transition-delay: 0.12s;
+}
+
+html.reveal .section.is-inview .service-grid .service-card:nth-child(1) {
+  transition-delay: 0.06s;
+}
+html.reveal .section.is-inview .service-grid .service-card:nth-child(2) {
+  transition-delay: 0.14s;
+}
+html.reveal .section.is-inview .service-grid .service-card:nth-child(3) {
+  transition-delay: 0.22s;
+}
+
+html.reveal .section.is-inview .stat-row .stat-item:nth-child(1) {
+  transition-delay: 0.06s;
+}
+html.reveal .section.is-inview .stat-row .stat-item:nth-child(2) {
+  transition-delay: 0.12s;
+}
+html.reveal .section.is-inview .stat-row .stat-item:nth-child(3) {
+  transition-delay: 0.18s;
+}
+
+html.reveal .section.is-inview .strength-grid .strength-card:nth-child(1) {
+  transition-delay: 0.05s;
+}
+html.reveal .section.is-inview .strength-grid .strength-card:nth-child(2) {
+  transition-delay: 0.11s;
+}
+html.reveal .section.is-inview .strength-grid .strength-card:nth-child(3) {
+  transition-delay: 0.17s;
+}
+html.reveal .section.is-inview .strength-grid .strength-card:nth-child(4) {
+  transition-delay: 0.23s;
+}
+
+html.reveal .section.is-inview .stat-grid .stat-card:nth-child(1) {
+  transition-delay: 0.05s;
+}
+html.reveal .section.is-inview .stat-grid .stat-card:nth-child(2) {
+  transition-delay: 0.11s;
+}
+html.reveal .section.is-inview .stat-grid .stat-card:nth-child(3) {
+  transition-delay: 0.17s;
+}
+
+html.reveal .section.is-inview .position-grid .position-card:nth-child(1) {
+  transition-delay: 0.04s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(2) {
+  transition-delay: 0.09s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(3) {
+  transition-delay: 0.14s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(4) {
+  transition-delay: 0.19s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(5) {
+  transition-delay: 0.24s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(6) {
+  transition-delay: 0.29s;
+}
+
+html.reveal main > .page-intro:not(.is-inview) .page-name {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+html.reveal main > .page-intro.is-inview .page-name {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--reveal-dur) var(--reveal-ease),
+    transform var(--reveal-dur) var(--reveal-ease);
+}
+
+html.reveal main > .page-intro:not(.is-inview) .page-name::after {
+  transform: scaleX(0);
+}
+
+html.reveal .footer-main:not(.is-inview) .footer-grid {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+html.reveal .footer-main.is-inview .footer-grid {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.6s var(--reveal-ease),
+    transform 0.6s var(--reveal-ease);
+}
+
+html.reveal .section:not(.is-inview) .service-icon {
+  transform: scale(0.92);
+  opacity: 0.85;
+}
+
+html.reveal .section.is-inview .service-icon {
+  transform: scale(1);
+  opacity: 1;
+  transition:
+    transform 0.45s var(--reveal-ease) 0.1s,
+    opacity 0.45s var(--reveal-ease) 0.1s;
+}
+
+html.reveal main > .page-intro .page-name {
+  transition:
+    opacity var(--reveal-dur) var(--reveal-ease),
+    transform var(--reveal-dur) var(--reveal-ease);
 }
 
 /* 강점 카드 */

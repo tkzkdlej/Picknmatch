@@ -373,6 +373,60 @@
     startAutoplay();
   })();
 
+  // 스크롤 등장 · 푸터 등 비즈니스 톤 모션 (prefers-reduced-motion 이면 비활성)
+  (function initRevealMotion() {
+    var reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    document.documentElement.classList.add("reveal");
+
+    var targets = [];
+    document.querySelectorAll("main .section, main > .page-intro, .footer-main").forEach(function (el) {
+      targets.push(el);
+    });
+
+    function markInView(el) {
+      el.classList.add("is-inview");
+    }
+
+    function syncVisible() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      targets.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < vh * 0.9 && r.bottom > -vh * 0.08) {
+          markInView(el);
+        }
+      });
+    }
+
+    syncVisible();
+
+    if (!window.IntersectionObserver) {
+      targets.forEach(markInView);
+      return;
+    }
+
+    var obs = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            markInView(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { root: null, rootMargin: "0px 0px -6% 0px", threshold: 0.05 }
+    );
+
+    targets.forEach(function (el) {
+      if (!el.classList.contains("is-inview")) {
+        obs.observe(el);
+      }
+    });
+  })();
+
   // 의뢰 폼 제출 처리 (비활성: 복원 시 주석 해제)
   // 맨 위로 스크롤
   (function initScrollTop() {
