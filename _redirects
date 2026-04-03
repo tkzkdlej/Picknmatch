@@ -1,0 +1,56 @@
+# picknmatch.co.kr — HTTP 301 (Netlify _redirects)
+# 배포 루트(publish 디렉터리)에 두면 Netlify가 자동 적용합니다.
+# 301! = 정적 파일이 있어도 리다이렉트 우선(레거시 index.html 스텁보다 서버 301)
+#
+# 1) 구 평면 URL → 카테고리 경로
+/greeting                       /about-us/greeting                301!
+/greeting/                      /about-us/greeting                301!
+/introduce                      /about-us/introduce               301!
+/introduce/                     /about-us/introduce               301!
+/members                        /about-us/members                 301!
+/members/                       /about-us/members                 301!
+/location                       /about-us/location                301!
+/location/                      /about-us/location                301!
+/strength                       /client/strength                  301!
+/strength/                      /client/strength                  301!
+/headhunting                    /client/headhunting               301!
+/headhunting/                   /client/headhunting               301!
+/reference                      /client/reference                 301!
+/reference/                     /client/reference                 301!
+/recruitment                    /client/recruitment               301!
+/recruitment/                   /client/recruitment               301!
+/career                         /client/career                    301!
+/career/                        /client/career                    301!
+/achievement                    /client/achievement               301!
+/achievement/                   /client/achievement               301!
+/request-headhunting            /client/request-headhunting       301!
+/request-headhunting/           /client/request-headhunting       301!
+/request-recruitment            /client/request-recruitment       301!
+/request-recruitment/           /client/request-recruitment       301!
+/request-career                 /client/request-career            301!
+/request-career/                /client/request-career            301!
+/request-reference              /client/request-reference         301!
+/request-reference/             /client/request-reference         301!
+/resume                         /position/resume                  301!
+/resume/                        /position/resume                  301!
+
+# 2) 끝 슬래시 제거(표시 URL·canonical과 동일하게)
+/main/                          /main                             301!
+/about-us/greeting/             /about-us/greeting                301!
+/about-us/introduce/            /about-us/introduce               301!
+/about-us/members/              /about-us/members                 301!
+/about-us/location/             /about-us/location                301!
+/client/strength/               /client/strength                  301!
+/client/headhunting/            /client/headhunting               301!
+/client/reference/              /client/reference                 301!
+/client/recruitment/            /client/recruitment               301!
+/client/career/                 /client/career                    301!
+/client/request-headhunting/    /client/request-headhunting       301!
+/client/request-recruitment/    /client/request-recruitment       301!
+/client/request-reference/      /client/request-reference         301!
+/client/request-career/         /client/request-career            301!
+/client/achievement/            /client/achievement               301!
+/position/                      /position                         301!
+/position/resume/               /position/resume                  301!
+/privacy/                       /privacy                          301!
+/terms/                         /terms                            301!

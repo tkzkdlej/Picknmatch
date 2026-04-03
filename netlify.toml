@@ -1,0 +1,6 @@
+# Netlify: 정적 사이트 루트가 저장소 루트일 때
+[build]
+  publish = "."
+
+# 루트의 _redirects 파일이 301 규칙으로 적용됩니다.
+# (별도 [[redirects]] 없이 _redirects만 사용)

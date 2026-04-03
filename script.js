@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  /** 메인(/main/)에서만: 로고 클릭 시 맨 위로 스크롤. 그 외 페이지는 href="/main/" 그대로 이동. */
+  /** 메인(/main)에서만: 로고 클릭 시 맨 위로 스크롤. 그 외 페이지는 href="/main" 그대로 이동. */
   function isMainPagePath() {
     var p = (window.location.pathname || "").replace(/\/index\.html$/i, "");
     if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
