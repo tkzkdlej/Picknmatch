@@ -135,7 +135,18 @@ def main() -> None:
             ROOT / name, optimize=True, compress_level=9
         )
 
-    print("OK: transparent favicon-light / favicon-dark + logo.png")
+    # 루트 favicon.ico — 구글 검색 등이 기본으로 요청 (48/32/16 다중 삽입)
+    _fl48 = icon_light.resize((48, 48), Image.Resampling.LANCZOS)
+    _fl32 = icon_light.resize((32, 32), Image.Resampling.LANCZOS)
+    _fl16 = icon_light.resize((16, 16), Image.Resampling.LANCZOS)
+    _fl48.save(
+        ROOT / "favicon.ico",
+        format="ICO",
+        sizes=[(48, 48), (32, 32), (16, 16)],
+        append_images=[_fl32, _fl16],
+    )
+
+    print("OK: transparent favicon-light / favicon-dark + logo.png + favicon.ico")
 
 
 if __name__ == "__main__":
