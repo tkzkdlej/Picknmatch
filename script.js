@@ -52,6 +52,7 @@
       done = true;
       document.removeEventListener("keydown", onKeyDown);
       splash.classList.add("is-leaving");
+      document.documentElement.classList.remove("entry-splash-on");
       document.body.classList.remove("entry-splash-on");
       splash.setAttribute("aria-hidden", "true");
       if (window.sessionStorage) sessionStorage.setItem("pnm_entry_splash_done", "1");
@@ -65,6 +66,7 @@
       if (e.key === "Escape") dismiss();
     }
 
+    document.documentElement.classList.add("entry-splash-on");
     document.body.classList.add("entry-splash-on");
     splash.setAttribute("aria-hidden", "false");
     splash.classList.add("is-active");

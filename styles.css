@@ -504,6 +504,10 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 100vh;
+  min-height: 100dvh;
   transition:
     opacity var(--entry-fade-in) var(--entry-ease-in),
     visibility var(--entry-fade-in) var(--entry-ease-in);
@@ -669,9 +673,16 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   }
 }
 
+html.entry-splash-on {
+  overflow: hidden;
+  height: 100%;
+}
+
 body.entry-splash-on {
   overflow: hidden;
   background: #ffffff;
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 .entry-splash__inner {
@@ -816,6 +827,89 @@ body.entry-splash-on {
   .entry-splash__hint {
     animation: none;
     opacity: 0.85;
+  }
+}
+
+/* 엔트리 스플래시 — 모바일·터치·노치·짧은 화면 */
+@media (max-width: 768px) {
+  .entry-splash {
+    --entry-door-dur: 0.68s;
+    padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px))
+      max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  .entry-splash__inner {
+    padding-left: max(0.65rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.65rem, env(safe-area-inset-right, 0px));
+  }
+
+  .entry-splash__brand {
+    margin-bottom: 1.15rem;
+  }
+
+  .entry-splash__logo {
+    width: min(85vw, 280px);
+    max-height: min(22vh, 150px);
+  }
+
+  .entry-splash__kicker {
+    font-size: clamp(0.56rem, 2.85vw, 0.68rem);
+    line-height: 1.35;
+    padding: 0 0.35rem;
+  }
+
+  .entry-splash__accent {
+    width: min(10rem, 70vw);
+    margin-bottom: 0.95rem;
+  }
+
+  .entry-splash__tagline {
+    font-size: clamp(0.95rem, 4.1vw, 1.22rem);
+    line-height: 1.52;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    margin-bottom: 1rem;
+  }
+
+  .entry-splash__tagline-line {
+    max-width: 100%;
+  }
+
+  .entry-splash__hint {
+    font-size: max(0.8rem, 12px);
+    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 380px) {
+  .entry-splash {
+    --entry-door-dur: 0.62s;
+    --entry-fade-in: 0.52s;
+  }
+
+  .entry-splash__brand {
+    margin-bottom: 0.95rem;
+  }
+
+  .entry-splash__logo {
+    max-height: min(20vh, 130px);
+  }
+
+  .entry-splash__kicker {
+    letter-spacing: 0.1em;
+  }
+
+  @keyframes entry-splash-kicker-in {
+    from {
+      opacity: 0;
+      letter-spacing: 0.2em;
+      transform: translate3d(0, 10px, 0);
+    }
+    to {
+      opacity: 1;
+      letter-spacing: 0.1em;
+      transform: translate3d(0, 0, 0);
+    }
   }
 }
 
