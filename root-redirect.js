@@ -26,7 +26,8 @@
     var search = window.location.search || "";
     var params = new URLSearchParams(search);
     var ref = document.referrer || "";
-    if (hasExternalCampaignParams(params) || matchesExternalReferrer(ref)) {
+    /* 외부·광고·referrer 없음(메신저 인앱 등) — /main 에서 엔트리 스플래시와 동일 조건 */
+    if (hasExternalCampaignParams(params) || matchesExternalReferrer(ref) || !ref) {
       sessionStorage.setItem("pnm_from_search_entry", "1");
     }
   } catch (e) {}

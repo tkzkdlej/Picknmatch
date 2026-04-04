@@ -45,8 +45,8 @@
   })();
 
   /**
-   * 엔트리 스플래시: 검색·SNS·메신저·메일 등 외부에서 유입 시 메인(/main)에만 표시.
-   * root-redirect.js 의 판별과 맞출 것.
+   * 엔트리 스플래시: 메인(/main) 첫 방문 시 — 검색·SNS·메신저·공유 링크·referrer 비공개 인앱 등.
+   * 같은 사이트 내부 링크로만 들어온 경우는 제외. ?entry=0 이면 비표시. root-redirect.js 와 동기화.
    */
   function isOurSiteReferrer(ref) {
     if (!ref) return false;
@@ -65,14 +65,6 @@
     return false;
   }
 
-  /** 검색·카카오·라인·메일·SNS 인앱 등 외부 referrer (같은 사이트 제외) */
-  function matchesExternalReferrer(ref) {
-    if (!ref || isOurSiteReferrer(ref)) return false;
-    return /google\.[^/]+|googleusercontent|bing\.com|naver\.com|daum\.net|kakao\.|line\.|line\.naver|facebook\.|fb\.com|l\.facebook|lm\.facebook|instagram\.|twitter\.|t\.co|\/x\.com\/|linkedin\.|threads\.|slack\.|discord\.|mail\.google|inbox\.google|outlook\.|outlook\.live|mail\.yahoo|teams\.|microsoft\.|office\.com|live\.com\/mail|web\.whatsapp|telegram\.|mzstatic\.com/i.test(
-      ref
-    );
-  }
-
   (function initEntrySplash() {
     if (!document.body.classList.contains("page-main")) return;
     if (!isMainPagePath()) return;
@@ -86,11 +78,18 @@
       fromSearch = true;
     } else if (hasExternalCampaignParams(params)) {
       fromSearch = true;
+    } else if (!ref) {
+      /* 카카오·라인·기타 인앱: referrer 비공개, 공유 링크 클릭, 주소 직접 입력·북마크 첫 방문 */
+      fromSearch = true;
+    } else if (!isOurSiteReferrer(ref)) {
+      /* 구글·네이버·외부 사이트·메신저 웹뷰 등 */
+      fromSearch = true;
     } else {
-      fromSearch = matchesExternalReferrer(ref);
+      /* ref 가 우리 도메인만: 서브페이지에서 메인으로 온 내비는 스플래시 생략 */
+      fromSearch = false;
     }
 
-    /* 루트(/) → /main 리다이렉트 후 referrer가 우리 도메인으로 바뀜 — root-redirect.js에서 넘긴 플래그 */
+    /* 루트(/) → /main 리다이렉트 직후 등 — root-redirect.js 에서 넘긴 플래그 */
     if (!fromSearch) {
       try {
         if (window.sessionStorage && sessionStorage.getItem("pnm_from_search_entry") === "1") {
