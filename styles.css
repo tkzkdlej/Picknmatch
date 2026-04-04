@@ -199,7 +199,7 @@ body.page-main .header.header--over-hero .nav-toggle span {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
-/* 분할 로고: 심볼만 그림자(골드) · 워드마크는 PNG 텍스트 영역 톤과 맞춤(--color-primary) */
+/* 분할 로고: 심볼만 그림자(골드) · 워드는 히어로 위에서 순백(아래 .logo__word에서 처리) */
 body.page-main .header.header--over-hero .logo--split .logo__mark img {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
 }
@@ -327,7 +327,7 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   image-rendering: auto;
 }
 
-/* 메인만: 한 장의 logo.png를 좌(심볼) / 우(워드)로 크롭 — 워드만 원본 PNG 네이비 면과 동일 톤 */
+/* 메인만: 한 장의 logo.png를 좌(심볼) / 우(워드)로 크롭 */
 body.page-main .logo.logo--split {
   --logo-mark-px: 63px;
   --logo-seam-overlap: 3px;
@@ -368,7 +368,7 @@ body.page-main .logo.logo--split .logo__word {
   z-index: 1;
 }
 
-/* 워드마크 실루엣 → --color-primary (#121c2e)에 근접 (원본 PNG 배경 네이비와 통일) */
+/* 워드마크: 밝은 헤더(스크롤 후)는 네이비 · 히어로 스크림 위에서는 순백 */
 body.page-main .logo.logo--split .logo__word img {
   height: var(--header-logo-h);
   width: auto;
@@ -380,6 +380,10 @@ body.page-main .logo.logo--split .logo__word img {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   filter: brightness(0) saturate(100%) invert(9%) sepia(35%) saturate(2200%) hue-rotate(188deg) brightness(0.94) contrast(1.06);
+}
+
+body.page-main .header.header--over-hero .logo--split .logo__word img {
+  filter: brightness(0) invert(1) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.22));
 }
 
 .header-inner .nav {
@@ -541,12 +545,12 @@ body.page-main .logo.logo--split .logo__word img {
   border: 0;
 }
 
-/* 검색 유입 엔트리 스플래시 — 좌·우 패널(문) 슬라이드로 퇴장 · 탭으로 종료 */
+/* 검색 유입 엔트리 스플래시(메인 전용) — 흰 배경 · 탭/클릭으로 종료 */
 .entry-splash {
   --entry-fade-in: 0.58s;
-  --entry-door-dur: 0.72s;
-  --entry-door-ease: cubic-bezier(0.28, 0.85, 0.36, 1);
+  --entry-fade-out: 0.4s;
   --entry-ease-in: cubic-bezier(0.22, 1, 0.36, 1);
+  --entry-ease-out: cubic-bezier(0.4, 0, 0.2, 1);
 
   display: none;
   position: fixed;
@@ -556,7 +560,7 @@ body.page-main .logo.logo--split .logo__word img {
   justify-content: center;
   padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px))
     max(1.5rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px));
-  background: transparent;
+  background: #ffffff;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
@@ -576,52 +580,16 @@ body.page-main .logo.logo--split .logo__word img {
 }
 
 .entry-splash.is-leaving {
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-}
-
-.entry-splash.is-leaving .entry-splash__door--left {
-  transform: translate3d(-100%, 0, 0);
-}
-
-.entry-splash.is-leaving .entry-splash__door--right {
-  transform: translate3d(100%, 0, 0);
+  transition:
+    opacity var(--entry-fade-out) var(--entry-ease-out),
+    visibility var(--entry-fade-out) var(--entry-ease-out);
 }
 
 .entry-splash.is-leaving .entry-splash__inner {
-  opacity: 0;
-  transform: translate3d(0, -6px, 0) scale(0.99);
-  transition:
-    opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.entry-splash__doors {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.entry-splash__door {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50.05%;
-  background: #ffffff;
-  will-change: transform;
-  transition: transform var(--entry-door-dur) var(--entry-door-ease);
-  box-shadow: 0 0 0 1px rgba(18, 28, 46, 0.04);
-}
-
-.entry-splash__door--left {
-  left: 0;
-  transform: translate3d(0, 0, 0);
-}
-
-.entry-splash__door--right {
-  right: 0;
-  transform: translate3d(0, 0, 0);
+  animation: entry-splash-inner-out 0.36s var(--entry-ease-out) forwards;
 }
 
 @keyframes entry-splash-inner-in {
@@ -635,14 +603,19 @@ body.page-main .logo.logo--split .logo__word img {
   }
 }
 
+@keyframes entry-splash-inner-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
+}
+
 body.entry-splash-on {
   overflow: hidden;
   background: #ffffff;
 }
 
 .entry-splash__inner {
-  position: relative;
-  z-index: 2;
   max-width: 32rem;
   width: 100%;
   text-align: center;
@@ -693,15 +666,7 @@ body.entry-splash-on {
 @media (prefers-reduced-motion: reduce) {
   .entry-splash {
     --entry-fade-in: 0.22s;
-    --entry-door-dur: 0.22s;
-  }
-
-  .entry-splash {
-    background: #ffffff;
-  }
-
-  .entry-splash__doors {
-    display: none;
+    --entry-fade-out: 0.2s;
   }
 
   .entry-splash.is-active .entry-splash__inner,
@@ -711,17 +676,6 @@ body.entry-splash-on {
 
   .entry-splash.is-active .entry-splash__inner {
     opacity: 1;
-    transform: none;
-  }
-
-  .entry-splash.is-leaving {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-  }
-
-  .entry-splash.is-leaving .entry-splash__inner {
-    opacity: 0;
     transform: none;
   }
 
