@@ -1,6 +1,9 @@
 {
   "name": "picknmatch-site",
   "private": true,
+  "scripts": {
+    "email:test": "node scripts/resend-hello-world.mjs"
+  },
   "dependencies": {
     "resend": "^4.0.1"
   }

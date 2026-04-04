@@ -1,4 +1,14 @@
 node_modules/
 .env
 .env.local
+.env.*.local
 .vercel
+
+# 비밀번호·API 키·토큰 메모 (파일명에 Key/Secret 포함 시 로컬 전용)
+*API*Key*.txt
+*api*key*.txt
+*SECRET*
+secrets/
+*.pem
+*.p12
+local-secrets/
