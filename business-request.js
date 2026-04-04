@@ -76,6 +76,11 @@
     }
   });
 
+  /** API(api/send-business-request.js)의 isValidEmail 과 동일 규칙 */
+  function isValidEmail(s) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim());
+  }
+
   function fileToAttachment(file, callback) {
     if (!file) {
       callback(null);
@@ -107,6 +112,12 @@
 
     if (!company || !name || !email || !message) {
       alert("회사명, 이름, 이메일, 요청 내용을 모두 입력해 주세요.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      alert("이메일 주소 형식에 맞게 입력해 주세요. (예: name@example.com)");
+      if (emailEl && emailEl.focus) emailEl.focus();
       return;
     }
 
