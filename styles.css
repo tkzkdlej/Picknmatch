@@ -199,8 +199,14 @@ body.page-main .header.header--over-hero .nav-toggle span {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
-body.page-main .header.header--over-hero .logo img {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+/* 분할 로고: PM 심볼만 그림자(골드 유지) · 워드마크는 아래에서 별도 처리 */
+body.page-main .header.header--over-hero .logo--split .logo__mark img {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* 히어로 위: 워드마크만 순백(필터 단순화) — 슬라이드 위 가독용 아주 약한 그림자 */
+body.page-main .header.header--over-hero .logo--split .logo__word img {
+  filter: brightness(0) invert(1) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.22));
 }
 
 /* 메인 히어로 위: 카테고리 드롭다운 패널을 헤더·스크림과 동기화 */
@@ -324,6 +330,66 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   object-fit: contain;
   background-color: transparent;
   image-rendering: auto;
+}
+
+/* 메인 헤더: 한 장의 logo.png를 좌(PM 심볼) / 우(텍스트)로 크롭
+   --logo-word-trim-left: P 왼쪽 안티앨리어싱(회색 띠) 제거 — translate로 잘라냄
+   --logo-seam-overlap: 마크·워드 겹침 = 기본 + trim(잘라낸 만큼 당겨서 빈틈 없음) */
+body.page-main .logo.logo--split {
+  --logo-mark-px: 63px;
+  --logo-word-trim-left: 3px;
+  --logo-seam-overlap: calc(3px + var(--logo-word-trim-left));
+  display: grid;
+  grid-template-columns: var(--logo-mark-px) minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0;
+  max-width: min(340px, 100%);
+  text-decoration: none;
+  isolation: isolate;
+}
+
+body.page-main .logo.logo--split .logo__mark {
+  height: var(--header-logo-h);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+}
+
+body.page-main .logo.logo--split .logo__mark img {
+  height: var(--header-logo-h);
+  width: auto;
+  max-width: none;
+  max-height: none;
+  display: block;
+  object-fit: contain;
+}
+
+body.page-main .logo.logo--split .logo__word {
+  height: var(--header-logo-h);
+  min-width: 0;
+  overflow: hidden;
+  margin: 0 0 0 calc(-1 * var(--logo-seam-overlap));
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+body.page-main .logo.logo--split .logo__word img {
+  height: var(--header-logo-h);
+  width: auto;
+  max-width: none;
+  display: block;
+  object-fit: contain;
+  transform: translate3d(
+    calc(-1 * var(--logo-mark-px) - var(--logo-word-trim-left)),
+    0,
+    0
+  );
+  transform-origin: top left;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .header-inner .nav {
@@ -483,6 +549,94 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* 검색 유입 엔트리 스플래시(메인 전용) */
+.entry-splash {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  align-items: center;
+  justify-content: center;
+  padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px))
+    max(1.5rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px));
+  background: linear-gradient(
+    165deg,
+    var(--color-primary) 0%,
+    var(--color-primary-soft) 48%,
+    #0d1522 100%
+  );
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.85s var(--ease-out),
+    visibility 0.85s var(--ease-out);
+}
+
+.entry-splash.is-active {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+.entry-splash.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.entry-splash-on {
+  overflow: hidden;
+}
+
+.entry-splash__inner {
+  max-width: 32rem;
+  width: 100%;
+  text-align: center;
+}
+
+.entry-splash__logo {
+  width: min(88vw, 320px);
+  height: auto;
+  max-height: min(28vh, 200px);
+  object-fit: contain;
+  margin: 0 auto 1.75rem;
+  display: block;
+  filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.35));
+}
+
+.entry-splash__tagline {
+  font-size: clamp(1.05rem, 3.8vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  margin: 0 0 2rem;
+}
+
+.entry-splash__skip {
+  font-size: 0.9rem;
+  padding: 0.75rem 1.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.entry-splash .entry-splash__skip.btn-primary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entry-splash {
+    transition-duration: 0.25s;
+  }
 }
 
 .hero {
@@ -2195,6 +2349,13 @@ body.is-nav-open .nav.is-open {
     max-width: min(240px, calc(100vw - 5.5rem));
   }
 
+  body.page-main .logo.logo--split {
+    --logo-mark-px: 58px;
+    --logo-word-trim-left: 2px;
+    --logo-seam-overlap: calc(2px + var(--logo-word-trim-left));
+    max-width: min(240px, calc(100vw - 5.5rem));
+  }
+
   .footer-main {
     padding: 2rem 1rem 1.75rem;
   }
@@ -2494,6 +2655,13 @@ body.is-nav-open .nav.is-open {
   }
 
   .logo img {
+    max-width: min(200px, calc(100vw - 4.5rem));
+  }
+
+  body.page-main .logo.logo--split {
+    --logo-mark-px: 50px;
+    --logo-word-trim-left: 2px;
+    --logo-seam-overlap: calc(2px + var(--logo-word-trim-left));
     max-width: min(200px, calc(100vw - 4.5rem));
   }
 }
