@@ -86,15 +86,17 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var submitBtn = form.querySelector('[type="submit"]');
+    var companyEl = form.elements.namedItem("company");
     var nameEl = form.elements.namedItem("name");
     var emailEl = form.elements.namedItem("email");
     var messageEl = form.elements.namedItem("message");
+    var company = companyEl && companyEl.value ? companyEl.value.trim() : "";
     var name = nameEl && nameEl.value ? nameEl.value.trim() : "";
     var email = emailEl && emailEl.value ? emailEl.value.trim() : "";
     var message = messageEl && messageEl.value ? messageEl.value.trim() : "";
 
-    if (!name || !email || !message) {
-      alert("이름, 이메일, 요청 내용을 모두 입력해 주세요.");
+    if (!company || !name || !email || !message) {
+      alert("회사명, 이름, 이메일, 요청 내용을 모두 입력해 주세요.");
       return;
     }
 
@@ -106,7 +108,7 @@
         submitBtn.textContent = "전송 중…";
       }
 
-      var payload = { name: name, email: email, message: message };
+      var payload = { company: company, name: name, email: email, message: message };
       if (attachment) payload.attachment = attachment;
 
       fetch("/api/send-business-request", {

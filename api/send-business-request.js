@@ -1,10 +1,11 @@
 /**
  * 업무 요청 폼 → 이메일 전송 (Vercel Serverless + Resend)
  *
+ * 발신 주소(괄호 안 실제 주소)는 Resend에 검증된 도메인만 가능합니다.
+ * 표시 이름에는 회사명·이름을 넣고, 답장은 사용자 이메일(reply_to)로 연결됩니다.
+ *
  * Vercel 환경 변수:
- *   RESEND_API_KEY   — Resend 대시보드에서 발급 (필수)
- *   BUSINESS_REQUEST_TO — 수신 이메일 (기본: 테스트용 ms980822@naver.com, 운영 시 shkim@picknmatch.co.kr 로 변경)
- *   RESEND_FROM      — 발신 주소 (예: PicknMatch <noreply@picknmatch.co.kr> 또는 Resend 테스트: onboarding@resend.dev)
+ *   RESEND_API_KEY, BUSINESS_REQUEST_TO, RESEND_FROM (예: PicknMatch <onboarding@resend.dev>)
  */
 
 const { Resend } = require("resend");
@@ -24,6 +25,28 @@ function readBody(req) {
 
 function isValidEmail(s) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim());
+}
+
+/** RESEND_FROM에서 실제 메일 주소만 추출 */
+function parseFromEnvelopeAddress(envFrom) {
+  var s = String(envFrom || "").trim();
+  var m = s.match(/<([^>]+)>/);
+  if (m) return m[1].trim();
+  if (/^[^\s@]+@[^\s@]+$/.test(s)) return s;
+  return "onboarding@resend.dev";
+}
+
+/** RFC 5322 표시 이름용 따옴표 이스케이프 */
+function escapeDisplayName(s) {
+  return String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 module.exports = async function handler(req, res) {
@@ -61,11 +84,15 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ ok: false, error: "JSON 형식이 올바르지 않습니다." });
   }
 
+  var company = String(body.company || "").trim();
   var name = String(body.name || "").trim();
   var email = String(body.email || "").trim();
   var message = String(body.message || "").trim();
   var attachment = body.attachment || null;
 
+  if (!company || company.length > 160) {
+    return res.status(400).json({ ok: false, error: "회사명을 입력해 주세요." });
+  }
   if (!name || name.length > 120) {
     return res.status(400).json({ ok: false, error: "이름을 입력해 주세요." });
   }
@@ -77,22 +104,55 @@ module.exports = async function handler(req, res) {
   }
 
   var to = process.env.BUSINESS_REQUEST_TO || "ms980822@naver.com";
-  var from = process.env.RESEND_FROM || "PicknMatch <onboarding@resend.dev>";
+  var fromEnvelope = parseFromEnvelopeAddress(process.env.RESEND_FROM);
+
+  /**
+   * 목록(첫 화면): 제목 [회사명] · 발신 표시명에 회사명(네이버 등에서 보낸이 줄과 맞춤)
+   * 열람 화면: 본문 상단 블록에 이름·고객 이메일 표시(Resend 발신 주소는 검증 도메인만 가능)
+   */
+  var fromHeader = '"' + escapeDisplayName(company) + '" <' + fromEnvelope + ">";
+
+  var subject = "[" + company + "] 업무 요청 · " + name;
 
   var footer =
     "\n\n────────────────────\nfrom picknmatch · 픽앤매치 웹사이트 업무 요청";
 
   var textBody =
-    "[픽앤매치 웹사이트 업무 요청]\n\n" +
+    "보낸 사람  " + name + " <" + email + ">\n" +
+    "(회신 시 이 주소로 연결됩니다. 실제 발송은 픽앤매치 웹사이트·Resend 경유)\n\n" +
+    "회사명: " +
+    company +
+    "\n" +
     "이름: " +
     name +
     "\n" +
-    "회신 받을 이메일: " +
+    "이메일: " +
     email +
     "\n\n" +
     "요청 내용:\n" +
     message +
     footer;
+
+  var htmlBody =
+    '<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#1e293b;line-height:1.65;">' +
+    '<div style="padding:14px 16px;margin:0 0 20px;background:#eef6ff;border-radius:10px;border:1px solid #bfdbfe;">' +
+    '<div style="font-size:12px;color:#64748b;margin-bottom:8px;">보낸사람</div>' +
+    "<div><strong>" +
+    escHtml(name) +
+    '</strong> &lt;<a href="mailto:' +
+    encodeURIComponent(email) +
+    '" style="color:#2563eb;">' +
+    escHtml(email) +
+    "</a>&gt;</div>" +
+    '<div style="font-size:12px;color:#64748b;margin-top:10px;">실제 발신 주소: ' +
+    escHtml(fromEnvelope) +
+    " (픽앤매치 웹사이트·Resend)</div>" +
+    "</div>" +
+    '<div style="white-space:pre-wrap;word-break:break-word;">' +
+    escHtml(message) +
+    "</div>" +
+    '<p style="font-size:12px;color:#64748b;margin:24px 0 0;border-top:1px solid #e2e8f0;padding-top:16px;">────────────────────<br/>from picknmatch · 픽앤매치 웹사이트 업무 요청</p>' +
+    "</div>";
 
   var attachments = [];
   if (attachment && attachment.filename && attachment.data) {
@@ -114,11 +174,12 @@ module.exports = async function handler(req, res) {
 
   try {
     var payload = {
-      from: from,
+      from: fromHeader,
       to: [to],
       replyTo: email,
-      subject: "[픽앤매치] 업무 요청 · " + name,
+      subject: subject,
       text: textBody,
+      html: htmlBody,
     };
     if (attachments.length) payload.attachments = attachments;
 

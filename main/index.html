@@ -411,6 +411,10 @@
           <p class="section-tagline">의뢰·문의 사항을 남겨 주시면 빠르게 연락드리겠습니다.</p>
           <form id="business-request-form" class="business-request-form" novalidate>
             <div class="br-field">
+              <label class="br-label" for="br-company">회사명 <span class="br-req" aria-hidden="true">*</span></label>
+              <input class="br-input" type="text" id="br-company" name="company" autocomplete="organization" required maxlength="160" placeholder="회사 또는 기관명" />
+            </div>
+            <div class="br-field">
               <label class="br-label" for="br-name">이름 <span class="br-req" aria-hidden="true">*</span></label>
               <input class="br-input" type="text" id="br-name" name="name" autocomplete="name" required maxlength="120" placeholder="성함 또는 담당자명" />
             </div>
