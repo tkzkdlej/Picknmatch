@@ -50,31 +50,34 @@
     function dismiss() {
       if (done) return;
       done = true;
+      document.removeEventListener("keydown", onKeyDown);
       splash.classList.add("is-leaving");
       document.body.classList.remove("entry-splash-on");
       splash.setAttribute("aria-hidden", "true");
       if (window.sessionStorage) sessionStorage.setItem("pnm_entry_splash_done", "1");
-      var ms = reduced ? 220 : 880;
+      var ms = reduced ? 240 : 480;
       window.setTimeout(function () {
         if (splash.parentNode) splash.parentNode.removeChild(splash);
       }, ms);
     }
 
+    function onKeyDown(e) {
+      if (e.key === "Escape") dismiss();
+    }
+
     document.body.classList.add("entry-splash-on");
     splash.setAttribute("aria-hidden", "false");
     splash.classList.add("is-active");
+    document.addEventListener("keydown", onKeyDown);
+    splash.addEventListener("click", dismiss);
 
-    var skip = splash.querySelector(".entry-splash__skip");
-    if (skip) {
-      skip.addEventListener("click", dismiss);
-      window.setTimeout(function () {
-        try {
-          skip.focus();
-        } catch (e) {}
-      }, 80);
-    }
+    window.setTimeout(function () {
+      try {
+        splash.focus();
+      } catch (err) {}
+    }, 100);
 
-    window.setTimeout(dismiss, reduced ? 1400 : 3400);
+    window.setTimeout(dismiss, reduced ? 1100 : 2600);
   })();
 
   (function initLogoScrollToTop() {

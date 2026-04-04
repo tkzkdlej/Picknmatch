@@ -485,8 +485,13 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   border: 0;
 }
 
-/* 검색 유입 엔트리 스플래시(메인 전용) */
+/* 검색 유입 엔트리 스플래시(메인 전용) — 흰 배경 · 탭/클릭으로 종료 */
 .entry-splash {
+  --entry-fade-in: 0.58s;
+  --entry-fade-out: 0.4s;
+  --entry-ease-in: cubic-bezier(0.22, 1, 0.36, 1);
+  --entry-ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+
   display: none;
   position: fixed;
   inset: 0;
@@ -495,17 +500,13 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   justify-content: center;
   padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px))
     max(1.5rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px));
-  background: linear-gradient(
-    165deg,
-    var(--color-primary) 0%,
-    var(--color-primary-soft) 48%,
-    #0d1522 100%
-  );
+  background: #ffffff;
+  cursor: pointer;
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 0.85s var(--ease-out),
-    visibility 0.85s var(--ease-out);
+    opacity var(--entry-fade-in) var(--entry-ease-in),
+    visibility var(--entry-fade-in) var(--entry-ease-in);
 }
 
 .entry-splash.is-active {
@@ -514,20 +515,51 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   visibility: visible;
 }
 
+.entry-splash.is-active .entry-splash__inner {
+  animation: entry-splash-inner-in 0.72s var(--entry-ease-in) 0.04s both;
+}
+
 .entry-splash.is-leaving {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition:
+    opacity var(--entry-fade-out) var(--entry-ease-out),
+    visibility var(--entry-fade-out) var(--entry-ease-out);
+}
+
+.entry-splash.is-leaving .entry-splash__inner {
+  animation: entry-splash-inner-out 0.36s var(--entry-ease-out) forwards;
+}
+
+@keyframes entry-splash-inner-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes entry-splash-inner-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
 }
 
 body.entry-splash-on {
   overflow: hidden;
+  background: #ffffff;
 }
 
 .entry-splash__inner {
   max-width: 32rem;
   width: 100%;
   text-align: center;
+  pointer-events: none;
 }
 
 .entry-splash__logo {
@@ -535,9 +567,9 @@ body.entry-splash-on {
   height: auto;
   max-height: min(28vh, 200px);
   object-fit: contain;
-  margin: 0 auto 1.75rem;
+  margin: 0 auto 1.5rem;
   display: block;
-  filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 6px 28px rgba(18, 28, 46, 0.12));
 }
 
 .entry-splash__tagline {
@@ -545,31 +577,51 @@ body.entry-splash-on {
   font-weight: 600;
   line-height: 1.55;
   letter-spacing: -0.03em;
-  color: rgba(255, 255, 255, 0.96);
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
-  margin: 0 0 2rem;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
 }
 
-.entry-splash__skip {
-  font-size: 0.9rem;
-  padding: 0.75rem 1.75rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+.entry-splash__hint {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-text-soft);
+  margin: 0;
+  opacity: 0.85;
+  animation: entry-splash-hint 2.2s var(--entry-ease-in) 0.5s both;
 }
 
-.entry-splash .entry-splash__skip.btn-primary:hover {
-  background: rgba(255, 255, 255, 0.22);
-  color: #fff;
-  transform: none;
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+@keyframes entry-splash-hint {
+  from {
+    opacity: 0;
+  }
+  18% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.85;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .entry-splash {
-    transition-duration: 0.25s;
+    --entry-fade-in: 0.22s;
+    --entry-fade-out: 0.2s;
+  }
+
+  .entry-splash.is-active .entry-splash__inner,
+  .entry-splash.is-leaving .entry-splash__inner {
+    animation: none;
+  }
+
+  .entry-splash.is-active .entry-splash__inner {
+    opacity: 1;
+    transform: none;
+  }
+
+  .entry-splash__hint {
+    animation: none;
+    opacity: 0.85;
   }
 }
 
