@@ -26,6 +26,16 @@
       fromSearch = /google\.[^/]+|googleusercontent|bing\.com|naver\.com|daum\.net/i.test(ref);
     }
 
+    /* 루트(/) → /main 리다이렉트 후에는 referrer가 구글·네이버가 아니라 우리 도메인이 됨 — index.html에서 넘겨준 플래그 */
+    if (!fromSearch) {
+      try {
+        if (window.sessionStorage && sessionStorage.getItem("pnm_from_search_entry") === "1") {
+          fromSearch = true;
+          sessionStorage.removeItem("pnm_from_search_entry");
+        }
+      } catch (e) {}
+    }
+
     if (!fromSearch) return;
     if (window.sessionStorage && sessionStorage.getItem("pnm_entry_splash_done") === "1") return;
 

@@ -32,12 +32,25 @@
     <link rel="alternate" type="application/rss+xml" title="픽앤매치 RSS" href="https://picknmatch.co.kr/rss.xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-light.png" />
-    <meta http-equiv="refresh" content="0; url=/main" />
     <link rel="canonical" href="https://picknmatch.co.kr/main" />
   </head>
   <body>
+    <!-- / → /main 이동 시 referrer가 사이트 내부로 바뀌므로, 리다이렉트 전에 검색 유입 여부를 sessionStorage에 남김 (script.js 엔트리 스플래시용) -->
+    <script>
+      (function () {
+        try {
+          var ref = document.referrer || "";
+          if (/google\.[^/]+|googleusercontent|bing\.com|naver\.com|daum\.net/i.test(ref)) {
+            sessionStorage.setItem("pnm_from_search_entry", "1");
+          }
+        } catch (e) {}
+        var dest = "/main" + (window.location.search || "") + (window.location.hash || "");
+        window.location.replace(dest);
+      })();
+    </script>
     <noscript>
-      <a href="/main">메인으로 이동</a>
+      <meta http-equiv="refresh" content="0; url=/main" />
+      <p><a href="/main">메인으로 이동</a></p>
     </noscript>
   </body>
 </html>
