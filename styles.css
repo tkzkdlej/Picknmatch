@@ -1910,10 +1910,110 @@ body.br-modal-open {
   touch-action: none;
 }
 
+/* 업무 요청 폼 · 완료 모달 — 모바일 터치 영역·가독성·safe area */
+@media (max-width: 768px) {
+  .section-business-request {
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    padding-bottom: max(3rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));
+  }
+
+  .section-business-request .business-request-form {
+    max-width: 100%;
+  }
+
+  .br-input,
+  .br-textarea {
+    font-size: 16px; /* iOS: 포커스 시 자동 확대 완화 */
+  }
+
+  .br-textarea {
+    min-height: 7rem;
+  }
+
+  .br-file-shell {
+    padding: 0.55rem 0.6rem;
+  }
+
+  .br-file-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    row-gap: 0.45rem;
+  }
+
+  .br-file-btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.55rem 1rem;
+  }
+
+  .br-file-display {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .br-consent {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    row-gap: 0.35rem;
+    padding: 0 0.25rem;
+  }
+
+  .br-consent input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.12rem;
+  }
+
+  .br-consent__text {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
+
+  .br-submit {
+    width: 100%;
+    max-width: 22rem;
+    min-height: 48px;
+  }
+
+  .br-privacy {
+    padding: 0 0.25rem;
+  }
+
+  .br-success-modal {
+    padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px))
+      max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+    align-items: center;
+  }
+
+  .br-success-modal__panel {
+    max-width: min(94vw, 28rem);
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .br-success-modal__title {
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    padding: 0 0.25rem;
+  }
+
+  .br-success-modal__desc {
+    font-size: 0.8125rem;
+    padding: 0 0.15rem;
+  }
+}
+
 @media (max-width: 480px) {
   .hero-cta-btn {
     width: 100%;
     max-width: 18rem;
+  }
+
+  .br-success-modal__btn {
+    width: 100%;
+    max-width: 16rem;
+    min-height: 48px;
   }
 }
 

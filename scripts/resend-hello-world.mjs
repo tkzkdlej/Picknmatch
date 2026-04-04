@@ -16,7 +16,7 @@ if (!apiKey || typeof apiKey !== "string" || !apiKey.trim().startsWith("re_")) {
 
 var resend = new Resend(apiKey.trim());
 
-var to = process.env.BUSINESS_REQUEST_TO || "ms980822@naver.com";
+var to = process.env.BUSINESS_REQUEST_TO || "shkim@picknmatch.co.kr";
 
 var result = await resend.emails.send({
   from: "onboarding@resend.dev",

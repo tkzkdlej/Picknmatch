@@ -106,7 +106,7 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ ok: false, error: "개인정보 수집 및 이용에 동의해 주세요." });
   }
 
-  var to = process.env.BUSINESS_REQUEST_TO || "ms980822@naver.com";
+  var to = process.env.BUSINESS_REQUEST_TO || "shkim@picknmatch.co.kr";
   var fromEnvelope = parseFromEnvelopeAddress(process.env.RESEND_FROM);
 
   /**
