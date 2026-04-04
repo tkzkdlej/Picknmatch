@@ -46,20 +46,22 @@
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    /* CSS: 문(--entry-door-dur) + 오버레이 페이드(--entry-overlay-fade-out) 후 DOM 제거 */
+    var leaveTotalMs = reduced ? 420 : 1300;
+
     var done = false;
     function dismiss() {
       if (done) return;
       done = true;
       document.removeEventListener("keydown", onKeyDown);
       splash.classList.add("is-leaving");
-      document.documentElement.classList.remove("entry-splash-on");
-      document.body.classList.remove("entry-splash-on");
       splash.setAttribute("aria-hidden", "true");
       if (window.sessionStorage) sessionStorage.setItem("pnm_entry_splash_done", "1");
-      var ms = reduced ? 300 : 860;
       window.setTimeout(function () {
+        document.documentElement.classList.remove("entry-splash-on");
+        document.body.classList.remove("entry-splash-on");
         if (splash.parentNode) splash.parentNode.removeChild(splash);
-      }, ms);
+      }, leaveTotalMs);
     }
 
     function onKeyDown(e) {
