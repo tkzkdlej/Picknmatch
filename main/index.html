@@ -150,7 +150,7 @@
               </h1>
               <p class="hero-sub">화학·화공·반도체·친환경·2차전지 전문 Executive Search 파트너</p>
               <div class="hero-cta">
-                <a href="#business-request" class="hero-cta-btn">지금 바로 시작하세요</a>
+                <a href="#business-request-title" class="hero-cta-btn">지금 바로 시작하세요</a>
               </div>
             </div>
           </article>
@@ -174,7 +174,7 @@
               </p>
               <p class="hero-sub">화학·반도체·2차전지 등 심층 산업 이해에 기반한 맞춤 매칭</p>
               <div class="hero-cta">
-                <a href="#business-request" class="hero-cta-btn">지금 바로 시작하세요</a>
+                <a href="#business-request-title" class="hero-cta-btn">지금 바로 시작하세요</a>
               </div>
             </div>
           </article>
@@ -198,7 +198,7 @@
               </p>
               <p class="hero-sub">검증된 프로세스로 최적의 인재 전략을 제안합니다</p>
               <div class="hero-cta">
-                <a href="#business-request" class="hero-cta-btn">지금 바로 시작하세요</a>
+                <a href="#business-request-title" class="hero-cta-btn">지금 바로 시작하세요</a>
               </div>
             </div>
           </article>
@@ -318,9 +318,6 @@
               <span class="industry-card-label">2차전지</span>
             </div>
           </div>
-          <p class="industry-positions-cta">
-            <a href="/position" class="service-link">포지션 보기 →</a>
-          </p>
         </div>
       </section>
 
@@ -435,9 +432,40 @@
               ></textarea>
             </div>
             <div class="br-field br-field--file">
-              <label class="br-label" for="business-request-file">파일 첨부 <span class="br-opt">(선택)</span></label>
-              <input class="br-file" type="file" id="business-request-file" name="attachment" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg,.webp,.zip" />
-              <p id="business-request-file-hint" class="br-file-hint">선택된 파일 없음 · PDF, 이미지, 문서 등 (최대 4MB)</p>
+              <div class="br-label" id="business-request-file-label">파일 첨부 <span class="br-opt">(선택)</span></div>
+              <div class="br-file-shell" role="group" aria-labelledby="business-request-file-label">
+                <input
+                  type="file"
+                  id="business-request-file"
+                  name="attachment"
+                  class="br-file-input"
+                  tabindex="-1"
+                  accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg,.webp,.zip"
+                />
+                <div class="br-file-row">
+                  <button type="button" class="br-file-btn" id="business-request-file-btn">
+                    파일 선택
+                  </button>
+                  <span class="br-file-display" id="business-request-file-display" aria-live="polite">선택된 파일 없음</span>
+                </div>
+              </div>
+              <p id="business-request-file-hint" class="br-file-hint">PDF, 이미지, 문서 등 · 최대 4MB</p>
+            </div>
+            <div class="br-field br-field--consent">
+              <div class="br-consent">
+                <input
+                  type="checkbox"
+                  id="br-privacy-consent"
+                  name="privacy_consent"
+                  value="yes"
+                  required
+                  aria-required="true"
+                />
+                <div class="br-consent__text">
+                  <label for="br-privacy-consent" class="br-consent__label">개인정보 수집 및 이용에 동의합니다.</label>
+                  <a href="/privacy" class="br-consent__link">[내용보기]</a>
+                </div>
+              </div>
             </div>
             <div class="br-actions">
               <button type="submit" class="br-submit">업무 요청 보내기</button>

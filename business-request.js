@@ -8,17 +8,27 @@
   if (!form || !modal) return;
 
   var fileInput = document.getElementById("business-request-file");
+  var fileBtn = document.getElementById("business-request-file-btn");
+  var fileDisplay = document.getElementById("business-request-file-display");
   var fileHint = document.getElementById("business-request-file-hint");
   var MAX_BYTES = 4 * 1024 * 1024;
 
   function setFileHint(name, size) {
     if (!fileHint) return;
     if (!name) {
-      fileHint.textContent = "선택된 파일 없음 · PDF, 이미지, 문서 등 (최대 4MB)";
+      fileHint.textContent = "PDF, 이미지, 문서 등 · 최대 4MB";
+      if (fileDisplay) fileDisplay.textContent = "선택된 파일 없음";
       return;
     }
     var kb = (size / 1024).toFixed(1);
     fileHint.textContent = "선택됨: " + name + " (" + kb + " KB)";
+    if (fileDisplay) fileDisplay.textContent = name;
+  }
+
+  if (fileBtn && fileInput) {
+    fileBtn.addEventListener("click", function () {
+      fileInput.click();
+    });
   }
 
   if (fileInput) {
@@ -100,6 +110,14 @@
       return;
     }
 
+    var consentEl = form.elements.namedItem("privacy_consent");
+    var consentOk = consentEl && consentEl.type === "checkbox" && consentEl.checked;
+    if (!consentOk) {
+      alert("개인정보 수집 및 이용에 동의해 주세요.");
+      if (consentEl && consentEl.focus) consentEl.focus();
+      return;
+    }
+
     var file = fileInput && fileInput.files ? fileInput.files[0] : null;
 
     function send(attachment) {
@@ -108,7 +126,13 @@
         submitBtn.textContent = "전송 중…";
       }
 
-      var payload = { company: company, name: name, email: email, message: message };
+      var payload = {
+        company: company,
+        name: name,
+        email: email,
+        message: message,
+        privacyConsent: true,
+      };
       if (attachment) payload.attachment = attachment;
 
       fetch("/api/send-business-request", {

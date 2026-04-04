@@ -102,6 +102,9 @@ module.exports = async function handler(req, res) {
   if (!message || message.length > 20000) {
     return res.status(400).json({ ok: false, error: "요청 내용을 입력해 주세요." });
   }
+  if (!body.privacyConsent) {
+    return res.status(400).json({ ok: false, error: "개인정보 수집 및 이용에 동의해 주세요." });
+  }
 
   var to = process.env.BUSINESS_REQUEST_TO || "ms980822@naver.com";
   var fromEnvelope = parseFromEnvelopeAddress(process.env.RESEND_FROM);
@@ -120,6 +123,7 @@ module.exports = async function handler(req, res) {
   var textBody =
     "보낸 사람  " + name + " <" + email + ">\n" +
     "(회신 시 이 주소로 연결됩니다. 실제 발송은 픽앤매치 웹사이트·Resend 경유)\n\n" +
+    "개인정보 수집·이용 동의: 예 (웹사이트 업무 요청)\n\n" +
     "회사명: " +
     company +
     "\n" +
@@ -147,6 +151,7 @@ module.exports = async function handler(req, res) {
     '<div style="font-size:12px;color:#64748b;margin-top:10px;">실제 발신 주소: ' +
     escHtml(fromEnvelope) +
     " (픽앤매치 웹사이트·Resend)</div>" +
+    '<p style="font-size:12px;color:#475569;margin:12px 0 0;">개인정보 수집·이용 동의: <strong>예</strong> (웹사이트 업무 요청)</p>' +
     "</div>" +
     '<div style="white-space:pre-wrap;word-break:break-word;">' +
     escHtml(message) +

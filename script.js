@@ -10,6 +10,40 @@
     return p === "/main";
   }
 
+  /** 메인: 새로고침(F5) 시 항상 히어로 최상단 — 스크롤 복원·#해시로 인한 중간 위치 방지 */
+  (function initMainReloadScrollTop() {
+    if (!document.body.classList.contains("page-main")) return;
+    if (!isMainPagePath()) return;
+
+    var isReload = false;
+    try {
+      var navEntries = performance.getEntriesByType && performance.getEntriesByType("navigation");
+      if (navEntries && navEntries.length && navEntries[0].type === "reload") {
+        isReload = true;
+      } else if (performance.navigation && performance.navigation.type === 1) {
+        isReload = true;
+      }
+    } catch (err) {}
+
+    if (!isReload) return;
+
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+    if (location.hash) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+
+    window.addEventListener(
+      "load",
+      function () {
+        window.scrollTo(0, 0);
+      },
+      { once: true }
+    );
+  })();
+
   /**
    * 엔트리 스플래시: 검색·SNS·메신저·메일 등 외부에서 유입 시 메인(/main)에만 표시.
    * root-redirect.js 의 판별과 맞출 것.
@@ -375,7 +409,11 @@
     var swipePointerId = null;
 
     function swipeTargetOk(el) {
-      return el && !el.closest(".hero-dot");
+      if (!el) return false;
+      if (el.closest(".hero-dot")) return false;
+      /* 링크·버튼 등에서는 포인터 캡처를 걸지 않음 — 걸면 앵커 클릭이 동작하지 않음 */
+      if (el.closest("a[href], button, input, textarea, select, label")) return false;
+      return true;
     }
 
     root.addEventListener(
@@ -541,6 +579,87 @@
         obs.observe(el);
       }
     });
+  })();
+
+  // 업무 요청: 스크롤 정렬 기준은 섹션이 아니라 제목(h2#business-request-title)
+  (function initBusinessRequestAnchorScroll() {
+    var SCROLL_TARGET_ID = "business-request-title";
+    var HASH_TITLE = "#business-request-title";
+    var HASH_SECTION = "#business-request";
+    var LEGACY_HASHES = [HASH_TITLE, HASH_SECTION];
+
+    function headerOverlapPx() {
+      var h = document.querySelector(".header");
+      if (!h) return 0;
+      return Math.ceil(h.getBoundingClientRect().height);
+    }
+
+    function scrollToTarget(smooth) {
+      var el = document.getElementById(SCROLL_TARGET_ID);
+      if (!el) return;
+      var prefersReduced =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var top = el.getBoundingClientRect().top + window.pageYOffset - headerOverlapPx() - 12;
+      top = Math.max(0, top);
+      if (prefersReduced || !smooth) {
+        window.scrollTo(0, top);
+      } else {
+        window.scrollTo({ top: top, behavior: "smooth" });
+      }
+    }
+
+    function hashMatchesBusinessRequest() {
+      var h = location.hash;
+      return LEGACY_HASHES.indexOf(h) !== -1;
+    }
+
+    function applyHashScroll(smooth) {
+      if (!hashMatchesBusinessRequest()) return;
+      scrollToTarget(smooth);
+    }
+
+    document.addEventListener(
+      "click",
+      function (e) {
+        var a = e.target.closest && e.target.closest("a[href]");
+        if (!a) return;
+        var href = a.getAttribute("href") || "";
+        if (href !== HASH_TITLE && href !== HASH_SECTION) return;
+        var el = document.getElementById(SCROLL_TARGET_ID);
+        if (!el) return;
+        e.preventDefault();
+        scrollToTarget(true);
+        if (history.replaceState) {
+          history.replaceState(null, "", HASH_TITLE);
+        } else {
+          location.hash = SCROLL_TARGET_ID;
+        }
+      },
+      false
+    );
+
+    window.addEventListener("hashchange", function () {
+      if (!hashMatchesBusinessRequest()) return;
+      var smooth =
+        typeof window.matchMedia !== "function" ||
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      applyHashScroll(smooth);
+    });
+
+    function afterPaint() {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          applyHashScroll(false);
+        });
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", afterPaint);
+    } else {
+      afterPaint();
+    }
   })();
 
   // 의뢰 폼 제출 처리 (비활성: 복원 시 주석 해제)
