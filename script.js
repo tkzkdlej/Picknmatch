@@ -10,7 +10,35 @@
     return p === "/main";
   }
 
-  /** 검색(구글·네이버 등)에서 유입 시 메인에만: 로고+슬로건 풀스크린 후 페이드아웃 */
+  /**
+   * 엔트리 스플래시: 검색·SNS·메신저·메일 등 외부에서 유입 시 메인(/main)에만 표시.
+   * root-redirect.js 의 판별과 맞출 것.
+   */
+  function isOurSiteReferrer(ref) {
+    if (!ref) return false;
+    try {
+      var h = new URL(ref).hostname.replace(/^www\./i, "").toLowerCase();
+      return h === "picknmatch.co.kr" || h === "localhost" || h === "127.0.0.1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /** 공유·광고 링크에 흔한 쿼리 — referrer 없이도 유입 추적 가능 */
+  function hasExternalCampaignParams(params) {
+    if (params.get("utm_source") || params.get("utm_medium") || params.get("utm_campaign")) return true;
+    if (params.get("fbclid") || params.get("gclid") || params.get("msclkid")) return true;
+    return false;
+  }
+
+  /** 검색·카카오·라인·메일·SNS 인앱 등 외부 referrer (같은 사이트 제외) */
+  function matchesExternalReferrer(ref) {
+    if (!ref || isOurSiteReferrer(ref)) return false;
+    return /google\.[^/]+|googleusercontent|bing\.com|naver\.com|daum\.net|kakao\.|line\.|line\.naver|facebook\.|fb\.com|l\.facebook|lm\.facebook|instagram\.|twitter\.|t\.co|\/x\.com\/|linkedin\.|threads\.|slack\.|discord\.|mail\.google|inbox\.google|outlook\.|outlook\.live|mail\.yahoo|teams\.|microsoft\.|office\.com|live\.com\/mail|web\.whatsapp|telegram\.|mzstatic\.com/i.test(
+      ref
+    );
+  }
+
   (function initEntrySplash() {
     if (!document.body.classList.contains("page-main")) return;
     if (!isMainPagePath()) return;
@@ -18,15 +46,17 @@
     var params = new URLSearchParams(window.location.search || "");
     if (params.get("entry") === "0") return;
 
+    var ref = document.referrer || "";
     var fromSearch = false;
     if (params.get("entry") === "1") {
       fromSearch = true;
+    } else if (hasExternalCampaignParams(params)) {
+      fromSearch = true;
     } else {
-      var ref = document.referrer || "";
-      fromSearch = /google\.[^/]+|googleusercontent|bing\.com|naver\.com|daum\.net/i.test(ref);
+      fromSearch = matchesExternalReferrer(ref);
     }
 
-    /* 루트(/) → /main 리다이렉트 후에는 referrer가 구글·네이버가 아니라 우리 도메인이 됨 — index.html에서 넘겨준 플래그 */
+    /* 루트(/) → /main 리다이렉트 후 referrer가 우리 도메인으로 바뀜 — root-redirect.js에서 넘긴 플래그 */
     if (!fromSearch) {
       try {
         if (window.sessionStorage && sessionStorage.getItem("pnm_from_search_entry") === "1") {
