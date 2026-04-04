@@ -135,20 +135,73 @@
       };
       if (attachment) payload.attachment = attachment;
 
+      function friendlyErrorForBadBody(status, text) {
+        var t = (text || "").trim();
+        var host = "";
+        try {
+          host = window.location.hostname || "";
+        } catch (e) {}
+        var isLocal =
+          host === "localhost" ||
+          host === "127.0.0.1" ||
+          host === "::1" ||
+          /^192\.168\./.test(host) ||
+          /^10\./.test(host);
+        if (!t) {
+          return "서버에서 내용 없는 응답을 받았습니다. (HTTP " + status + ")";
+        }
+        if (t.charAt(0) === "<" || /<!DOCTYPE/i.test(t)) {
+          if (isLocal || status === 404) {
+            return (
+              "이 환경에서는 메일 API(/api/send-business-request)가 없습니다. " +
+              "VS Code Live Server 등으로 연 주소에서는 전송을 테스트할 수 없습니다. " +
+              "Vercel에 배포된 사이트에서 시도하거나, 프로젝트 폴더에서 `npx vercel dev` 로 로컬 API를 띄운 뒤 그 주소로 열어 주세요."
+            );
+          }
+          return "서버가 JSON 대신 HTML을 돌려주었습니다. (HTTP " + status + ") 잠시 후 다시 시도해 주세요.";
+        }
+        try {
+          var j = JSON.parse(t);
+          if (j && j.error) return j.error;
+        } catch (e2) {}
+        return "서버 응답을 해석할 수 없습니다. (HTTP " + status + ")";
+      }
+
       fetch("/api/send-business-request", {
         method: "POST",
         headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify(payload),
       })
         .then(function (r) {
-          return r.json().then(
-            function (data) {
-              return { ok: r.ok, status: r.status, data: data };
-            },
-            function () {
-              return { ok: false, status: r.status, data: { error: "서버 응답을 해석할 수 없습니다." } };
+          return r.text().then(function (text) {
+            var data = null;
+            var trimmed = (text || "").trim();
+            if (trimmed && trimmed.charAt(0) === "{" && trimmed.charAt(trimmed.length - 1) === "}") {
+              try {
+                data = JSON.parse(trimmed);
+              } catch (e) {
+                data = null;
+              }
             }
-          );
+            if (!data && trimmed) {
+              var ct = (r.headers.get("content-type") || "").toLowerCase();
+              if (ct.indexOf("application/json") !== -1) {
+                try {
+                  data = JSON.parse(trimmed);
+                } catch (e) {
+                  data = null;
+                }
+              }
+            }
+            if (!data) {
+              return {
+                ok: false,
+                status: r.status,
+                data: { error: friendlyErrorForBadBody(r.status, text) },
+              };
+            }
+            return { ok: r.ok, status: r.status, data: data };
+          });
         })
         .then(function (result) {
           if (submitBtn) {

@@ -1532,6 +1532,11 @@ body.page-main main > .section:last-of-type {
   scroll-margin-top: calc(var(--header-offset) + env(safe-area-inset-top, 0px));
 }
 
+/* 메인: 히어로 CTA로 열 때까지 업무 요청 블록 숨김 (script.js에서 표시) */
+body.page-main #business-request.business-request--collapsed {
+  display: none;
+}
+
 /* 메인 — 업무 요청 폼 */
 .section-business-request .business-request-form {
   max-width: 34rem;

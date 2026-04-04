@@ -538,6 +538,7 @@
 
     var targets = [];
     document.querySelectorAll("main .section, main > .page-intro, .footer-main").forEach(function (el) {
+      if (el.id === "business-request" && el.classList.contains("business-request--collapsed")) return;
       targets.push(el);
     });
 
@@ -581,8 +582,11 @@
     });
   })();
 
-  // 업무 요청: 스크롤 정렬 기준은 섹션이 아니라 제목(h2#business-request-title)
+  // 업무 요청: 기본 숨김 → CTA 또는 #해시로 표시 후 제목 기준 스크롤
   (function initBusinessRequestAnchorScroll() {
+    if (!document.body.classList.contains("page-main") || !isMainPagePath()) return;
+
+    var SECTION_ID = "business-request";
     var SCROLL_TARGET_ID = "business-request-title";
     var HASH_TITLE = "#business-request-title";
     var HASH_SECTION = "#business-request";
@@ -592,6 +596,14 @@
       var h = document.querySelector(".header");
       if (!h) return 0;
       return Math.ceil(h.getBoundingClientRect().height);
+    }
+
+    function revealBusinessRequestSection() {
+      var sec = document.getElementById(SECTION_ID);
+      if (!sec || !sec.classList.contains("business-request--collapsed")) return;
+      sec.classList.remove("business-request--collapsed");
+      sec.setAttribute("aria-hidden", "false");
+      sec.classList.add("is-inview");
     }
 
     function scrollToTarget(smooth) {
@@ -616,6 +628,7 @@
 
     function applyHashScroll(smooth) {
       if (!hashMatchesBusinessRequest()) return;
+      revealBusinessRequestSection();
       scrollToTarget(smooth);
     }
 
@@ -629,12 +642,17 @@
         var el = document.getElementById(SCROLL_TARGET_ID);
         if (!el) return;
         e.preventDefault();
-        scrollToTarget(true);
-        if (history.replaceState) {
-          history.replaceState(null, "", HASH_TITLE);
-        } else {
-          location.hash = SCROLL_TARGET_ID;
-        }
+        revealBusinessRequestSection();
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            scrollToTarget(true);
+            if (history.replaceState) {
+              history.replaceState(null, "", HASH_TITLE);
+            } else {
+              location.hash = SCROLL_TARGET_ID;
+            }
+          });
+        });
       },
       false
     );
@@ -644,7 +662,11 @@
       var smooth =
         typeof window.matchMedia !== "function" ||
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      applyHashScroll(smooth);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          applyHashScroll(smooth);
+        });
+      });
     });
 
     function afterPaint() {
