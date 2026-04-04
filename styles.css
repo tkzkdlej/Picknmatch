@@ -531,12 +531,15 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   transform: translate3d(100%, 0, 0);
 }
 
+/* 퇴장: 로고·슬로건은 문이 벌어지기 전에 거의 즉시 사라지게(중앙에 글자가 남는 현상 방지) */
 .entry-splash.is-leaving .entry-splash__inner {
   opacity: 0;
-  transform: translate3d(0, -10px, 0) scale(0.985);
+  transform: translate3d(0, -4px, 0) scale(0.992);
+  visibility: hidden;
   transition:
-    opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.38s cubic-bezier(0.33, 0.86, 0.4, 1);
+    opacity 0.09s cubic-bezier(0.4, 0, 1, 1),
+    transform 0.1s cubic-bezier(0.4, 0, 1, 1),
+    visibility 0s linear 0.09s;
 }
 
 .entry-splash__doors {
