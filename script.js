@@ -55,7 +55,7 @@
       document.body.classList.remove("entry-splash-on");
       splash.setAttribute("aria-hidden", "true");
       if (window.sessionStorage) sessionStorage.setItem("pnm_entry_splash_done", "1");
-      var ms = reduced ? 240 : 480;
+      var ms = reduced ? 300 : 820;
       window.setTimeout(function () {
         if (splash.parentNode) splash.parentNode.removeChild(splash);
       }, ms);
