@@ -48,6 +48,12 @@
   --logo-visual-scale: 1;
   /* 히어로 슬라이드 스크림(네이비 틴트) — 헤더 오버레이와 공유 */
   --hero-scrim-navy: 18, 28, 46;
+  /* 엔트리 스플래시 — 문·전체 캔버스·바디 단일 톤 (순백 #fff와 그라데이션 불일치 방지) */
+  --entry-splash-bg-layers:
+    radial-gradient(ellipse 100% 55% at 50% 0%, rgba(var(--color-accent-rgb), 0.07), transparent 58%),
+    radial-gradient(ellipse 80% 40% at 80% 100%, rgba(18, 28, 46, 0.04), transparent 55%),
+    linear-gradient(168deg, #fbfbfc 0%, #ffffff 42%, #f4f6f9 100%);
+  --entry-splash-bg-fallback: #fbfbfc;
 }
 
 *,
@@ -500,7 +506,8 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   justify-content: center;
   padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px))
     max(1.5rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px));
-  background: transparent;
+  background: var(--entry-splash-bg-layers);
+  background-color: var(--entry-splash-bg-fallback);
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
@@ -582,10 +589,8 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   top: 0;
   bottom: 0;
   width: calc(50% + 3px);
-  background:
-    radial-gradient(ellipse 100% 55% at 50% 0%, rgba(var(--color-accent-rgb), 0.07), transparent 58%),
-    radial-gradient(ellipse 80% 40% at 80% 100%, rgba(18, 28, 46, 0.04), transparent 55%),
-    linear-gradient(168deg, #fbfbfc 0%, #ffffff 42%, #f4f6f9 100%);
+  background: var(--entry-splash-bg-layers);
+  background-color: var(--entry-splash-bg-fallback);
   will-change: transform;
   transition: transform var(--entry-door-dur) var(--entry-door-ease);
   backface-visibility: hidden;
@@ -676,11 +681,14 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
 html.entry-splash-on {
   overflow: hidden;
   height: 100%;
+  background: var(--entry-splash-bg-layers);
+  background-color: var(--entry-splash-bg-fallback);
 }
 
 body.entry-splash-on {
   overflow: hidden;
-  background: #ffffff;
+  background: var(--entry-splash-bg-layers);
+  background-color: var(--entry-splash-bg-fallback);
   touch-action: none;
   overscroll-behavior: none;
 }
@@ -786,7 +794,8 @@ body.entry-splash-on {
   }
 
   .entry-splash {
-    background: #ffffff;
+    background: var(--entry-splash-bg-layers);
+    background-color: var(--entry-splash-bg-fallback);
   }
 
   .entry-splash__doors {
@@ -850,6 +859,8 @@ body.entry-splash-on {
   .entry-splash__logo {
     width: min(85vw, 280px);
     max-height: min(22vh, 150px);
+    /* 로고 주변 그림자가 별도 ‘카드’처럼 보이지 않게 톤에 맞춤 */
+    filter: drop-shadow(0 3px 14px rgba(18, 28, 46, 0.06));
   }
 
   .entry-splash__kicker {
