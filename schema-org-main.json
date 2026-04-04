@@ -1,0 +1,90 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://picknmatch.co.kr/#organization",
+      "name": "주식회사 픽앤매치",
+      "alternateName": ["픽앤매치", "Pick & Match", "Picknmatch"],
+      "url": "https://picknmatch.co.kr/main",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://picknmatch.co.kr/images/logo.png"
+      },
+      "description": "정확한 안목으로 뽑고(Pick), 최적의 자리에 맞춥니다(Match). 헤드헌팅 및 채용 대행 전문 기업."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://picknmatch.co.kr/#website",
+      "url": "https://picknmatch.co.kr/",
+      "name": "픽앤매치",
+      "alternateName": "Pick & Match",
+      "publisher": { "@id": "https://picknmatch.co.kr/#organization" },
+      "inLanguage": "ko-KR"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://picknmatch.co.kr/main#webpage",
+      "url": "https://picknmatch.co.kr/main",
+      "name": "픽앤매치 | 기업 맞춤형 인재 서치 전문",
+      "isPartOf": { "@id": "https://picknmatch.co.kr/#website" },
+      "about": { "@id": "https://picknmatch.co.kr/#organization" }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://picknmatch.co.kr/#primarypages",
+      "name": "픽앤매치 주요 페이지",
+      "numberOfItems": 8,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "헤드헌팅 서비스",
+          "url": "https://picknmatch.co.kr/client/headhunting"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "평판조회 서비스",
+          "url": "https://picknmatch.co.kr/client/reference"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "픽앤매치의 강점",
+          "url": "https://picknmatch.co.kr/client/strength"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "인사말",
+          "url": "https://picknmatch.co.kr/about-us/greeting"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "회사소개",
+          "url": "https://picknmatch.co.kr/about-us/introduce"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "채용 핵심 분야 · 포지션",
+          "url": "https://picknmatch.co.kr/position"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "오시는 길",
+          "url": "https://picknmatch.co.kr/about-us/location"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "MEMBERS",
+          "url": "https://picknmatch.co.kr/about-us/members"
+        }
+      ]
+    }
+  ]
+}
