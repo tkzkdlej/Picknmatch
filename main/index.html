@@ -59,6 +59,10 @@
       aria-label="픽앤매치 소개. 화면을 눌러 메인으로 이동합니다."
       tabindex="-1"
     >
+      <div class="entry-splash__doors" aria-hidden="true">
+        <span class="entry-splash__door entry-splash__door--left"></span>
+        <span class="entry-splash__door entry-splash__door--right"></span>
+      </div>
       <div class="entry-splash__inner">
         <img src="/images/logo.png" alt="" class="entry-splash__logo" width="320" height="120" decoding="async" />
         <p class="entry-splash__tagline">
@@ -70,7 +74,14 @@
 
     <header class="header header--over-hero">
       <div class="header-inner">
-        <a href="#top" class="logo"><img src="/images/logo.png" alt="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치" /></a>
+        <a href="#top" class="logo logo--split" aria-label="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치">
+          <span class="logo__mark" aria-hidden="true">
+            <img src="/images/logo.png" alt="" decoding="async" />
+          </span>
+          <span class="logo__word" aria-hidden="true">
+            <img src="/images/logo.png" alt="" decoding="async" />
+          </span>
+        </a>
         <nav class="nav">
           <div class="nav-item has-dropdown">
             <a href="/about-us/greeting" class="nav-link">ABOUT US</a>
