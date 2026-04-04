@@ -46,9 +46,6 @@
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    /* CSS: 문(--entry-door-dur) + 오버레이 페이드(--entry-overlay-fade-out) 후 DOM 제거 */
-    var leaveTotalMs = reduced ? 420 : 1300;
-
     var done = false;
     function dismiss() {
       if (done) return;
@@ -57,11 +54,26 @@
       splash.classList.add("is-leaving");
       splash.setAttribute("aria-hidden", "true");
       if (window.sessionStorage) sessionStorage.setItem("pnm_entry_splash_done", "1");
-      window.setTimeout(function () {
+
+      var cleaned = false;
+      function cleanup() {
+        if (cleaned) return;
+        cleaned = true;
+        splash.removeEventListener("transitionend", onTransitionEnd);
         document.documentElement.classList.remove("entry-splash-on");
         document.body.classList.remove("entry-splash-on");
         if (splash.parentNode) splash.parentNode.removeChild(splash);
-      }, leaveTotalMs);
+      }
+
+      function onTransitionEnd(e) {
+        if (e.target !== splash) return;
+        if (e.propertyName !== "opacity") return;
+        cleanup();
+      }
+
+      splash.addEventListener("transitionend", onTransitionEnd);
+      /* opacity transitionend 누락 대비(타임아웃은 실제 애니보다 넉넉히) */
+      window.setTimeout(cleanup, reduced ? 900 : 2200);
     }
 
     function onKeyDown(e) {

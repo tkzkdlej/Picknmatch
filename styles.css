@@ -54,8 +54,8 @@
     radial-gradient(ellipse 80% 40% at 80% 100%, rgba(18, 28, 46, 0.04), transparent 55%),
     linear-gradient(168deg, #fbfbfc 0%, #ffffff 42%, #f4f6f9 100%);
   --entry-splash-bg-fallback: #fbfbfc;
-  /* 퇴장: 문 애니 이후 전체 오버레이 페이드 — DOM 제거 직전 하드 컷 방지 */
-  --entry-overlay-fade-out: 0.42s;
+  /* 퇴장: 오버레이 페이드 — 문과 동시에 끝나도록 지연(문 끝 − 페이드 길이), 밝은 화면 단독 노출 방지 */
+  --entry-overlay-fade-out: 0.48s;
 }
 
 *,
@@ -551,9 +551,14 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
 
 .entry-splash.is-leaving {
   pointer-events: none;
+}
+
+/* .is-active의 opacity:1보다 우선 — 페이드가 실제로 동작하도록 */
+.entry-splash.is-active.is-leaving {
   opacity: 0;
-  /* 문이 열린 뒤(--entry-door-dur 지연) 메인 히어로로 크로스페이드 */
-  transition: opacity var(--entry-overlay-fade-out) var(--entry-ease-in) var(--entry-door-dur);
+  transition: opacity var(--entry-overlay-fade-out) var(--entry-ease-in)
+    max(0s, calc(var(--entry-door-dur) - var(--entry-overlay-fade-out)));
+  will-change: opacity;
 }
 
 .entry-splash.is-leaving .entry-splash__door--left {
@@ -796,6 +801,7 @@ body.entry-splash-on {
   .entry-splash {
     --entry-fade-in: 0.22s;
     --entry-door-dur: 0.22s;
+    --entry-overlay-fade-out: 0.24s;
   }
 
   .entry-splash {
@@ -832,9 +838,11 @@ body.entry-splash-on {
     animation: entry-splash-inner-leave-reduced 0.22s ease forwards;
   }
 
-  .entry-splash.is-leaving {
+  .entry-splash.is-active.is-leaving {
     opacity: 0;
-    transition: opacity 0.22s var(--entry-ease-in);
+    transition: opacity var(--entry-overlay-fade-out) var(--entry-ease-in)
+      max(0s, calc(var(--entry-door-dur) - var(--entry-overlay-fade-out)));
+    will-change: opacity;
   }
 
   .entry-splash__hint {
@@ -863,8 +871,6 @@ body.entry-splash-on {
   .entry-splash__logo {
     width: min(85vw, 280px);
     max-height: min(22vh, 150px);
-    /* 로고 주변 그림자가 별도 ‘카드’처럼 보이지 않게 톤에 맞춤 */
-    filter: drop-shadow(0 3px 14px rgba(18, 28, 46, 0.06));
   }
 
   .entry-splash__kicker {
