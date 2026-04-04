@@ -1474,6 +1474,11 @@ main > .page-intro + .section {
   background: var(--color-bg-cream);
 }
 
+/* 메인: CLIENT 섹션 비활성 시 마지막 본문 블록(헤드헌팅 프로세스)과 푸터 사이 리듬 */
+body.page-main main > .section:last-of-type {
+  padding-bottom: 5rem;
+}
+
 /* 콘텐츠 박스 */
 .content-box {
   max-width: 780px;
