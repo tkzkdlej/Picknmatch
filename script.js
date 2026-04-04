@@ -10,6 +10,63 @@
     return p === "/main";
   }
 
+  /** 검색(구글·네이버 등)에서 유입 시 메인에만: 로고+슬로건 풀스크린 후 페이드아웃 */
+  (function initEntrySplash() {
+    if (!document.body.classList.contains("page-main")) return;
+    if (!isMainPagePath()) return;
+
+    var params = new URLSearchParams(window.location.search || "");
+    if (params.get("entry") === "0") return;
+
+    var fromSearch = false;
+    if (params.get("entry") === "1") {
+      fromSearch = true;
+    } else {
+      var ref = document.referrer || "";
+      fromSearch = /google\.[^/]+|googleusercontent|bing\.com|naver\.com|daum\.net/i.test(ref);
+    }
+
+    if (!fromSearch) return;
+    if (window.sessionStorage && sessionStorage.getItem("pnm_entry_splash_done") === "1") return;
+
+    var splash = document.getElementById("entry-splash");
+    if (!splash) return;
+
+    var reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var done = false;
+    function dismiss() {
+      if (done) return;
+      done = true;
+      splash.classList.add("is-leaving");
+      document.body.classList.remove("entry-splash-on");
+      splash.setAttribute("aria-hidden", "true");
+      if (window.sessionStorage) sessionStorage.setItem("pnm_entry_splash_done", "1");
+      var ms = reduced ? 220 : 880;
+      window.setTimeout(function () {
+        if (splash.parentNode) splash.parentNode.removeChild(splash);
+      }, ms);
+    }
+
+    document.body.classList.add("entry-splash-on");
+    splash.setAttribute("aria-hidden", "false");
+    splash.classList.add("is-active");
+
+    var skip = splash.querySelector(".entry-splash__skip");
+    if (skip) {
+      skip.addEventListener("click", dismiss);
+      window.setTimeout(function () {
+        try {
+          skip.focus();
+        } catch (e) {}
+      }, 80);
+    }
+
+    window.setTimeout(dismiss, reduced ? 1400 : 3400);
+  })();
+
   (function initLogoScrollToTop() {
     if (!isMainPagePath()) return;
     var logo = document.querySelector("a.logo");

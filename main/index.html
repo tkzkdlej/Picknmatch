@@ -49,6 +49,24 @@
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
   </head>
   <body class="page-main">
+    <!-- 검색(구글·네이버 등) 유입 시에만 표시 — script.js에서 제어 -->
+    <div
+      id="entry-splash"
+      class="entry-splash"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-label="픽앤매치 소개"
+    >
+      <div class="entry-splash__inner">
+        <img src="/images/logo.png" alt="" class="entry-splash__logo" width="320" height="120" decoding="async" />
+        <p class="entry-splash__tagline">
+          기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치
+        </p>
+        <button type="button" class="entry-splash__skip btn btn-primary">본문으로 이동</button>
+      </div>
+    </div>
+
     <header class="header header--over-hero">
       <div class="header-inner">
         <a href="#top" class="logo"><img src="/images/logo.png" alt="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치" /></a>
