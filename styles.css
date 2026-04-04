@@ -1697,13 +1697,16 @@ body.page-main #business-request.business-request--collapsed {
   margin-bottom: 0;
   padding: 0.85rem 0 0;
   border-top: 1px solid var(--color-border-soft);
+  text-align: center;
 }
 
 .br-consent {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.75rem;
+  max-width: 100%;
   cursor: default;
+  text-align: left;
 }
 
 .br-consent input[type="checkbox"] {
@@ -1717,11 +1720,12 @@ body.page-main #business-request.business-request--collapsed {
 }
 
 .br-consent__text {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-start;
   column-gap: 0.4rem;
   row-gap: 0.2rem;
   font-size: 0.875rem;
@@ -1767,6 +1771,7 @@ body.page-main #business-request.business-request--collapsed {
 .br-actions {
   margin-top: 1.35rem;
   padding-top: 0.15rem;
+  text-align: center;
 }
 
 .br-submit {
@@ -1808,10 +1813,11 @@ body.page-main #business-request.business-request--collapsed {
 
 .br-privacy {
   margin-top: 1.25rem;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   line-height: 1.5;
   text-align: center;
+  opacity: 0.72;
 }
 
 /* 업무 요청 완료 모달 */
