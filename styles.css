@@ -2722,6 +2722,19 @@ html.reveal main > .page-intro .page-name {
   box-shadow: var(--shadow-sm);
 }
 
+/* 채용핵심분야/포지션 — 상단 강조 문구 */
+.position-page-section .position-page-lead {
+  margin: 0 0 2.25rem;
+  max-width: min(52rem, 100%);
+  font-size: clamp(1.02rem, 1.65vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
 /* 포지션 그리드 */
 .position-grid {
   display: grid;
