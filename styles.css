@@ -3011,7 +3011,8 @@ html.reveal main > .page-intro .page-name {
 
 .footer-bottom {
   padding: 1.35rem 1.5rem 2rem;
-  background: #fff;
+  --footer-bottom-surface: #fff;
+  background: var(--footer-bottom-surface);
   border-top: 1px solid var(--color-border-soft);
 }
 
@@ -3040,6 +3041,7 @@ html.reveal main > .page-intro .page-name {
   text-decoration: none;
   border-radius: var(--radius-sm);
   transition: opacity 0.2s ease;
+  background-color: var(--footer-bottom-surface);
 }
 
 .footer-bottom-logo:hover {
@@ -3051,33 +3053,12 @@ html.reveal main > .page-intro .page-name {
   outline-offset: 3px;
 }
 
-/* 다크 로고 실루엣 + 골드 메탈 그라데이션 (마스크) */
-.footer-bottom-logo__mark {
+.footer-bottom-logo__img {
   display: block;
-  width: clamp(128px, 22vw, 176px);
-  height: clamp(33px, 6.2vw, 44px);
-  background: linear-gradient(
-    168deg,
-    #3d2e0c 0%,
-    #7a5a14 16%,
-    #b8892a 34%,
-    #e8d89c 50%,
-    #c9a32a 66%,
-    #7d6220 88%,
-    #4a3810 100%
-  );
-  box-shadow:
-    inset 0 1px 0 rgba(255, 252, 240, 0.55),
-    inset 0 -1px 0 rgba(45, 32, 6, 0.35);
-  -webkit-mask-image: url("/images/logo-dark.png");
-  mask-image: url("/images/logo-dark.png");
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  filter: drop-shadow(0 1px 2px rgba(42, 30, 6, 0.12));
+  height: clamp(1.65rem, 3.1vw, 2.125rem);
+  width: auto;
+  max-width: min(176px, 42vw);
+  object-fit: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3437,9 +3418,9 @@ body.is-nav-open .nav.is-open {
     text-align: center;
   }
 
-  .footer-bottom-logo__mark {
-    width: clamp(136px, 58vw, 220px);
-    height: clamp(35px, 15vw, 52px);
+  .footer-bottom-logo__img {
+    height: clamp(1.5rem, 6vw, 2rem);
+    max-width: min(200px, 70vw);
   }
 
   .footer-inner {
