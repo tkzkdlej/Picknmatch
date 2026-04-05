@@ -332,6 +332,8 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   object-fit: contain;
   background-color: transparent;
   image-rendering: auto;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .header-inner .nav {
@@ -726,6 +728,8 @@ body.entry-splash-on {
   margin: 0 auto;
   display: block;
   filter: drop-shadow(0 8px 32px rgba(18, 28, 46, 0.14));
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .entry-splash__kicker {
