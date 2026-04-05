@@ -2116,19 +2116,20 @@ body.br-modal-open {
   color: var(--color-text-muted);
 }
 
-/* 산업 그리드 — 히어로와 동일한 Unsplash 최적화 이미지 + 스크림 */
+/* 산업 그리드 — 히어로와 동일한 Unsplash 최적화 이미지 + 스크림 (10개: 5×2) */
 .industry-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem;
+  align-items: stretch;
 }
 
 .industry-card {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);
-  min-height: 148px;
-  aspect-ratio: 4 / 3;
+  min-height: 120px;
+  aspect-ratio: 5 / 4;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -2182,7 +2183,7 @@ body.br-modal-open {
   width: 100%;
   padding: 1rem 0.65rem;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 1.35vw, 0.95rem);
   letter-spacing: -0.02em;
   text-align: center;
   color: #fff;
@@ -2389,6 +2390,18 @@ html.reveal .section.is-inview .industry-grid .industry-card:nth-child(5) {
 html.reveal .section.is-inview .industry-grid .industry-card:nth-child(6) {
   transition-delay: 0.29s;
 }
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(7) {
+  transition-delay: 0.34s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(8) {
+  transition-delay: 0.39s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(9) {
+  transition-delay: 0.44s;
+}
+html.reveal .section.is-inview .industry-grid .industry-card:nth-child(10) {
+  transition-delay: 0.49s;
+}
 
 html.reveal .section.is-inview .process-flow .flow-step:nth-child(1) {
   transition-delay: 0.03s;
@@ -2469,6 +2482,18 @@ html.reveal .section.is-inview .position-grid .position-card:nth-child(5) {
 }
 html.reveal .section.is-inview .position-grid .position-card:nth-child(6) {
   transition-delay: 0.29s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(7) {
+  transition-delay: 0.34s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(8) {
+  transition-delay: 0.39s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(9) {
+  transition-delay: 0.44s;
+}
+html.reveal .section.is-inview .position-grid .position-card:nth-child(10) {
+  transition-delay: 0.49s;
 }
 
 html.reveal main > .page-intro:not(.is-inview) .page-name {
@@ -2642,7 +2667,7 @@ html.reveal main > .page-intro .page-name {
 /* 포지션 그리드 */
 .position-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -3423,8 +3448,6 @@ body.is-nav-open .nav.is-open {
     font-size: 0.92rem;
   }
 
-  .industry-grid { grid-template-columns: 1fr; }
-
   .nav-toggle { display: flex; }
 
   /* 연락처/지도 — 뷰포트 높이에 맞춤, 가로 100% 유지 */
@@ -3464,10 +3487,6 @@ body.is-nav-open .nav.is-open {
     margin-bottom: 1.75rem;
     padding-bottom: 1.75rem;
   }
-}
-
-@media (max-width: 480px) {
-  .industry-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 420px) {

@@ -49,6 +49,22 @@ function escHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Resend 무료/미검증 도메인 시 영문 안내 → 사용자용 한국어 */
+function normalizeResendErrorMessage(raw) {
+  var s = String(raw || "");
+  if (/testing emails|resend\.com\/domains|verify a domain|only send testing/i.test(s)) {
+    return (
+      "[Resend 설정] 아직 발송 도메인(picknmatch.co.kr)이 Resend에서 검증되지 않았습니다. " +
+      "이 상태에서는 Resend 계정에 등록된 본인 이메일로만 테스트 발송이 가능합니다.\n\n" +
+      "shkim@picknmatch.co.kr 등 다른 주소로 받으려면:\n" +
+      "1) https://resend.com/domains 에서 picknmatch.co.kr DNS 검증\n" +
+      "2) Vercel 환경 변수 RESEND_FROM을 검증된 도메인 주소(예: noreply@picknmatch.co.kr)로 설정\n" +
+      "3) 필요 시 BUSINESS_REQUEST_TO도 함께 확인 후 재배포"
+    );
+  }
+  return s;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
 
@@ -194,10 +210,13 @@ module.exports = async function handler(req, res) {
         (result.error && result.error.message) ||
         (typeof result.error === "string" ? result.error : null) ||
         "전송에 실패했습니다.";
-      return res.status(500).json({ ok: false, error: errMsg });
+      return res.status(500).json({ ok: false, error: normalizeResendErrorMessage(errMsg) });
     }
     return res.status(200).json({ ok: true });
   } catch (e) {
-    return res.status(500).json({ ok: false, error: e.message || "전송에 실패했습니다." });
+    return res.status(500).json({
+      ok: false,
+      error: normalizeResendErrorMessage(e.message || "전송에 실패했습니다."),
+    });
   }
 };
