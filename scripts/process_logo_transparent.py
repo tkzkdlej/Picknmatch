@@ -1,5 +1,5 @@
 """
-images/logo.png — 투명 배경 정리
+images/logo-white.png — 투명 배경 정리
 - α=0 인 픽셀의 RGB를 0으로 맞춤(일부 환경에서의 번짐 완화)
 - 투명과 맞닿은 '밝은 회색·크림' 가장자리(구 흰 배경 안티앨리어싱)만 제거해
   네이비 글자 주변 흰 테두리처럼 보이는 부분을 줄임 (금/네이비/한글 흰 글자 본체는 보존)
@@ -43,7 +43,7 @@ def should_clear_fringe(
 
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
-    path = root / "images" / "logo.png"
+    path = root / "images" / "logo-white.png"
     if not path.exists():
         print("missing", path, file=sys.stderr)
         return 1
