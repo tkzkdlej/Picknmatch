@@ -3034,7 +3034,8 @@ html.reveal main > .page-intro .page-name {
 }
 
 .footer-bottom {
-  padding: 1.35rem 1.5rem 2rem;
+  padding: 1.35rem max(1.5rem, env(safe-area-inset-right, 0px))
+    max(2rem, env(safe-area-inset-bottom, 0px)) max(1.5rem, env(safe-area-inset-left, 0px));
   --footer-bottom-surface: #fff;
   background: var(--footer-bottom-surface);
   border-top: 1px solid var(--color-border-soft);
@@ -3433,20 +3434,47 @@ body.is-nav-open .nav.is-open {
   }
 
   .footer-bottom {
-    padding: 1.25rem 1rem 1.75rem;
+    padding: 1.25rem max(1rem, env(safe-area-inset-right, 0px))
+      max(1.75rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
   }
 
   .footer-bottom-inner {
     gap: 0.55rem;
+    max-width: 100%;
   }
 
   .footer-bottom-center {
     gap: 0.5rem 0.95rem;
+    max-width: 100%;
+  }
+
+  .footer-bottom-logo {
+    padding: 0.35rem;
+    margin: -0.35rem;
+    min-height: 44px;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(var(--color-accent-rgb), 0.15);
   }
 
   .footer-bottom-logo__img {
     height: clamp(1.45rem, 5.5vw, 1.95rem);
-    max-width: min(190px, 65vw);
+    max-width: min(190px, calc(100vw - 2.5rem));
+  }
+
+  .footer-meta-line {
+    padding: 0 max(0.25rem, env(safe-area-inset-left, 0px));
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  .footer-legal a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.35rem 0.45rem;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(var(--color-accent-rgb), 0.12);
   }
 
   .footer-inner {
@@ -3465,7 +3493,8 @@ body.is-nav-open .nav.is-open {
 
   /* 모바일 여백/타이포 다운스케일 */
   .page-header {
-    padding: 8rem 1rem 3.25rem;
+    padding: 8rem max(1rem, env(safe-area-inset-right, 0px)) 3.25rem
+      max(1rem, env(safe-area-inset-left, 0px));
   }
 
   .page-header .page-title {
@@ -3481,7 +3510,8 @@ body.is-nav-open .nav.is-open {
   }
 
   .page-intro {
-    padding: 1.5rem 1rem 0.2rem;
+    padding: 1.5rem max(1rem, env(safe-area-inset-right, 0px)) 0.2rem
+      max(1rem, env(safe-area-inset-left, 0px));
   }
 
   .page-name {
@@ -3507,11 +3537,13 @@ body.is-nav-open .nav.is-open {
   }
 
   .section {
-    padding: 2.5rem 1rem;
+    padding: 2.5rem max(1rem, env(safe-area-inset-right, 0px)) 2.5rem
+      max(1rem, env(safe-area-inset-left, 0px));
   }
 
   .content-box {
-    padding: 1.75rem 1rem;
+    padding: 1.75rem max(1rem, env(safe-area-inset-right, 0px)) 1.75rem
+      max(1rem, env(safe-area-inset-left, 0px));
   }
 
   .section-form .form-box {
@@ -3542,9 +3574,12 @@ body.is-nav-open .nav.is-open {
   }
 
   .hero-sub {
-    font-size: 0.9rem;
-    padding: 0 0.35rem;
+    font-size: clamp(0.8125rem, 2.85vw, 0.9rem);
+    padding-left: max(0.35rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.35rem, env(safe-area-inset-right, 0px));
     line-height: 1.65;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   .hero-kicker {
@@ -3704,6 +3739,11 @@ body.is-nav-open .nav.is-open {
   .position-page-section .position-card {
     padding: 1.1rem 0.75rem;
     font-size: 0.88rem;
+    min-height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .nav-toggle { display: flex; }
@@ -3761,6 +3801,40 @@ body.is-nav-open .nav.is-open {
     max-width: min(200px, calc(100vw - 4.5rem));
   }
 
+  .footer-bottom-logo__img {
+    max-width: min(168px, calc(100vw - 2rem));
+  }
+
+  body.page-main .hero-sub {
+    font-size: 0.8125rem;
+    line-height: 1.62;
+  }
+}
+
+/* 좁은 폭: 푸터 로고·약관을 세로로 쌓아 가독성 확보 */
+@media (max-width: 400px) {
+  .footer-bottom-center {
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+}
+
+/* 모바일: 히어로 위 헤더 글래스 — GPU 부담 완화 + 가독성 유지 */
+@media (max-width: 768px) {
+  body.page-main .header.header--over-hero {
+    backdrop-filter: blur(14px) saturate(1.28);
+    -webkit-backdrop-filter: blur(14px) saturate(1.28);
+  }
+
+  body.page-main .header.header--over-hero .nav-dropdown {
+    backdrop-filter: blur(12px) saturate(1.22);
+    -webkit-backdrop-filter: blur(12px) saturate(1.22);
+  }
+
+  body.page-main .header.header--over-hero .nav.is-open {
+    backdrop-filter: blur(12px) saturate(1.25);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  }
 }
 
 /* 가로 모드·낮은 뷰포트: 서브 헤더·히어로가 과도하게 크지 않게 */
