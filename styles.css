@@ -1473,6 +1473,15 @@ main > .page-intro + .section {
   padding-top: 2.35rem;
 }
 
+/* 포지션 페이지: 페이지명 블록과 본문 섹션 사이만 살짝 넓혀 정렬감 정리 */
+main > .page-intro:has(+ .position-page-section) {
+  padding-bottom: 0.45rem;
+}
+
+main > .page-intro + .section.position-page-section {
+  padding-top: 2.85rem;
+}
+
 /* ========================================
    섹션 공통
    ======================================== */
@@ -2722,17 +2731,41 @@ html.reveal main > .page-intro .page-name {
   box-shadow: var(--shadow-sm);
 }
 
-/* 채용핵심분야/포지션 — 상단 강조 문구 */
+/* 채용핵심분야/포지션 — 레이아웃·인트로 */
+.position-page-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.position-page-section .position-page-intro {
+  margin: 0 0 2.75rem;
+  padding: 1.35rem 1.5rem 1.45rem;
+  max-width: 100%;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92) 0%, rgba(252, 251, 248, 0.98) 100%);
+  border: 1px solid rgba(15, 34, 66, 0.09);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-accent);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 4px 20px rgba(15, 34, 66, 0.05);
+}
+
 .position-page-section .position-page-lead {
-  margin: 0 0 2.25rem;
-  max-width: min(52rem, 100%);
-  font-size: clamp(1.02rem, 1.65vw, 1.2rem);
-  font-weight: 700;
-  line-height: 1.7;
-  letter-spacing: -0.03em;
-  color: var(--color-primary);
+  margin: 0;
+  font-size: clamp(0.97rem, 1.35vw, 1.0625rem);
+  font-weight: 500;
+  line-height: 1.78;
+  letter-spacing: -0.022em;
+  color: var(--color-text);
   word-break: keep-all;
   overflow-wrap: break-word;
+}
+
+.position-page-section .position-page-lead__brand {
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.03em;
 }
 
 /* 포지션 그리드 */
@@ -2751,12 +2784,49 @@ html.reveal main > .page-intro .page-name {
   font-size: 0.95rem;
   color: var(--color-primary);
   border: 1px solid var(--color-border-soft);
-  transition: all 0.2s;
+  transition:
+    border-color 0.22s var(--ease-out),
+    color 0.22s var(--ease-out),
+    box-shadow 0.22s var(--ease-out),
+    transform 0.22s var(--ease-out);
 }
 
 .position-card:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
+}
+
+/* 포지션 페이지 — 분야 카드 비즈니스 톤 강화 */
+.position-page-section .position-grid {
+  gap: 0.85rem 1rem;
+}
+
+.position-page-section .position-card {
+  padding: 1.2rem 0.85rem;
+  font-size: 0.91rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  box-shadow: 0 1px 3px rgba(15, 34, 66, 0.06);
+}
+
+.position-page-section .position-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 22px rgba(15, 34, 66, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.85) inset;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .position-page-section .position-card {
+    transition:
+      border-color 0.22s var(--ease-out),
+      color 0.22s var(--ease-out),
+      box-shadow 0.22s var(--ease-out);
+  }
+
+  .position-page-section .position-card:hover {
+    transform: none;
+  }
 }
 
 /* 연락처/지도 */
@@ -3340,6 +3410,14 @@ body.is-nav-open .nav.is-open {
     padding-top: 1.85rem;
   }
 
+  main > .page-intro:has(+ .position-page-section) {
+    padding-bottom: 0.3rem;
+  }
+
+  main > .page-intro + .section.position-page-section {
+    padding-top: 2.05rem;
+  }
+
   .section {
     padding: 2.5rem 1rem;
   }
@@ -3517,6 +3595,25 @@ body.is-nav-open .nav.is-open {
   .position-card {
     padding: 1.1rem 0.75rem;
     font-size: 0.92rem;
+  }
+
+  .position-page-section .position-page-intro {
+    margin-bottom: 1.75rem;
+    padding: 1rem 1rem 1.125rem;
+  }
+
+  .position-page-section .position-page-lead {
+    font-size: clamp(0.8125rem, 2.9vw, 0.9375rem);
+    line-height: 1.72;
+  }
+
+  .position-page-section .position-grid {
+    gap: 0.65rem 0.75rem;
+  }
+
+  .position-page-section .position-card {
+    padding: 1.1rem 0.75rem;
+    font-size: 0.88rem;
   }
 
   .nav-toggle { display: flex; }
