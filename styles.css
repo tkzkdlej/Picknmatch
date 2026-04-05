@@ -2061,6 +2061,58 @@ body.br-modal-open {
 
 .legal-content h3 { font-size: 1rem; margin-top: 1.5rem; }
 
+/* 개인정보처리방침·약관 등 법률 페이지 표 */
+.legal-content .legal-table-wrap {
+  margin: 0.75rem 0 1.35rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.legal-content .legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 280px;
+  border: 1px solid var(--color-border-soft);
+  font-size: 0.95rem;
+}
+
+.legal-content .legal-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-primary);
+  padding: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.legal-content .legal-table th,
+.legal-content .legal-table td {
+  border: 1px solid var(--color-border-soft);
+  padding: 0.8rem 1rem;
+  line-height: 1.65;
+  vertical-align: top;
+}
+
+.legal-content .legal-table th {
+  background: var(--color-bg-cream);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-align: left;
+  width: 26%;
+}
+
+.legal-content .legal-table td {
+  color: var(--color-text);
+  text-align: left;
+}
+
+.legal-content .legal-table .legal-table__note {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+}
+
 /* 인트로 요약 (메인) */
 .intro-summary .intro-grid {
   display: grid;
