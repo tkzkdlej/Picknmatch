@@ -11,7 +11,7 @@
         "@type": "ImageObject",
         "url": "https://picknmatch.co.kr/images/logo-white.png"
       },
-      "description": "정확한 안목으로 뽑고(Pick), 최적의 자리에 맞춥니다(Match). 헤드헌팅 및 채용 대행 전문 기업."
+      "description": "기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌"
     },
     {
       "@type": "WebSite",
@@ -27,6 +27,7 @@
       "@id": "https://picknmatch.co.kr/main#webpage",
       "url": "https://picknmatch.co.kr/main",
       "name": "픽앤매치 | 기업 맞춤형 인재 서치 전문",
+      "description": "기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌",
       "isPartOf": { "@id": "https://picknmatch.co.kr/#website" },
       "about": { "@id": "https://picknmatch.co.kr/#organization" }
     },
