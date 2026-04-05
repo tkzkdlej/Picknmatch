@@ -158,21 +158,31 @@ button, input, textarea {
   height: 0;
 }
 
-/* 메인: 뷰포트가 히어로 슬라이더 안에 있을 때 헤더를 스크림과 동기화(얕은 글래스) */
+/* 메인: 히어로 슬라이더 위 — 고급 글래스(층진 스크림 + 블러 + 상단 하이라이트) */
 body.page-main .header.header--over-hero {
   background:
-    radial-gradient(circle at 85% 12%, rgba(var(--color-accent-rgb), 0.1), transparent 38%),
     linear-gradient(
       180deg,
-      rgba(var(--hero-scrim-navy), 0.76) 0%,
-      rgba(var(--hero-scrim-navy), 0.5) 50%,
-      rgba(var(--hero-scrim-navy), 0.26) 100%
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.06) 38%,
+      rgba(255, 255, 255, 0) 72%
+    ),
+    radial-gradient(ellipse 140% 90% at 50% -30%, rgba(var(--color-accent-rgb), 0.22), transparent 58%),
+    radial-gradient(circle at 88% 8%, rgba(var(--color-accent-rgb), 0.14), transparent 42%),
+    linear-gradient(
+      180deg,
+      rgba(var(--hero-scrim-navy), 0.52) 0%,
+      rgba(var(--hero-scrim-navy), 0.36) 45%,
+      rgba(var(--hero-scrim-navy), 0.2) 100%
     );
-  backdrop-filter: blur(6px) saturate(1);
-  -webkit-backdrop-filter: blur(6px) saturate(1);
+  backdrop-filter: blur(22px) saturate(1.42);
+  -webkit-backdrop-filter: blur(22px) saturate(1.42);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 6px 22px rgba(15, 23, 42, 0.07);
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.1) inset,
+    0 10px 36px rgba(15, 23, 42, 0.14),
+    0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 body.page-main .header.header--over-hero .nav-link {
@@ -214,18 +224,20 @@ body.page-main .header.header--over-hero .logo img {
 /* 메인 히어로 위: 카테고리 드롭다운 패널을 헤더·스크림과 동기화 */
 body.page-main .header.header--over-hero .nav-dropdown {
   background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 45%),
     linear-gradient(
       180deg,
-      rgba(var(--hero-scrim-navy), 0.92) 0%,
-      rgba(var(--hero-scrim-navy), 0.82) 100%
+      rgba(var(--hero-scrim-navy), 0.94) 0%,
+      rgba(var(--hero-scrim-navy), 0.84) 100%
     );
-  backdrop-filter: blur(8px) saturate(1);
-  -webkit-backdrop-filter: blur(8px) saturate(1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 2px solid rgba(var(--color-accent-rgb), 0.5);
+  backdrop-filter: blur(18px) saturate(1.35);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 2px solid rgba(var(--color-accent-rgb), 0.55);
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.14),
-    0 16px 40px rgba(15, 23, 42, 0.2);
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 8px 28px rgba(0, 0, 0, 0.18),
+    0 18px 48px rgba(15, 23, 42, 0.22);
 }
 
 body.page-main .header.header--over-hero .nav-dropdown a,
@@ -248,6 +260,18 @@ body.page-main .header.header--over-hero .nav-dropdown a:hover {
 body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.45);
   outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-main .header.header--over-hero {
+    backdrop-filter: blur(12px) saturate(1.15);
+    -webkit-backdrop-filter: blur(12px) saturate(1.15);
+  }
+
+  body.page-main .header.header--over-hero .nav-dropdown {
+    backdrop-filter: blur(10px) saturate(1.12);
+    -webkit-backdrop-filter: blur(10px) saturate(1.12);
+  }
 }
 
 /* 데스크톱: 아래로 스크롤 시 헤더 숨김(위로 스크롤 시 재등장) */
@@ -3573,17 +3597,19 @@ body.is-nav-open .nav.is-open {
 
   body.page-main .header.header--over-hero .nav.is-open {
     background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 42%),
       linear-gradient(
         180deg,
-        rgba(var(--hero-scrim-navy), 0.92) 0%,
-        rgba(var(--hero-scrim-navy), 0.82) 100%
+        rgba(var(--hero-scrim-navy), 0.94) 0%,
+        rgba(var(--hero-scrim-navy), 0.84) 100%
       );
-    backdrop-filter: blur(8px) saturate(1);
-    -webkit-backdrop-filter: blur(8px) saturate(1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18px) saturate(1.35);
+    -webkit-backdrop-filter: blur(18px) saturate(1.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     box-shadow:
-      0 6px 26px rgba(15, 23, 42, 0.22),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
+      0 1px 0 rgba(255, 255, 255, 0.1) inset,
+      0 10px 36px rgba(15, 23, 42, 0.24),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
   }
 
   .header-inner .nav {
