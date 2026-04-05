@@ -103,7 +103,7 @@ def main() -> None:
     images_dir.mkdir(exist_ok=True)
 
     header_img = upscale_width(base_norm, target_w=900)
-    header_img.save(images_dir / "logo.png", optimize=True, compress_level=9)
+    header_img.save(images_dir / "logo-white.png", optimize=True, compress_level=9)
 
     icon_src = monogram_crop(base_norm)
     icon_large = icon_src.resize((512, 512), Image.Resampling.LANCZOS)
@@ -146,7 +146,7 @@ def main() -> None:
         append_images=[_fl32, _fl16],
     )
 
-    print("OK: transparent favicon-light / favicon-dark + logo.png + favicon.ico")
+    print("OK: transparent favicon-light / favicon-dark + logo-white.png + favicon.ico")
 
 
 if __name__ == "__main__":

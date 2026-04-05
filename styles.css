@@ -323,7 +323,7 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   overflow: visible;
 }
 
-/* images/logo.png — 알파 채널(흰 배경 제거). multiply 불필요 */
+/* images/logo-white.png — 알파 채널(흰 배경 제거). multiply 불필요 */
 .logo img {
   height: var(--header-logo-h);
   width: auto;

@@ -1,5 +1,5 @@
 """
-logo.png 흰·근백색 배경을 알파로 제거 (금색·남색 등 채도 있는 픽셀은 보호).
+logo-white.png 흰·근백색 배경을 알파로 제거 (금색·남색 등 채도 있는 픽셀은 보호).
 재실행: python scripts/logo_white_to_alpha.py
 """
 from __future__ import annotations
@@ -11,7 +11,7 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-LOGO = ROOT / "images" / "logo.png"
+LOGO = ROOT / "images" / "logo-white.png"
 
 
 def main() -> int:
