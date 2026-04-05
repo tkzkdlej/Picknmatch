@@ -3020,17 +3020,20 @@ html.reveal main > .page-intro .page-name {
   max-width: var(--container);
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 1.75rem 2.75rem;
-  flex-wrap: wrap;
+  gap: 0.6rem;
+  text-align: center;
 }
 
-.footer-bottom-meta {
-  flex: 1 1 14rem;
-  min-width: 0;
-  text-align: center;
+/* 로고 + 개인정보/약관 한 덩어리로 가운데 정렬 */
+.footer-bottom-center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem 1.25rem;
 }
 
 .footer-bottom-logo {
@@ -3041,7 +3044,7 @@ html.reveal main > .page-intro .page-name {
   text-decoration: none;
   border-radius: var(--radius-sm);
   transition: opacity 0.2s ease;
-  background-color: var(--footer-bottom-surface);
+  background-color: transparent;
 }
 
 .footer-bottom-logo:hover {
@@ -3055,9 +3058,9 @@ html.reveal main > .page-intro .page-name {
 
 .footer-bottom-logo__img {
   display: block;
-  height: clamp(1.65rem, 3.1vw, 2.125rem);
+  height: clamp(1.75rem, 3.4vw, 2.35rem);
   width: auto;
-  max-width: min(176px, 42vw);
+  max-width: min(200px, 46vw);
   object-fit: contain;
 }
 
@@ -3068,15 +3071,17 @@ html.reveal main > .page-intro .page-name {
 }
 
 .footer-meta-line {
-  margin: 0 0 0.5rem;
+  margin: 0;
+  width: 100%;
   font-size: 0.78rem;
   color: var(--color-text-muted);
   line-height: 1.6;
 }
 
 .footer-legal {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 .footer-legal a {
@@ -3408,19 +3413,16 @@ body.is-nav-open .nav.is-open {
   }
 
   .footer-bottom-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.15rem;
+    gap: 0.55rem;
   }
 
-  .footer-bottom-meta {
-    width: 100%;
-    text-align: center;
+  .footer-bottom-center {
+    gap: 0.5rem 0.95rem;
   }
 
   .footer-bottom-logo__img {
-    height: clamp(1.5rem, 6vw, 2rem);
-    max-width: min(200px, 70vw);
+    height: clamp(1.45rem, 5.5vw, 1.95rem);
+    max-width: min(190px, 65vw);
   }
 
   .footer-inner {
