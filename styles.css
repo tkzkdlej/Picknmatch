@@ -3018,7 +3018,72 @@ html.reveal main > .page-intro .page-name {
 .footer-bottom-inner {
   max-width: var(--container);
   margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.75rem 2.75rem;
+  flex-wrap: wrap;
+}
+
+.footer-bottom-meta {
+  flex: 1 1 14rem;
+  min-width: 0;
   text-align: center;
+}
+
+.footer-bottom-logo {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.2s ease;
+}
+
+.footer-bottom-logo:hover {
+  opacity: 0.88;
+}
+
+.footer-bottom-logo:focus-visible {
+  outline: 2px solid rgba(var(--color-accent-rgb), 0.45);
+  outline-offset: 3px;
+}
+
+/* 다크 로고 실루엣 + 골드 메탈 그라데이션 (마스크) */
+.footer-bottom-logo__mark {
+  display: block;
+  width: clamp(128px, 22vw, 176px);
+  height: clamp(33px, 6.2vw, 44px);
+  background: linear-gradient(
+    168deg,
+    #3d2e0c 0%,
+    #7a5a14 16%,
+    #b8892a 34%,
+    #e8d89c 50%,
+    #c9a32a 66%,
+    #7d6220 88%,
+    #4a3810 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 252, 240, 0.55),
+    inset 0 -1px 0 rgba(45, 32, 6, 0.35);
+  -webkit-mask-image: url("/images/logo-dark.png");
+  mask-image: url("/images/logo-dark.png");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  filter: drop-shadow(0 1px 2px rgba(42, 30, 6, 0.12));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-bottom-logo {
+    transition: none;
+  }
 }
 
 .footer-meta-line {
@@ -3359,6 +3424,22 @@ body.is-nav-open .nav.is-open {
 
   .footer-bottom {
     padding: 1.25rem 1rem 1.75rem;
+  }
+
+  .footer-bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.15rem;
+  }
+
+  .footer-bottom-meta {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-bottom-logo__mark {
+    width: clamp(136px, 58vw, 220px);
+    height: clamp(35px, 15vw, 52px);
   }
 
   .footer-inner {
