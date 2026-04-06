@@ -2983,22 +2983,26 @@ button.position-card {
 
 .position-inline-detail.is-closing {
   pointer-events: none;
-  will-change: transform, opacity, filter;
-  animation: position-inline-exit 0.5s cubic-bezier(0.55, 0.085, 0.45, 0.99) forwards;
+  will-change: transform, opacity;
+  animation: position-inline-exit 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   transform-origin: center top;
 }
 
+/* 닫힘: 블러·과한 원근 없이, 위로 살짝 당겨지며 투명해짐 */
 @keyframes position-inline-exit {
-  from {
+  0% {
     opacity: 1;
-    transform: translateY(0) scale(1) rotateX(0deg);
-    filter: blur(0);
+    transform: translateY(0) scale(1);
   }
 
-  to {
+  55% {
+    opacity: 0.88;
+    transform: translateY(-0.35rem) scale(0.992);
+  }
+
+  100% {
     opacity: 0;
-    transform: translateY(-2rem) scale(0.84) rotateX(6deg);
-    filter: blur(4px);
+    transform: translateY(-0.85rem) scale(0.968);
   }
 }
 

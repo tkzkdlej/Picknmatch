@@ -375,7 +375,7 @@
         panel.removeEventListener("animationend", onAnimEnd);
         finishHide();
       }
-    }, 700);
+    }, 550);
   }
 
   function init() {
