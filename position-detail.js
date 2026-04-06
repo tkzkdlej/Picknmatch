@@ -321,6 +321,7 @@
 
   function showPanel(panel, key) {
     populatePanel(panel, key);
+    panel.classList.remove("is-closing");
     panel.hidden = false;
     currentKey = key;
     setCardsExpanded(key);
@@ -343,10 +344,38 @@
 
   function hidePanel(panel) {
     if (!panel) return;
+    if (panel.hidden) return;
+    if (panel.classList.contains("is-closing")) return;
+
     panel.classList.remove("is-visible");
-    panel.hidden = true;
-    currentKey = null;
-    setCardsExpanded(null);
+
+    function finishHide() {
+      panel.classList.remove("is-closing");
+      panel.hidden = true;
+      currentKey = null;
+      setCardsExpanded(null);
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      finishHide();
+      return;
+    }
+
+    function onAnimEnd(e) {
+      if (e.target !== panel) return;
+      if (e.animationName !== "position-inline-exit") return;
+      panel.removeEventListener("animationend", onAnimEnd);
+      finishHide();
+    }
+
+    panel.classList.add("is-closing");
+    panel.addEventListener("animationend", onAnimEnd);
+    window.setTimeout(function () {
+      if (panel.classList.contains("is-closing")) {
+        panel.removeEventListener("animationend", onAnimEnd);
+        finishHide();
+      }
+    }, 700);
   }
 
   function init() {

@@ -2981,6 +2981,27 @@ button.position-card {
   animation: position-inline-shell 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.position-inline-detail.is-closing {
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  animation: position-inline-exit 0.5s cubic-bezier(0.55, 0.085, 0.45, 0.99) forwards;
+  transform-origin: center top;
+}
+
+@keyframes position-inline-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-2rem) scale(0.84) rotateX(6deg);
+    filter: blur(4px);
+  }
+}
+
 @keyframes position-inline-shell {
   from {
     opacity: 0;
