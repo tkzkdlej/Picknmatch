@@ -2975,23 +2975,30 @@ button.position-card {
   margin-top: 1.75rem;
   outline: none;
   perspective: 1200px;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 
 .position-inline-detail.is-visible {
   animation: position-inline-shell 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* 닫힘: GPU 친화적 opacity + transform만 transition (animation 대신 끊김 완화) */
+/* 닫힘: is-visible 유지한 채 실행 → 셸·자식 입장 애니메이션과 경쟁하지 않게 함 */
 .position-inline-detail.is-closing {
   pointer-events: none;
-  opacity: 0;
-  transform: translate3d(0, -0.7rem, 0) scale(0.988);
+  perspective: none;
+  animation: position-inline-exit 0.46s cubic-bezier(0.33, 1, 0.68, 1) forwards;
   transform-origin: center top;
-  transition:
-    opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes position-inline-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -11px, 0) scale(0.988);
+  }
 }
 
 @keyframes position-inline-shell {
@@ -3127,6 +3134,19 @@ button.position-card {
 
 .position-inline-detail.is-visible .position-inline-detail__img {
   animation: position-inline-img 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.position-inline-detail.is-closing .position-inline-detail__card::before,
+.position-inline-detail.is-closing .position-inline-detail__head,
+.position-inline-detail.is-closing .position-inline-detail__figure:not([hidden]),
+.position-inline-detail.is-closing .position-inline-detail__main,
+.position-inline-detail.is-closing .position-inline-detail__img {
+  animation: none !important;
+}
+
+.position-inline-detail.is-closing .position-inline-detail__img {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .position-inline-detail__head {
