@@ -258,7 +258,11 @@
     panel.hidden = false;
     currentKey = key;
     setCardsExpanded(key);
-    panel.classList.add("is-visible");
+    panel.classList.remove("is-visible");
+    void panel.offsetHeight;
+    requestAnimationFrame(function () {
+      panel.classList.add("is-visible");
+    });
     try {
       panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     } catch (e) {
@@ -273,8 +277,8 @@
 
   function hidePanel(panel) {
     if (!panel) return;
-    panel.hidden = true;
     panel.classList.remove("is-visible");
+    panel.hidden = true;
     currentKey = null;
     setCardsExpanded(null);
   }

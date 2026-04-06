@@ -2974,16 +2974,31 @@ button.position-card {
 .position-inline-detail {
   margin-top: 1.75rem;
   outline: none;
+  perspective: 1200px;
 }
 
 .position-inline-detail.is-visible {
-  animation: position-inline-in 0.38s var(--ease-out) both;
+  animation: position-inline-shell 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes position-inline-in {
+@keyframes position-inline-shell {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(1.125rem) rotateX(2.2deg) scale(0.986);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes position-inline-stagger {
+  from {
+    opacity: 0;
+    transform: translateY(0.65rem);
   }
 
   to {
@@ -2992,20 +3007,113 @@ button.position-card {
   }
 }
 
+@keyframes position-inline-accent {
+  from {
+    transform: scaleX(0);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes position-inline-img {
+  from {
+    opacity: 0.92;
+    transform: scale(1.07);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .position-inline-detail.is-visible {
     animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .position-inline-detail.is-visible .position-inline-detail__card::before,
+  .position-inline-detail.is-visible .position-inline-detail__head,
+  .position-inline-detail.is-visible .position-inline-detail__figure:not([hidden]),
+  .position-inline-detail.is-visible .position-inline-detail__main,
+  .position-inline-detail.is-visible .position-inline-detail__img {
+    animation: none !important;
   }
 }
 
 .position-inline-detail__card {
+  position: relative;
+  isolation: isolate;
   border: 1px solid rgba(15, 34, 66, 0.1);
   border-radius: var(--radius-lg);
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.97) 0%, rgba(252, 251, 248, 0.99) 100%);
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(252, 251, 248, 0.99) 42%,
+    rgba(248, 246, 240, 0.96) 100%
+  );
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 12px 40px rgba(15, 34, 66, 0.08);
+    0 1px 0 rgba(255, 255, 255, 0.92) inset,
+    0 10px 36px rgba(15, 34, 66, 0.07),
+    0 2px 8px rgba(15, 34, 66, 0.04);
   overflow: hidden;
+  transition: box-shadow 0.45s var(--ease-out), border-color 0.45s var(--ease-out);
+}
+
+.position-inline-detail:not([hidden]) .position-inline-detail__card {
+  border-color: rgba(var(--color-accent-rgb), 0.22);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.92) inset,
+    0 16px 48px rgba(15, 34, 66, 0.1),
+    0 4px 14px rgba(var(--color-accent-rgb), 0.1),
+    0 0 0 1px rgba(var(--color-accent-rgb), 0.06);
+}
+
+.position-inline-detail__card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--color-accent-rgb), 0.95) 0%,
+    rgba(var(--color-accent-rgb), 0.45) 38%,
+    rgba(var(--color-accent-rgb), 0.06) 100%
+  );
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.position-inline-detail.is-visible .position-inline-detail__card::before {
+  animation: position-inline-accent 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.position-inline-detail.is-visible .position-inline-detail__head {
+  animation: position-inline-stagger 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.07s both;
+}
+
+.position-inline-detail.is-visible .position-inline-detail__figure:not([hidden]) {
+  animation: position-inline-stagger 0.52s cubic-bezier(0.22, 1, 0.36, 1) 0.13s both;
+}
+
+.position-inline-detail.is-visible .position-inline-detail__main {
+  animation: position-inline-stagger 0.54s cubic-bezier(0.22, 1, 0.36, 1) 0.19s both;
+}
+
+.position-inline-detail.is-visible .position-inline-detail__img {
+  animation: position-inline-img 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
 .position-inline-detail__head {
@@ -3067,6 +3175,7 @@ button.position-card {
   margin: 0;
   aspect-ratio: 16 / 10;
   background: rgba(15, 34, 66, 0.06);
+  overflow: hidden;
 }
 
 .position-inline-detail__figure[hidden] {
