@@ -3136,26 +3136,70 @@ button.position-card {
 
 .position-inline-detail__close {
   flex-shrink: 0;
-  padding: 0.45rem 0.9rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  font: inherit;
   color: var(--color-primary);
   background: #fff;
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.22s var(--ease-out),
+    border-color 0.22s var(--ease-out),
+    color 0.22s var(--ease-out),
+    transform 0.22s var(--ease-out),
+    box-shadow 0.22s var(--ease-out);
+}
+
+.position-inline-detail__close-icon {
+  display: block;
+  pointer-events: none;
+  transition: transform 0.28s var(--ease-out);
 }
 
 .position-inline-detail__close:hover {
-  background: var(--color-bg-warm);
-  border-color: rgba(var(--color-accent-rgb), 0.35);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(15, 34, 66, 0.12);
+}
+
+.position-inline-detail__close:hover .position-inline-detail__close-icon {
+  transform: rotate(90deg) scale(1.05);
+}
+
+.position-inline-detail__close:active {
+  transform: scale(0.94);
+}
+
+.position-inline-detail__close:active .position-inline-detail__close-icon {
+  transform: rotate(90deg) scale(0.95);
 }
 
 .position-inline-detail__close:focus-visible {
   outline: 2px solid rgba(var(--color-accent-rgb), 0.55);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .position-inline-detail__close,
+  .position-inline-detail__close-icon {
+    transition: none;
+  }
+
+  .position-inline-detail__close:hover .position-inline-detail__close-icon,
+  .position-inline-detail__close:active .position-inline-detail__close-icon {
+    transform: none;
+  }
+
+  .position-inline-detail__close:active {
+    transform: none;
+  }
 }
 
 .position-inline-detail__layout {
