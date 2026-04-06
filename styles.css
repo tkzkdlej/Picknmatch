@@ -2975,35 +2975,23 @@ button.position-card {
   margin-top: 1.75rem;
   outline: none;
   perspective: 1200px;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .position-inline-detail.is-visible {
   animation: position-inline-shell 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* 닫힘: GPU 친화적 opacity + transform만 transition (animation 대신 끊김 완화) */
 .position-inline-detail.is-closing {
   pointer-events: none;
-  will-change: transform, opacity;
-  animation: position-inline-exit 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translate3d(0, -0.7rem, 0) scale(0.988);
   transform-origin: center top;
-}
-
-/* 닫힘: 블러·과한 원근 없이, 위로 살짝 당겨지며 투명해짐 */
-@keyframes position-inline-exit {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  55% {
-    opacity: 0.88;
-    transform: translateY(-0.35rem) scale(0.992);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(-0.85rem) scale(0.968);
-  }
+  transition:
+    opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes position-inline-shell {

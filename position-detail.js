@@ -349,9 +349,22 @@
 
     panel.classList.remove("is-visible");
 
+    var fallbackId = null;
+
+    function onTransitionEnd(e) {
+      if (e.target !== panel) return;
+      if (e.propertyName !== "opacity") return;
+      finishHide();
+    }
+
     function finishHide() {
-      panel.classList.remove("is-closing");
+      if (fallbackId !== null) {
+        window.clearTimeout(fallbackId);
+        fallbackId = null;
+      }
+      panel.removeEventListener("transitionend", onTransitionEnd);
       panel.hidden = true;
+      panel.classList.remove("is-closing");
       currentKey = null;
       setCardsExpanded(null);
     }
@@ -361,21 +374,15 @@
       return;
     }
 
-    function onAnimEnd(e) {
-      if (e.target !== panel) return;
-      if (e.animationName !== "position-inline-exit") return;
-      panel.removeEventListener("animationend", onAnimEnd);
-      finishHide();
-    }
-
+    void panel.offsetHeight;
     panel.classList.add("is-closing");
-    panel.addEventListener("animationend", onAnimEnd);
-    window.setTimeout(function () {
+    panel.addEventListener("transitionend", onTransitionEnd);
+    fallbackId = window.setTimeout(function () {
+      fallbackId = null;
       if (panel.classList.contains("is-closing")) {
-        panel.removeEventListener("animationend", onAnimEnd);
         finishHide();
       }
-    }, 550);
+    }, 650);
   }
 
   function init() {
