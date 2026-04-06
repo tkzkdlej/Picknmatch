@@ -15,6 +15,7 @@
       companies: [
         { name: "LG화학", url: "https://www.lgchem.com" },
         { name: "롯데케미칼", url: "https://www.lottechem.com" },
+        { name: "금호석유화학", url: "https://www.kkpc.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
@@ -30,7 +31,8 @@
       ],
       companies: [
         { name: "HD현대중공업", url: "https://www.hhi.co.kr" },
-        { name: "두산에너빌리티", url: "https://www.doosanenerbility.com" },
+        { name: "삼성중공업", url: "https://www.samsungshi.com" },
+        { name: "한화오션", url: "https://www.hanwhaocean.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1566930665082-4ae9dbbb5b6b?auto=format&fit=crop&w=1200&q=80",
@@ -77,8 +79,8 @@
         "환경·에너지 교차 경험을 가진 인재를 중심으로 매칭 시나리오를 제안합니다.",
       ],
       companies: [
-        { name: "SK이노베이션", url: "https://www.skinnovation.com" },
-        { name: "한화솔루션", url: "https://www.hanwha-solutions.com" },
+        { name: "SK에코플랜트", url: "https://www.skecoplant.com" },
+        { name: "아이에스동서", url: "https://www.isdongseo.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
@@ -93,8 +95,8 @@
         "규제·설비·운영 이해를 바탕으로 한 실무형 인재 매칭을 지원합니다.",
       ],
       companies: [
-        { name: "한국전력공사", url: "https://www.kepco.co.kr" },
-        { name: "한국남동발전", url: "https://www.koen.kr" },
+        { name: "한화솔루션", url: "https://www.hanwha-solutions.com" },
+        { name: "두산에너빌리티", url: "https://www.doosanenerbility.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
@@ -109,8 +111,9 @@
         "R&D·품질·생산·영업 등 직무별 깊이에 맞춰 후보를 정교화합니다.",
       ],
       companies: [
-        { name: "POSCO홀딩스", url: "https://www.posco-inc.com" },
-        { name: "고려아연", url: "https://www.kz.co.kr" },
+        { name: "포스코퓨처엠", url: "https://www.posco-futurem.com" },
+        { name: "에코프로비엠", url: "https://www.ecoprobm.co.kr" },
+        { name: "LG이노텍", url: "https://www.lginnotek.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1697698532634-ea59b636ccea?auto=format&fit=crop&w=1200&q=80",
@@ -127,6 +130,7 @@
       ],
       companies: [
         { name: "한화에어로스페이스", url: "https://www.hanwha.com/aerospace/" },
+        { name: "LIG넥스원", url: "https://www.lignex1.com" },
         { name: "현대로템", url: "https://www.hyundai-rotem.co.kr" },
       ],
       image: {
@@ -142,8 +146,9 @@
         "현장 운영과 데이터·IT를 아우르는 인재 매칭을 지원합니다.",
       ],
       companies: [
-        { name: "CJ대한통운", url: "https://www.cjlogistics.com" },
-        { name: "현대글로비스", url: "https://www.glovis.net" },
+        { name: "이마트", url: "https://www.emart.com" },
+        { name: "롯데쇼핑", url: "https://www.lotteshopping.com" },
+        { name: "쿠팡", url: "https://www.coupang.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
@@ -158,8 +163,9 @@
         "현장 경험과 재무·리스크 관리 감각을 함께 갖춘 인재 제안에 집중합니다.",
       ],
       companies: [
-        { name: "삼성물산", url: "https://www.samsungcnt.com" },
         { name: "현대건설", url: "https://www.hdec.co.kr" },
+        { name: "삼성물산(건설)", url: "https://www.samsungcnt.com" },
+        { name: "GS건설", url: "https://www.gsenc.com" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80",
