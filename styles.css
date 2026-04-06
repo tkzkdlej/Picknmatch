@@ -2930,11 +2930,28 @@ html.reveal main > .page-intro .page-name {
 
 .position-grid-sub {
   margin: 0 auto;
-  max-width: 26rem;
+  max-width: min(40rem, calc(100% - 2rem));
+  padding: 0 0.75rem;
+  box-sizing: border-box;
   font-size: 0.875rem;
-  line-height: 1.6;
-  letter-spacing: -0.02em;
+  line-height: 1.7;
+  letter-spacing: -0.018em;
   color: var(--color-text-muted);
+  text-align: center;
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 넓은 화면에서는 한 줄로 읽히도록 줄바꿈 숨김 */
+.position-grid-sub__br {
+  display: none;
+}
+
+@media (max-width: 56rem) {
+  .position-grid-sub__br {
+    display: inline;
+  }
 }
 
 /* 포지션 그리드 */
@@ -4357,7 +4374,10 @@ body.is-nav-open .nav.is-open {
   }
 
   .position-grid-sub {
+    max-width: min(36rem, calc(100% - 1.25rem));
+    padding: 0 0.5rem;
     font-size: 0.8125rem;
+    line-height: 1.68;
   }
 
   .nav-toggle { display: flex; }
