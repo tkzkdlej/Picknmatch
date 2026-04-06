@@ -129,8 +129,8 @@
         { name: "LIG넥스원", url: "https://www.lignex1.com" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1685839704154-96094d2617f3?auto=format&fit=crop&w=1200&q=80",
-        alt: "장갑 전차·방위 무기 체계",
+        src: "https://images.unsplash.com/photo-1473968518-be7a9d2cb43d?auto=format&fit=crop&w=1200&q=80",
+        alt: "항공기·항공우주 방위 산업",
       },
     },
     distribution: {
