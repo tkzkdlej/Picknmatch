@@ -1635,8 +1635,12 @@ body.page-main #business-request.business-request--collapsed {
 }
 
 .br-textarea {
-  resize: vertical;
-  min-height: 8rem;
+  resize: none;
+  box-sizing: border-box;
+  height: 12rem;
+  min-height: 12rem;
+  max-height: 12rem;
+  overflow-y: auto;
 }
 
 /* 파일 첨부: 숨김 input + 「파일 선택」 버튼으로만 열기 · 영역은 기본 커서 */
@@ -1967,7 +1971,9 @@ body.br-modal-open {
   }
 
   .br-textarea {
-    min-height: 7rem;
+    height: 10.5rem;
+    min-height: 10.5rem;
+    max-height: 10.5rem;
   }
 
   .br-file-shell {
