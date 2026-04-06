@@ -3231,6 +3231,33 @@ button.position-card {
   margin-bottom: 0;
 }
 
+.position-inline-detail__tasks {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(15, 34, 66, 0.08);
+}
+
+.position-inline-detail__tasks[hidden] {
+  display: none !important;
+}
+
+.position-inline-detail__task-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.position-inline-detail__task-list li {
+  margin-bottom: 0.35rem;
+}
+
+.position-inline-detail__task-list li:last-child {
+  margin-bottom: 0;
+}
+
 .position-inline-detail__companies {
   margin-top: 1rem;
   padding-top: 1rem;
