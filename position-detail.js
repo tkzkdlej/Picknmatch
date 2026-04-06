@@ -119,18 +119,19 @@
     },
     defense: {
       title: "방산",
-      lead: "항공우주·방위산업·첨단 시스템 등 전략 산업",
+      lead:
+        "전투기·전차·장갑차·포·미사일·군함 등 무기체계와 방위산업체를 아우르는 전략 산업",
       paragraphs: [
-        "품질·보안·규격·프로젝트 관리가 중요한 분야로, 이해관계자와의 협업 역량이 함께 요구됩니다.",
-        "민감 정보와 무관한 공개 채용·커리어 범위에서, 직무 적합성 중심으로 지원합니다.",
+        "방위산업은 연구·개발·생산·유지보수까지 품질·보안·규격·납기가 엄격하고, 체계 통합·프로젝트 관리 역량이 함께 요구됩니다.",
+        "공개된 채용·커리어 범위에서, 민감 정보와 무관한 직무 적합성 중심으로 매칭을 지원합니다.",
       ],
       companies: [
-        { name: "한화에어로스페이스", url: "https://www.hanwha.com/aerospace/" },
-        { name: "LIG넥스원", url: "https://www.lignex1.com" },
+        { name: "한화디펜스", url: "https://www.hanwha-defense.co.kr" },
+        { name: "현대로템", url: "https://www.hyundai-rotem.co.kr" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
-        alt: "항공기·항공우주 방위 산업",
+        src: "https://images.unsplash.com/photo-1685839704154-96094d2617f3?auto=format&fit=crop&w=1200&q=80",
+        alt: "장갑 전차·지상 방위 무기체계",
       },
     },
     distribution: {
