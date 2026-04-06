@@ -185,7 +185,7 @@
       companies: [
         { name: "CJ대한통운", url: "https://www.cjlogistics.com" },
         { name: "현대글로비스", url: "https://www.glovis.net" },
-        { name: "쿠팡", url: "https://www.coupangcorp.com/ko/" },
+        { name: "쿠팡", url: "https://www.coupang.com/" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
