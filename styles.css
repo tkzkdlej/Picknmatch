@@ -3541,11 +3541,33 @@ button.position-card {
 
 @media (max-width: 767px) {
   .position-inline-detail__head {
-    padding: 0.9rem 1rem;
+    padding: 0.9rem max(1rem, env(safe-area-inset-right, 0px)) 0.9rem max(1rem, env(safe-area-inset-left, 0px));
   }
 
   .position-inline-detail__main {
-    padding: 1rem 1rem 1.2rem;
+    padding: 1rem max(1rem, env(safe-area-inset-right, 0px)) 1.2rem max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  .position-inline-detail__close {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .position-inline-detail__company-list {
+    padding-left: 1rem;
+  }
+
+  .position-inline-detail__company-list a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0;
+    min-height: 44px;
+    line-height: 1.45;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -4076,8 +4098,21 @@ button.position-card {
   /* iOS: 입력란 포커스 시 자동 확대 방지(16px 이상) */
   .request-form input,
   .request-form textarea,
-  .request-form select {
+  .request-form select,
+  .business-request-form .br-input,
+  .business-request-form .br-textarea,
+  .business-request-form .br-select {
     font-size: 1rem;
+  }
+
+  .section-eyebrow {
+    padding-left: max(0.35rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.35rem, env(safe-area-inset-right, 0px));
+  }
+
+  .stat-row {
+    padding-left: max(0.85rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.85rem, env(safe-area-inset-right, 0px));
   }
 }
 
@@ -4283,6 +4318,34 @@ body.is-nav-open .nav.is-open {
 
   .hero-kicker {
     font-size: 0.65rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.625rem;
+    letter-spacing: 0.11em;
+  }
+
+  .intro-block {
+    padding: 1.35rem max(1rem, env(safe-area-inset-right, 0px)) 1.35rem max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  .stat-row {
+    padding-top: 1.15rem;
+    padding-bottom: 1.15rem;
+    gap: 1rem 1.35rem;
+  }
+
+  .stat-item .stat-num {
+    font-size: clamp(1.4rem, 5.5vw, 1.65rem);
+  }
+
+  .industry-grid {
+    gap: 0.65rem;
+  }
+
+  .industry-card-label {
+    padding: 0.85rem 0.5rem;
+    font-size: clamp(0.78rem, 3.2vw, 0.9rem);
   }
 
   body.page-main .hero-slider .hero-slides,
