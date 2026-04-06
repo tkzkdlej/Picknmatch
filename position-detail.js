@@ -126,7 +126,7 @@
         "공개된 채용·커리어 범위에서, 민감 정보와 무관한 직무 적합성 중심으로 매칭을 지원합니다.",
       ],
       companies: [
-        { name: "한화디펜스", url: "https://www.hanwha-defense.co.kr" },
+        { name: "한화에어로스페이스", url: "https://www.hanwha.com/aerospace/" },
         { name: "현대로템", url: "https://www.hyundai-rotem.co.kr" },
       ],
       image: {
