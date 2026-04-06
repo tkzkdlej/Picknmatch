@@ -129,7 +129,7 @@
         { name: "LIG넥스원", url: "https://www.lignex1.com" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1473968518-be7a9d2cb43d?auto=format&fit=crop&w=1200&q=80",
+        src: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
         alt: "항공기·항공우주 방위 산업",
       },
     },
