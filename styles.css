@@ -1637,9 +1637,9 @@ body.page-main #business-request.business-request--collapsed {
 .br-textarea {
   resize: none;
   box-sizing: border-box;
-  height: 12rem;
-  min-height: 12rem;
-  max-height: 12rem;
+  height: 14rem;
+  min-height: 14rem;
+  max-height: 14rem;
   overflow-y: auto;
 }
 
@@ -1971,9 +1971,9 @@ body.br-modal-open {
   }
 
   .br-textarea {
-    height: 10.5rem;
-    min-height: 10.5rem;
-    max-height: 10.5rem;
+    height: 12rem;
+    min-height: 12rem;
+    max-height: 12rem;
   }
 
   .br-file-shell {
