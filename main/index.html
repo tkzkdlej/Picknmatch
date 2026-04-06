@@ -493,8 +493,47 @@
               <input class="br-input" type="text" id="br-name" name="name" autocomplete="name" required maxlength="120" placeholder="성함 또는 담당자명" />
             </div>
             <div class="br-field">
-              <label class="br-label" for="br-email">이메일 <span class="br-req" aria-hidden="true">*</span></label>
-              <input class="br-input" type="email" id="br-email" name="email" autocomplete="email" required placeholder="회신 받을 이메일 주소" />
+              <div class="br-label" id="br-email-label">이메일 <span class="br-req" aria-hidden="true">*</span></div>
+              <div class="br-email-row" role="group" aria-labelledby="br-email-label">
+                <input
+                  class="br-input br-email-local"
+                  type="text"
+                  id="br-email-local"
+                  autocomplete="username"
+                  inputmode="email"
+                  required
+                  maxlength="64"
+                  placeholder="아이디"
+                />
+                <span class="br-email-at" aria-hidden="true">@</span>
+                <div class="br-email-domain-wrap">
+                  <label class="visually-hidden" for="br-email-domain">이메일 도메인 선택</label>
+                  <select id="br-email-domain" class="br-input br-select br-email-domain-select">
+                    <option value="">직접 입력</option>
+                    <option value="gmail.com" selected>gmail.com</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                    <option value="kakao.com">kakao.com</option>
+                    <option value="nate.com">nate.com</option>
+                    <option value="outlook.com">outlook.com</option>
+                    <option value="hotmail.com">hotmail.com</option>
+                    <option value="live.com">live.com</option>
+                    <option value="yahoo.com">yahoo.com</option>
+                    <option value="icloud.com">icloud.com</option>
+                    <option value="protonmail.com">protonmail.com</option>
+                  </select>
+                  <input
+                    class="br-input br-email-domain-custom"
+                    type="text"
+                    id="br-email-domain-custom"
+                    maxlength="120"
+                    placeholder="example.com"
+                    autocomplete="off"
+                    hidden
+                  />
+                </div>
+              </div>
             </div>
             <div class="br-field">
               <label class="br-label" for="br-message">요청 내용 <span class="br-req" aria-hidden="true">*</span></label>

@@ -11,7 +11,40 @@
   var fileBtn = document.getElementById("business-request-file-btn");
   var fileDisplay = document.getElementById("business-request-file-display");
   var fileHint = document.getElementById("business-request-file-hint");
+  var emailLocalEl = document.getElementById("br-email-local");
+  var emailDomainEl = document.getElementById("br-email-domain");
+  var emailDomainCustomEl = document.getElementById("br-email-domain-custom");
   var MAX_BYTES = 4 * 1024 * 1024;
+
+  function syncEmailDomainCustomVisibility() {
+    if (!emailDomainEl || !emailDomainCustomEl) return;
+    var isCustom = emailDomainEl.value === "";
+    emailDomainCustomEl.hidden = !isCustom;
+    emailDomainCustomEl.required = isCustom;
+    if (!isCustom) emailDomainCustomEl.value = "";
+  }
+
+  if (emailDomainEl) {
+    emailDomainEl.addEventListener("change", syncEmailDomainCustomVisibility);
+    syncEmailDomainCustomVisibility();
+  }
+
+  /** 아이디 + 도메인(select 또는 직접 입력) → 단일 이메일 문자열 */
+  function buildBusinessRequestEmail() {
+    var local = emailLocalEl && emailLocalEl.value ? emailLocalEl.value.trim() : "";
+    if (!local) return "";
+    if (local.indexOf("@") !== -1) return "";
+    var dom = "";
+    if (emailDomainEl) {
+      if (emailDomainEl.value !== "") {
+        dom = emailDomainEl.value.trim();
+      } else if (emailDomainCustomEl && emailDomainCustomEl.value) {
+        dom = emailDomainCustomEl.value.trim().replace(/^@+/, "");
+      }
+    }
+    if (!dom) return "";
+    return local + "@" + dom;
+  }
 
   function setFileHint(name, size) {
     if (!fileHint) return;
@@ -119,21 +152,46 @@
     var submitBtn = form.querySelector('[type="submit"]');
     var companyEl = form.elements.namedItem("company");
     var nameEl = form.elements.namedItem("name");
-    var emailEl = form.elements.namedItem("email");
     var messageEl = form.elements.namedItem("message");
     var company = companyEl && companyEl.value ? companyEl.value.trim() : "";
     var name = nameEl && nameEl.value ? nameEl.value.trim() : "";
-    var email = emailEl && emailEl.value ? emailEl.value.trim() : "";
+    var email = buildBusinessRequestEmail();
     var message = messageEl && messageEl.value ? messageEl.value.trim() : "";
 
-    if (!company || !name || !email || !message) {
+    if (!company || !name || !message) {
       alert("회사명, 이름, 이메일, 요청 내용을 모두 입력해 주세요.");
       return;
     }
 
-    if (!isValidEmail(email)) {
+    if (!emailLocalEl || !String(emailLocalEl.value || "").trim()) {
+      alert("이메일 아이디( @ 앞부분)를 입력해 주세요.");
+      if (emailLocalEl && emailLocalEl.focus) emailLocalEl.focus();
+      return;
+    }
+
+    if (emailLocalEl.value.indexOf("@") !== -1) {
+      alert("아이디 칸에는 @ 없이 입력해 주세요.");
+      if (emailLocalEl.focus) emailLocalEl.focus();
+      return;
+    }
+
+    if (emailDomainEl && emailDomainEl.value === "") {
+      if (!emailDomainCustomEl || !String(emailDomainCustomEl.value || "").trim()) {
+        alert("도메인을 선택하거나, 「직접 입력」 선택 후 도메인을 입력해 주세요.");
+        if (emailDomainCustomEl && !emailDomainCustomEl.hidden && emailDomainCustomEl.focus) {
+          emailDomainCustomEl.focus();
+        } else if (emailDomainEl.focus) emailDomainEl.focus();
+        return;
+      }
+    }
+
+    if (!email || !isValidEmail(email)) {
       alert("이메일 주소 형식에 맞게 입력해 주세요. (예: name@example.com)");
-      if (emailEl && emailEl.focus) emailEl.focus();
+      if (emailDomainEl && emailDomainEl.value === "" && emailDomainCustomEl) {
+        emailDomainCustomEl.focus();
+      } else if (emailLocalEl && emailLocalEl.focus) {
+        emailLocalEl.focus();
+      }
       return;
     }
 
@@ -237,6 +295,7 @@
           }
           if (result.ok && result.data && result.data.ok) {
             form.reset();
+            syncEmailDomainCustomVisibility();
             setFileHint("", 0);
             openModal();
             return;
