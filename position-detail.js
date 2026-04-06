@@ -146,9 +146,8 @@
         "현장 운영과 데이터·IT를 아우르는 인재 매칭을 지원합니다.",
       ],
       companies: [
-        { name: "이마트", url: "https://www.emart.com" },
-        { name: "롯데쇼핑", url: "https://www.lotteshopping.com" },
-        { name: "쿠팡", url: "https://www.coupang.com" },
+        { name: "CJ대한통운", url: "https://www.cjlogistics.com" },
+        { name: "현대글로비스", url: "https://www.glovis.net" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
