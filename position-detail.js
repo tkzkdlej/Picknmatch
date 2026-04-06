@@ -245,18 +245,31 @@
       capEl.hidden = true;
     }
 
+    document.body.classList.add("position-dialog-open");
+
     if (typeof dialog.showModal === "function") {
-      dialog.showModal();
-      document.body.classList.add("position-dialog-open");
+      try {
+        dialog.showModal();
+        return;
+      } catch (err) {}
     }
+
+    /* showModal 미지원·예외 시 네이티브 open 속성으로 표시 */
+    dialog.setAttribute("open", "");
   }
 
   function closeDialog(dialog) {
     if (!dialog) return;
-    if (typeof dialog.close === "function") {
-      dialog.close();
-    }
     document.body.classList.remove("position-dialog-open");
+
+    if (typeof dialog.close === "function") {
+      try {
+        dialog.close();
+        return;
+      } catch (err) {}
+    }
+
+    dialog.removeAttribute("open");
   }
 
   function init() {
@@ -286,7 +299,18 @@
       });
     });
 
+    var panel = dialog.querySelector(".position-dialog__panel");
+    if (panel) {
+      panel.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    }
+
     dialog.addEventListener("close", function () {
+      document.body.classList.remove("position-dialog-open");
+    });
+
+    dialog.addEventListener("cancel", function () {
       document.body.classList.remove("position-dialog-open");
     });
   }
