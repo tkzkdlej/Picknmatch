@@ -1,13 +1,9 @@
-/* 채용핵심분야/포지션 — 카테고리 상세 다이얼로그 */
+/* 채용핵심분야/포지션 — 그리드 아래 인라인 상세 패널 */
 (function () {
   "use strict";
 
-  var DIALOG_ID = "position-detail-dialog";
+  var PANEL_ID = "position-inline-detail";
 
-  /**
-   * 분야별 소개·예시 기업(공식 사이트 링크, 필요 시 companies에서 url 제거 가능)
-   * 이미지: Unsplash(상업 이용 가능) — 교체 시 src·alt만 수정
-   */
   var POSITION_DATA = {
     chemical: {
       title: "화학",
@@ -179,16 +175,18 @@
       .replace(/"/g, "&quot;");
   }
 
-  function openDialog(dialog, key) {
-    var data = POSITION_DATA[key];
-    if (!data || !dialog) return;
+  var currentKey = null;
 
-    var titleEl = dialog.querySelector("[data-dialog-title]");
-    var leadEl = dialog.querySelector("[data-dialog-lead]");
-    var contentEl = dialog.querySelector("[data-dialog-content]");
-    var companiesEl = dialog.querySelector("[data-dialog-companies]");
-    var imgEl = dialog.querySelector("[data-dialog-image]");
-    var capEl = dialog.querySelector("[data-dialog-caption]");
+  function populatePanel(panel, key) {
+    var data = POSITION_DATA[key];
+    if (!data || !panel) return;
+
+    var titleEl = panel.querySelector("[data-inline-title]");
+    var leadEl = panel.querySelector("[data-inline-lead]");
+    var contentEl = panel.querySelector("[data-inline-content]");
+    var companiesEl = panel.querySelector("[data-inline-companies]");
+    var imgEl = panel.querySelector("[data-inline-image]");
+    var capEl = panel.querySelector("[data-inline-caption]");
 
     if (titleEl) titleEl.textContent = data.title;
     if (leadEl) leadEl.textContent = data.lead;
@@ -224,7 +222,7 @@
           })
           .join("");
         companiesEl.innerHTML =
-          '<h3 class="position-dialog__subhead">대표 기업 예시 <span class="position-dialog__subnote">(참고용 공개 정보)</span></h3><ul class="position-dialog__company-list">' +
+          '<h3 class="position-inline-detail__subhead">대표 기업 예시 <span class="position-inline-detail__subnote">(참고용 공개 정보)</span></h3><ul class="position-inline-detail__company-list">' +
           items +
           "</ul>";
       }
@@ -244,75 +242,69 @@
     } else if (capEl) {
       capEl.hidden = true;
     }
-
-    document.body.classList.add("position-dialog-open");
-
-    if (typeof dialog.showModal === "function") {
-      try {
-        dialog.showModal();
-        return;
-      } catch (err) {}
-    }
-
-    /* showModal 미지원·예외 시 네이티브 open 속성으로 표시 */
-    dialog.setAttribute("open", "");
   }
 
-  function closeDialog(dialog) {
-    if (!dialog) return;
-    document.body.classList.remove("position-dialog-open");
+  function setCardsExpanded(selectedKey) {
+    document.querySelectorAll(".position-card[data-position]").forEach(function (card) {
+      var k = card.getAttribute("data-position");
+      var on = selectedKey && k === selectedKey;
+      card.classList.toggle("is-selected", !!on);
+      card.setAttribute("aria-expanded", on ? "true" : "false");
+    });
+  }
 
-    if (typeof dialog.close === "function") {
-      try {
-        dialog.close();
-        return;
-      } catch (err) {}
+  function showPanel(panel, key) {
+    populatePanel(panel, key);
+    panel.hidden = false;
+    currentKey = key;
+    setCardsExpanded(key);
+    panel.classList.add("is-visible");
+    try {
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    } catch (e) {
+      panel.scrollIntoView();
     }
+    try {
+      panel.focus({ preventScroll: true });
+    } catch (e2) {
+      panel.focus();
+    }
+  }
 
-    dialog.removeAttribute("open");
+  function hidePanel(panel) {
+    if (!panel) return;
+    panel.hidden = true;
+    panel.classList.remove("is-visible");
+    currentKey = null;
+    setCardsExpanded(null);
   }
 
   function init() {
-    var dialog = document.getElementById(DIALOG_ID);
-    if (!dialog) return;
+    var panel = document.getElementById(PANEL_ID);
+    if (!panel) return;
 
     var cards = document.querySelectorAll(".position-card[data-position]");
 
     cards.forEach(function (card) {
       card.addEventListener("click", function () {
         var key = card.getAttribute("data-position");
-        if (key) openDialog(dialog, key);
-      });
-      card.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          var key = card.getAttribute("data-position");
-          if (key) openDialog(dialog, key);
+        if (!key || !POSITION_DATA[key]) return;
+
+        if (currentKey === key && !panel.hidden) {
+          hidePanel(panel);
+          return;
         }
+
+        showPanel(panel, key);
       });
     });
 
-    var closeTriggers = dialog.querySelectorAll("[data-dialog-close]");
-    closeTriggers.forEach(function (el) {
-      el.addEventListener("click", function () {
-        closeDialog(dialog);
-      });
-    });
-
-    var panel = dialog.querySelector(".position-dialog__panel");
-    if (panel) {
-      panel.addEventListener("click", function (e) {
-        e.stopPropagation();
+    var closeBtn = panel.querySelector("[data-inline-close]");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        hidePanel(panel);
       });
     }
-
-    dialog.addEventListener("close", function () {
-      document.body.classList.remove("position-dialog-open");
-    });
-
-    dialog.addEventListener("cancel", function () {
-      document.body.classList.remove("position-dialog-open");
-    });
   }
 
   if (document.readyState === "loading") {

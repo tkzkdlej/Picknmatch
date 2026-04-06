@@ -86,49 +86,58 @@
             </p>
           </div>
           <div class="position-grid">
-            <button type="button" class="position-card" data-position="chemical" aria-haspopup="dialog">화학</button>
-            <button type="button" class="position-card" data-position="heavyIndustry" aria-haspopup="dialog">중공업</button>
-            <button type="button" class="position-card" data-position="semiconductor" aria-haspopup="dialog">반도체</button>
-            <button type="button" class="position-card" data-position="secondaryBattery" aria-haspopup="dialog">2차전지</button>
-            <button type="button" class="position-card" data-position="ecoFriendly" aria-haspopup="dialog">친환경</button>
-            <button type="button" class="position-card" data-position="energy" aria-haspopup="dialog">에너지</button>
-            <button type="button" class="position-card" data-position="materials" aria-haspopup="dialog">소재·재료</button>
-            <button type="button" class="position-card" data-position="defense" aria-haspopup="dialog">방산</button>
-            <button type="button" class="position-card" data-position="distribution" aria-haspopup="dialog">유통</button>
-            <button type="button" class="position-card" data-position="construction" aria-haspopup="dialog">건설</button>
+            <button type="button" class="position-card" data-position="chemical" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-chemical">화학</button>
+            <button type="button" class="position-card" data-position="heavyIndustry" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-heavyIndustry">중공업</button>
+            <button type="button" class="position-card" data-position="semiconductor" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-semiconductor">반도체</button>
+            <button type="button" class="position-card" data-position="secondaryBattery" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-secondaryBattery">2차전지</button>
+            <button type="button" class="position-card" data-position="ecoFriendly" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-ecoFriendly">친환경</button>
+            <button type="button" class="position-card" data-position="energy" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-energy">에너지</button>
+            <button type="button" class="position-card" data-position="materials" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-materials">소재·재료</button>
+            <button type="button" class="position-card" data-position="defense" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-defense">방산</button>
+            <button type="button" class="position-card" data-position="distribution" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-distribution">유통</button>
+            <button type="button" class="position-card" data-position="construction" aria-expanded="false" aria-controls="position-inline-detail" id="position-card-construction">건설</button>
           </div>
+
+          <section
+            id="position-inline-detail"
+            class="position-inline-detail"
+            hidden
+            aria-labelledby="position-inline-title"
+            tabindex="-1"
+          >
+            <div class="position-inline-detail__card">
+              <header class="position-inline-detail__head">
+                <h2 id="position-inline-title" class="position-inline-detail__title" data-inline-title></h2>
+                <button type="button" class="position-inline-detail__close" data-inline-close aria-label="상세 내용 접기">
+                  접기
+                </button>
+              </header>
+              <div class="position-inline-detail__layout">
+                <figure class="position-inline-detail__figure">
+                  <img
+                    class="position-inline-detail__img"
+                    data-inline-image
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
+                    alt=""
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption class="position-inline-detail__caption" data-inline-caption hidden></figcaption>
+                </figure>
+                <div class="position-inline-detail__main">
+                  <p class="position-inline-detail__lead" data-inline-lead></p>
+                  <div class="position-inline-detail__content" data-inline-content></div>
+                  <div class="position-inline-detail__companies" data-inline-companies hidden></div>
+                </div>
+              </div>
+            </div>
+          </section>
           <!-- 비활성: <p style="text-align: center; margin-top: 2rem;"><a href="/position/resume" class="btn btn-primary">이력서 등록하기</a></p> -->
         </div>
       </section>
     </main>
-
-    <dialog id="position-detail-dialog" class="position-dialog" aria-labelledby="position-dialog-title">
-      <div class="position-dialog__scrim" data-dialog-close tabindex="-1" aria-hidden="true"></div>
-      <div class="position-dialog__panel" role="document">
-        <button type="button" class="position-dialog__close" data-dialog-close aria-label="닫기">
-          <span aria-hidden="true">×</span>
-        </button>
-        <figure class="position-dialog__figure">
-          <img
-            class="position-dialog__img"
-            data-dialog-image
-            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
-            alt=""
-            width="800"
-            height="450"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption class="position-dialog__caption" data-dialog-caption hidden></figcaption>
-        </figure>
-        <div class="position-dialog__text">
-          <h2 id="position-dialog-title" class="position-dialog__title" data-dialog-title></h2>
-          <p class="position-dialog__lead" data-dialog-lead></p>
-          <div class="position-dialog__content" data-dialog-content></div>
-          <div class="position-dialog__companies" data-dialog-companies hidden></div>
-        </div>
-      </div>
-    </dialog>
 
     <footer class="footer">
       <div class="footer-main">
