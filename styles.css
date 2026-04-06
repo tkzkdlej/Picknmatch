@@ -56,6 +56,10 @@
   --entry-splash-bg-fallback: #fbfbfc;
   /* 퇴장: 오버레이 페이드 — 문과 동시에 끝나도록 지연(문 끝 − 페이드 길이), 밝은 화면 단독 노출 방지 */
   --entry-overlay-fade-out: 0.48s;
+  /* 섹션 리듬 · 코퍼레이트 레이아웃 (LIG류 풀스크롤 사이트의 여백감에 맞춤) */
+  --section-padding-y: clamp(3.25rem, 8vw, 5.5rem);
+  --footer-band: linear-gradient(165deg, #121c2e 0%, #0d1522 48%, #0a101a 100%);
+  --footer-band-border: rgba(var(--color-accent-rgb), 0.28);
 }
 
 *,
@@ -79,7 +83,10 @@ body {
   line-height: 1.65;
   letter-spacing: -0.015em;
   color: var(--color-text);
-  background: var(--color-bg);
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -15%, rgba(var(--color-accent-rgb), 0.055), transparent 52%),
+    radial-gradient(ellipse 70% 45% at 100% 0%, rgba(18, 28, 46, 0.035), transparent 50%),
+    linear-gradient(180deg, #faf9f6 0%, var(--color-bg) 38%, #f5f3ee 100%);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -154,8 +161,8 @@ button, input, textarea {
 }
 
 .header.header--elevated::after {
-  opacity: 0;
-  height: 0;
+  opacity: 0.88;
+  height: 2px;
 }
 
 /* 메인: 히어로 슬라이더 위 — 고급 글래스(층진 스크림 + 블러 + 상단 하이라이트) */
@@ -1105,12 +1112,35 @@ body.page-main .hero-slider .hero-slide {
 }
 
 .hero-kicker {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-page-hero);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 0.95rem;
+  padding-bottom: 0.55rem;
+}
+
+.hero-kicker::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 2.75rem;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--color-accent-rgb), 0.55),
+    rgba(var(--color-accent-soft), 0.85),
+    rgba(var(--color-accent-rgb), 0.55),
+    transparent
+  );
 }
 
 .hero-main-phrase {
@@ -1510,7 +1540,7 @@ main > .page-intro + .section.position-page-section {
    섹션 공통
    ======================================== */
 .section {
-  padding: 4rem 1.5rem;
+  padding: var(--section-padding-y) 1.5rem;
   scroll-margin-top: var(--header-offset);
 }
 
@@ -1519,12 +1549,25 @@ main > .page-intro + .section.position-page-section {
   margin: 0 auto;
 }
 
+/* 코퍼레이트 상단 라벨(영문/한글) — 본 제목 위 한 줄 */
+.section-eyebrow {
+  display: block;
+  font-family: var(--font-page-hero);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-accent-dark);
+  margin: 0 0 0.45rem;
+}
+
 .section-title {
-  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  font-size: clamp(1.45rem, 2.35vw, 1.85rem);
   font-weight: 700;
   color: var(--color-primary);
   text-align: center;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   margin-bottom: 0.6rem;
   position: relative;
 }
@@ -1558,7 +1601,10 @@ main > .page-intro + .section.position-page-section {
 }
 
 .section-alt {
-  background: var(--color-bg-cream);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 28%),
+    linear-gradient(135deg, var(--color-bg-cream) 0%, #ebe6dc 55%, var(--color-bg-warm) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
 /* 메인: 마지막 본문 섹션과 푸터 사이 리듬 */
@@ -2245,16 +2291,34 @@ body.br-modal-open {
 }
 
 .intro-block {
-  background: #fff;
+  position: relative;
+  background:
+    linear-gradient(165deg, #ffffff 0%, #faf8f4 100%);
   padding: 2rem;
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(15, 34, 66, 0.08);
+  border: 1px solid rgba(15, 34, 66, 0.09);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    var(--shadow-sm);
+  overflow: hidden;
   transition: border-color 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 
+.intro-block::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(var(--color-accent-rgb), 0.65), transparent);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
 .intro-block:hover {
-  border-color: rgba(var(--color-accent-rgb), 0.45);
-  transform: translateY(-2px);
+  border-color: rgba(var(--color-accent-rgb), 0.42);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
 
@@ -2278,8 +2342,15 @@ body.br-modal-open {
 .stat-row {
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  gap: clamp(1.25rem, 4vw, 2.75rem);
   flex-wrap: wrap;
+  margin-top: 0.25rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(247, 245, 240, 0.95) 100%);
+  border: 1px solid rgba(15, 34, 66, 0.07);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
 }
 
 .stat-item { text-align: center; }
@@ -2350,9 +2421,9 @@ body.br-modal-open {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(18, 28, 46, 0.15) 0%,
-    rgba(18, 28, 46, 0.45) 45%,
-    rgba(18, 28, 46, 0.78) 100%
+    rgba(18, 28, 46, 0.08) 0%,
+    rgba(18, 28, 46, 0.38) 42%,
+    rgba(10, 16, 26, 0.88) 100%
   );
   pointer-events: none;
 }
@@ -2388,9 +2459,10 @@ body.br-modal-open {
 
 .flow-step {
   padding: 1rem 1.25rem;
-  background: #fff;
+  background: linear-gradient(180deg, #ffffff 0%, #f9f7f3 100%);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(15, 34, 66, 0.08);
+  border: 1px solid rgba(15, 34, 66, 0.09);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
   font-size: 0.9rem;
   font-weight: 600;
   text-align: center;
@@ -3561,17 +3633,19 @@ button.position-card {
   font-weight: 600;
 }
 
-/* 푸터 — 전체 흰 배경, 상단 4열(ABOUT / CLIENT / POSITION / 연락처) + 하단 법적/저작권 */
+/* 푸터 — 상단 네이비 밴드(코퍼레이트) + 하단 크림(로고·약관 가독성) */
 .footer {
-  background: #fff;
+  background: transparent;
   color: var(--color-text);
   text-align: left;
-  box-shadow: inset 0 1px 0 var(--color-border-soft);
 }
 
 .footer-main {
-  padding: 2.5rem 1.5rem 2.35rem;
-  background: #fff;
+  padding: 2.75rem 1.5rem 2.5rem;
+  background: var(--footer-band);
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--footer-band-border);
+  box-shadow: 0 -12px 40px rgba(15, 23, 42, 0.06);
 }
 
 .footer-grid {
@@ -3594,7 +3668,7 @@ button.position-card {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: rgba(var(--color-accent-rgb), 0.92);
   margin: 0 0 1rem;
 }
 
@@ -3610,13 +3684,13 @@ button.position-card {
 
 .footer-list a {
   font-size: 0.9rem;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .footer-list a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-soft);
 }
 
 .footer-contact-rows {
@@ -3638,7 +3712,7 @@ button.position-card {
 
 .footer-contact-icon {
   flex-shrink: 0;
-  color: #2563eb;
+  color: rgba(var(--color-accent-rgb), 0.88);
   display: flex;
   align-items: center;
   margin-top: 0.08rem;
@@ -3647,22 +3721,23 @@ button.position-card {
 .footer-contact-rows a {
   font-size: 0.92rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: rgba(255, 255, 255, 0.88);
   text-decoration: none;
   word-break: break-all;
   transition: color 0.2s ease;
 }
 
 .footer-contact-rows a:hover {
-  color: var(--color-accent-dark);
+  color: var(--color-accent-soft);
 }
 
 .footer-bottom {
   padding: 1.35rem max(1.5rem, env(safe-area-inset-right, 0px))
     max(2rem, env(safe-area-inset-bottom, 0px)) max(1.5rem, env(safe-area-inset-left, 0px));
-  --footer-bottom-surface: #fff;
-  background: var(--footer-bottom-surface);
-  border-top: 1px solid var(--color-border-soft);
+  --footer-bottom-surface: var(--color-bg-warm);
+  background: linear-gradient(180deg, #faf8f4 0%, var(--footer-bottom-surface) 100%);
+  border-top: 1px solid rgba(var(--color-accent-rgb), 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 .footer-bottom-inner {
