@@ -17,8 +17,8 @@
         { name: "롯데케미칼", url: "https://www.lottechem.com" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=1200&q=80",
-        alt: "화학 실험 및 연구 환경",
+        src: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
+        alt: "화학 실험·연구 실험실",
       },
     },
     heavyIndustry: {
@@ -33,8 +33,8 @@
         { name: "두산에너빌리티", url: "https://www.doosanenerbility.com" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
-        alt: "중공업·기계 설비 현장",
+        src: "https://images.unsplash.com/photo-1566930665082-4ae9dbbb5b6b?auto=format&fit=crop&w=1200&q=80",
+        alt: "대형 설비·기계가 갖춰진 중공업 제조 현장",
       },
     },
     semiconductor: {
@@ -50,7 +50,7 @@
       ],
       image: {
         src: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
-        alt: "반도체·전자 기판 이미지",
+        alt: "전자기판·반도체 부품",
       },
     },
     secondaryBattery: {
@@ -65,8 +65,8 @@
         { name: "삼성SDI", url: "https://www.samsungsdi.co.kr" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1619641753168-26a487fc6220?auto=format&fit=crop&w=1200&q=80",
-        alt: "배터리·에너지 저장 관련 이미지",
+        src: "https://images.unsplash.com/photo-1581244249923-172ef5029576?auto=format&fit=crop&w=1200&q=80",
+        alt: "배터리·에너지 저장",
       },
     },
     ecoFriendly: {
@@ -82,7 +82,7 @@
       ],
       image: {
         src: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
-        alt: "풍력 등 친환경 에너지",
+        alt: "풍력·친환경 에너지",
       },
     },
     energy: {
@@ -97,8 +97,8 @@
         { name: "한국남동발전", url: "https://www.koen.kr" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80",
-        alt: "송전선·에너지 인프라",
+        src: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+        alt: "태양광 패널이 설치된 에너지 시설",
       },
     },
     materials: {
@@ -113,8 +113,8 @@
         { name: "고려아연", url: "https://www.kz.co.kr" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1200&q=80",
-        alt: "금속·소재 산업 이미지",
+        src: "https://images.unsplash.com/photo-1697698532634-ea59b636ccea?auto=format&fit=crop&w=1200&q=80",
+        alt: "강재·금속 코일 등 소재·재료 적치",
       },
     },
     defense: {
@@ -129,8 +129,8 @@
         { name: "LIG넥스원", url: "https://www.lignex1.com" },
       ],
       image: {
-        src: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
-        alt: "항공·방위 산업 상징 이미지",
+        src: "https://images.unsplash.com/photo-1685839704154-96094d2617f3?auto=format&fit=crop&w=1200&q=80",
+        alt: "장갑 전차·방위 무기 체계",
       },
     },
     distribution: {
@@ -146,7 +146,7 @@
       ],
       image: {
         src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
-        alt: "물류·창고 이미지",
+        alt: "물류 창고·유통 시설",
       },
     },
     construction: {
@@ -162,7 +162,7 @@
       ],
       image: {
         src: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80",
-        alt: "건설 현장·크레인 이미지",
+        alt: "건설 현장·크레인",
       },
     },
   };
