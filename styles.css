@@ -5814,12 +5814,23 @@ body.page-reference .ref-cta__title {
   line-height: 1.35;
 }
 
+body.page-reference .ref-cta__copy {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
 body.page-reference .ref-cta__text {
   margin: 0;
-  max-width: 28rem;
+  max-width: none;
   font-size: 0.9375rem;
   line-height: 1.65;
   color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  body.page-reference .ref-cta__text {
+    white-space: nowrap;
+  }
 }
 
 body.page-reference .ref-cta__actions {
@@ -5874,6 +5885,10 @@ body.page-reference .ref-cta__actions .btn-outline:hover {
   body.page-reference .ref-cta {
     flex-direction: column;
     text-align: center;
+  }
+
+  body.page-reference .ref-cta__text {
+    white-space: normal;
   }
 
   body.page-reference .ref-cta__actions {
