@@ -353,7 +353,7 @@
     var dots = root.querySelectorAll(".hero-dot");
     var index = 0;
     var timer = null;
-    var intervalMs = 6500;
+    var intervalMs = 7200;
     var prefersReduced =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -428,7 +428,7 @@
 
     function swipeTargetOk(el) {
       if (!el) return false;
-      if (el.closest(".hero-dot")) return false;
+      if (el.closest(".hero-dot") || el.closest(".hero-nav")) return false;
       /* 링크·버튼 등에서는 포인터 캡처를 걸지 않음 — 걸면 앵커 클릭이 동작하지 않음 */
       if (el.closest("a[href], button, input, textarea, select, label")) return false;
       return true;
@@ -509,6 +509,21 @@
         startAutoplay();
       });
     });
+
+    var prevBtn = root.querySelector(".hero-nav--prev");
+    var nextBtn = root.querySelector(".hero-nav--next");
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        prev();
+        startAutoplay();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        next();
+        startAutoplay();
+      });
+    }
 
     root.addEventListener("mouseenter", stopAutoplay);
     root.addEventListener("mouseleave", startAutoplay);

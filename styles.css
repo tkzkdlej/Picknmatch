@@ -1060,6 +1060,7 @@ body.entry-splash-on {
 }
 
 .hero-slider {
+  position: relative;
   display: block;
   padding: 0;
   overflow: hidden;
@@ -1092,7 +1093,7 @@ body.entry-splash-on {
   height: 100%;
   min-height: 85vh;
   width: 300%;
-  transition: transform 0.85s var(--ease-out);
+  transition: transform 1.12s cubic-bezier(0.22, 1, 0.28, 1);
   will-change: transform;
 }
 
@@ -1116,6 +1117,7 @@ body.entry-splash-on {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
 .hero-slide-media img {
@@ -1123,25 +1125,57 @@ body.entry-splash-on {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(1.02);
+  backface-visibility: hidden;
 }
 
-/* 활성 슬라이드: 아주 느린 줌(비즈니스 톤, 정적 이미지에 생동감) */
-@keyframes hero-bg-drift {
+/* 슬라이드별 켄번즈 방향 — 활성 슬라이드만 재생 */
+@keyframes hero-drift-a {
   from {
-    transform: scale(1);
+    transform: scale(1.02) translate3d(0, 0, 0);
   }
   to {
-    transform: scale(1.045);
+    transform: scale(1.1) translate3d(-1.2%, 0.8%, 0);
   }
 }
 
-.hero-slide[aria-hidden="false"] .hero-slide-media img {
-  animation: hero-bg-drift 20s ease-in-out infinite alternate;
+@keyframes hero-drift-b {
+  from {
+    transform: scale(1.06) translate3d(0.5%, 0, 0);
+  }
+  to {
+    transform: scale(1.02) translate3d(-0.5%, 0.4%, 0);
+  }
+}
+
+@keyframes hero-drift-c {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.09) translate3d(1%, -0.6%, 0);
+  }
+}
+
+.hero-slide[aria-hidden="false"]:nth-child(1) .hero-slide-media img {
+  transform-origin: 25% 75%;
+  animation: hero-drift-a 22s ease-in-out infinite alternate;
+}
+
+.hero-slide[aria-hidden="false"]:nth-child(2) .hero-slide-media img {
+  transform-origin: 50% 45%;
+  animation: hero-drift-b 24s ease-in-out infinite alternate;
+}
+
+.hero-slide[aria-hidden="false"]:nth-child(3) .hero-slide-media img {
+  transform-origin: 72% 28%;
+  animation: hero-drift-c 20s ease-in-out infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-slide .hero-slide-media img {
     animation: none !important;
+    transform: none;
   }
 }
 
@@ -1150,13 +1184,35 @@ body.entry-splash-on {
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(circle at 85% 12%, rgba(var(--color-accent-rgb), 0.12), transparent 38%),
+    radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--color-accent-rgb), 0.14), transparent 52%),
+    radial-gradient(circle at 88% 14%, rgba(var(--color-accent-rgb), 0.1), transparent 36%),
     linear-gradient(
       180deg,
-      rgba(var(--hero-scrim-navy), 0.78) 0%,
-      rgba(var(--hero-scrim-navy), 0.5) 45%,
-      rgba(var(--hero-scrim-navy), 0.88) 100%
+      rgba(var(--hero-scrim-navy), 0.72) 0%,
+      rgba(var(--hero-scrim-navy), 0.42) 42%,
+      rgba(var(--hero-scrim-navy), 0.86) 100%
     );
+  transition: opacity 0.8s var(--ease-out);
+}
+
+@keyframes hero-scrim-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.94;
+  }
+}
+
+.hero-slide[aria-hidden="false"] .hero-slide-scrim {
+  animation: hero-scrim-breathe 10s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide .hero-slide-scrim {
+    animation: none;
+  }
 }
 
 body.page-main .hero.hero-slider,
@@ -1284,21 +1340,34 @@ body.page-main .hero-slider .hero-slide {
   outline-offset: 3px;
 }
 
-/* 메인 히어로: 현재 슬라이드 텍스트만 서브페이지 헤더와 같은 톤으로 등장 */
+@keyframes hero-slide-line-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.75rem, 0) scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* 메인 히어로: 슬라이드 전환 시 문구 — 블러·스태거로 역동적 등장 */
 body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-kicker {
-  animation: page-hero-title-in 0.7s var(--ease-out) 0.12s both;
+  animation: hero-slide-line-in 0.88s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
 }
 
 body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-main-phrase {
-  animation: page-hero-title-in 0.72s var(--ease-out) 0.28s both;
+  animation: hero-slide-line-in 0.92s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
 body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-sub {
-  animation: page-hero-title-in 0.68s var(--ease-out) 0.44s both;
+  animation: hero-slide-line-in 0.86s cubic-bezier(0.22, 1, 0.36, 1) 0.46s both;
 }
 
 body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-cta {
-  animation: page-hero-title-in 0.68s var(--ease-out) 0.58s both;
+  animation: hero-slide-line-in 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1309,6 +1378,87 @@ body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-cta {
     animation: none;
     opacity: 1;
     transform: none;
+    filter: none;
+  }
+}
+
+/* 좌우 이전·다음 — 글래스 원형 */
+.hero-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 50%;
+  background: rgba(18, 28, 46, 0.38);
+  color: rgba(255, 255, 255, 0.94);
+  cursor: pointer;
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14) inset,
+    0 10px 28px rgba(0, 0, 0, 0.28);
+  transform: translateY(-50%);
+  transition:
+    background 0.28s var(--ease-out),
+    border-color 0.28s var(--ease-out),
+    color 0.28s var(--ease-out),
+    box-shadow 0.28s var(--ease-out),
+    transform 0.28s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero-nav--prev {
+  left: max(0.65rem, env(safe-area-inset-left, 0px));
+}
+
+.hero-nav--next {
+  right: max(0.65rem, env(safe-area-inset-right, 0px));
+}
+
+.hero-nav__icon {
+  display: block;
+  pointer-events: none;
+  margin-inline-start: -1px;
+}
+
+.hero-nav--next .hero-nav__icon {
+  margin-inline-start: 1px;
+}
+
+.hero-nav:hover {
+  background: rgba(var(--color-accent-rgb), 0.28);
+  border-color: rgba(var(--color-accent-soft), 0.55);
+  color: #fff;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 12px 32px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(var(--color-accent-rgb), 0.2);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.hero-nav:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.hero-nav:focus-visible {
+  outline: 2px solid rgba(var(--color-accent-soft), 0.95);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-nav {
+    transition: none;
+  }
+
+  .hero-nav:hover,
+  .hero-nav:active {
+    transform: translateY(-50%);
   }
 }
 
@@ -1329,20 +1479,25 @@ body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-cta {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   pointer-events: auto;
 }
 
 .hero-dot {
   position: relative;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out),
+    box-shadow 0.35s var(--ease-out),
+    transform 0.35s var(--ease-out);
 }
 
 /* 모바일: 도트 시각 크기는 유지하고 터치 영역만 확대 */
@@ -1358,14 +1513,22 @@ body.page-main .hero-slider .hero-slide[aria-hidden="false"] .hero-cta {
 }
 
 .hero-dot:hover {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.48);
+  border-color: rgba(255, 255, 255, 0.65);
 }
 
 .hero-dot.is-active {
-  background: #fff;
-  border-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
-  transform: scale(1.05);
+  width: 2.125rem;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--color-accent-rgb), 0.95) 0%,
+    rgba(255, 253, 248, 0.98) 55%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 4px 16px rgba(0, 0, 0, 0.22);
 }
 
 .hero-dot:focus-visible {
@@ -4480,6 +4643,19 @@ body.is-nav-open .nav.is-open {
 
   body.page-main .hero-slider .hero-slide {
     padding: max(5.5rem, calc(env(safe-area-inset-top, 0px) + 4.5rem)) 1.1rem 5.25rem;
+  }
+
+  .hero-nav {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .hero-nav--prev {
+    left: max(0.4rem, env(safe-area-inset-left, 0px));
+  }
+
+  .hero-nav--next {
+    right: max(0.4rem, env(safe-area-inset-right, 0px));
   }
 
   .hero-slider-ui {
