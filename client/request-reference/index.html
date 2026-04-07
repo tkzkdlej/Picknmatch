@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
   </head>
-  <body>
+  <body class="page-request-reference">
     <header class="header">
       <div class="header-inner">
         <a href="/" class="logo"><img draggable="false" src="/images/logo-white.png" alt="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치" /></a>
@@ -45,10 +45,10 @@
               <li><a href="/client/career">취업이직컨설팅</a></li>
               -->
               <li><a href="/client/reference">평판조회서비스</a></li>
+              <li><a href="/client/request-reference" aria-current="page">평판조회의뢰</a></li>
               <!-- 비활성: 의뢰 폼
               <li><a href="/client/request-headhunting">헤드헌팅의뢰</a></li>
               <li><a href="/client/request-recruitment">채용대행의뢰</a></li>
-              <li><a href="/client/request-reference">평판조회의뢰</a></li>
               -->
             </ul>
           </div>
@@ -68,35 +68,133 @@
     </header>
 
     <main>
-      <!-- 비활성 콘텐츠 복원 시 주석 해제
-<div class="page-header page-header--clients">
+      <div class="page-header page-header--clients">
         <h1 class="page-title">CLIENT</h1>
         <p class="page-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
       </div>
       <div class="page-intro">
         <div class="container">
           <h2 class="page-name">평판조회 의뢰</h2>
+          <p class="page-request-reference__lead">
+            아래 양식을 작성해 주시면 담당자가 내용을 확인한 뒤 연락드립니다. 조회 범위·일정은 사실관계와 법적 한도에 따라 조정될 수 있습니다.
+            서비스 소개는 <a href="/client/reference">평판조회서비스</a> 페이지를 참고해 주세요.
+          </p>
         </div>
       </div>
-      <section class="section section-form">
+      <section class="section section-form section-form--reference-request">
         <div class="container">
-          <div class="form-box">
-            <form class="request-form" data-type="reference">
-              <div class="form-row">
-                <input type="text" name="company" placeholder="회사명" required />
-                <input type="text" name="name" placeholder="담당자명" required />
-              </div>
-              <div class="form-row">
-                <input type="tel" name="phone" placeholder="연락처" required />
-                <input type="email" name="email" placeholder="이메일" required />
-              </div>
-              <textarea name="content" placeholder="조회 대상 및 조회 목적" rows="5"></textarea>
-              <button type="submit" class="btn btn-primary btn-full">의뢰하기</button>
+          <div class="form-box form-box--reference-request">
+            <div
+              class="reference-request-feedback reference-request-feedback--success"
+              id="reference-request-success"
+              hidden
+              tabindex="-1"
+            >
+              의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.
+            </div>
+            <div class="reference-request-feedback reference-request-feedback--error" id="reference-request-error" hidden role="alert"></div>
+            <form class="request-form request-form--reference" data-type="reference" id="reference-request-form" novalidate>
+              <fieldset class="request-form__fieldset">
+                <legend class="request-form__legend">의뢰 기업·담당자</legend>
+                <div class="form-row">
+                  <input type="text" name="company" id="ref_company" placeholder="회사명 (필수)" required autocomplete="organization" />
+                  <input type="text" name="dept" id="ref_dept" placeholder="부서 (선택)" autocomplete="organization-title" />
+                </div>
+                <div class="form-row">
+                  <input type="text" name="name" id="ref_name" placeholder="담당자명 (필수)" required autocomplete="name" />
+                  <input type="text" name="contact_title" id="ref_contact_title" placeholder="직함 (선택)" />
+                </div>
+                <div class="form-row">
+                  <input type="tel" name="phone" id="ref_phone" placeholder="연락처 (필수)" required inputmode="tel" autocomplete="tel" />
+                  <input type="email" name="email" id="ref_email" placeholder="이메일 (필수)" required autocomplete="email" />
+                </div>
+              </fieldset>
+
+              <fieldset class="request-form__fieldset">
+                <legend class="request-form__legend">조회 대상</legend>
+                <p class="request-form__hint">개인정보 보호를 위해 불필요한 주민번호 등은 기재하지 마세요.</p>
+                <div class="form-row">
+                  <input type="text" name="target_name" id="ref_target_name" placeholder="대상자 성명 또는 식별 호칭 (필수)" required />
+                  <input type="text" name="target_company" id="ref_target_company" placeholder="소속·경력 회사·기관 (필수)" required />
+                </div>
+                <div class="form-row">
+                  <input type="text" name="target_period" id="ref_target_period" placeholder="해당 재직·경력 기간 (선택)" />
+                  <input type="text" name="relationship" id="ref_relationship" placeholder="의뢰사와의 관계 (선택, 예: 채용 후보)" />
+                </div>
+              </fieldset>
+
+              <fieldset class="request-form__fieldset">
+                <legend class="request-form__legend">조회 목적</legend>
+                <div class="form-row form-row--full">
+                  <label class="request-form__label" for="ref_purpose">목적 유형 (필수)</label>
+                  <select name="purpose" id="ref_purpose" required>
+                    <option value="" disabled selected>선택해 주세요</option>
+                    <option value="채용 전 검증">채용 전 검증</option>
+                    <option value="승진·배치·임원 선임">승진·배치·임원 선임</option>
+                    <option value="파트너·거래처 실사">파트너·거래처 실사</option>
+                    <option value="M&amp;A·투자 실사">M&amp;A·투자 실사</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <label class="request-form__label" for="ref_purpose_detail">상세 설명 (선택)</label>
+                <textarea name="purpose_detail" id="ref_purpose_detail" rows="3" placeholder="조회 배경·직무·궁금하신 점을 구체적으로 적어 주세요."></textarea>
+              </fieldset>
+
+              <fieldset class="request-form__fieldset">
+                <legend class="request-form__legend">희망 조회 항목</legend>
+                <p class="request-form__hint">한 가지 이상 선택해 주세요. 실제 진행 가능 여부는 사안에 따라 안내드립니다.</p>
+                <div class="request-form__checks" role="group" aria-label="희망 조회 항목">
+                  <label class="form-check request-form__check">
+                    <input type="checkbox" name="scope_career" value="1" />
+                    <span>경력·재직 사실 확인</span>
+                  </label>
+                  <label class="form-check request-form__check">
+                    <input type="checkbox" name="scope_reputation" value="1" />
+                    <span>재직 평판·업무 수행 평가</span>
+                  </label>
+                  <label class="form-check request-form__check">
+                    <input type="checkbox" name="scope_education" value="1" />
+                    <span>학력·자격·면허</span>
+                  </label>
+                  <label class="form-check request-form__check">
+                    <input type="checkbox" name="scope_legal" value="1" />
+                    <span>소송·징계 등 리스크(가능 범위)</span>
+                  </label>
+                  <label class="form-check request-form__check">
+                    <input type="checkbox" name="scope_other" value="1" />
+                    <span>기타(아래 추가 전달사항에 기재)</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="request-form__fieldset">
+                <legend class="request-form__legend">희망 일정</legend>
+                <div class="form-row form-row--full">
+                  <label class="request-form__label" for="ref_deadline">완료 희망 시점 (필수)</label>
+                  <select name="deadline" id="ref_deadline" required>
+                    <option value="" disabled selected>선택해 주세요</option>
+                    <option value="긴급 (2주 이내)">긴급 (2주 이내)</option>
+                    <option value="보통 (약 3~4주)">보통 (약 3~4주)</option>
+                    <option value="여유 있음 (협의)">여유 있음 (협의)</option>
+                  </select>
+                </div>
+              </fieldset>
+
+              <fieldset class="request-form__fieldset">
+                <legend class="request-form__legend">추가 전달사항</legend>
+                <textarea name="additional" id="ref_additional" rows="4" placeholder="참고 자료 요청, 대상자와의 관계, 연락 가능 시간대 등"></textarea>
+              </fieldset>
+
+              <label class="form-check form-check--consent">
+                <input type="checkbox" name="privacy_consent" id="ref_privacy_consent" value="1" required />
+                <span><a href="/privacy" target="_blank" rel="noopener noreferrer">개인정보처리방침</a>에 따라 수집·이용에 동의합니다. (필수)</span>
+              </label>
+
+              <button type="submit" class="btn btn-primary btn-full" id="reference-request-submit">의뢰 보내기</button>
             </form>
           </div>
         </div>
       </section>
-      -->
     </main>
 
     <footer class="footer">

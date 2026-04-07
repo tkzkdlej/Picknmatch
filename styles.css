@@ -3205,17 +3205,26 @@ html.reveal main > .page-intro .page-name {
 }
 
 .request-form input,
-.request-form textarea {
+.request-form textarea,
+.request-form select {
   padding: 0.875rem 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   background: #fff;
   transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.request-form select {
+  cursor: pointer;
+  appearance: auto;
+  -webkit-appearance: menulist;
 }
 
 .request-form input:focus,
-.request-form textarea:focus {
+.request-form textarea:focus,
+.request-form select:focus {
   outline: none;
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.18);
@@ -3244,6 +3253,117 @@ html.reveal main > .page-intro .page-name {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-soft);
   box-shadow: var(--shadow-sm);
+}
+
+/* 평판조회 의뢰 */
+.page-request-reference__lead {
+  max-width: 42rem;
+  margin: 0.85rem auto 0;
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.page-request-reference__lead a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.form-box--reference-request {
+  max-width: 640px;
+}
+
+.reference-request-feedback {
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.reference-request-feedback--success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.reference-request-feedback--error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.request-form--reference .request-form__fieldset {
+  border: none;
+  margin: 0 0 1.65rem;
+  padding: 0;
+  min-width: 0;
+}
+
+.request-form--reference .request-form__legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.request-form--reference .request-form__hint {
+  margin: 0 0 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.request-form--reference .request-form__label {
+  display: block;
+  margin: 0 0 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.request-form--reference .form-row--full {
+  grid-template-columns: 1fr;
+  margin-bottom: 0.85rem;
+}
+
+.request-form--reference .form-row--full + .request-form__label {
+  margin-top: 0.35rem;
+}
+
+.request-form__checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+}
+
+.request-form__check {
+  margin: 0;
+  align-items: flex-start;
+  line-height: 1.45;
+}
+
+.request-form__check input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.form-check--consent {
+  align-items: flex-start;
+  line-height: 1.55;
+  margin: 1.15rem 0 1.35rem;
+}
+
+.form-check--consent input {
+  margin-top: 0.25rem;
+  flex-shrink: 0;
 }
 
 /* 채용핵심분야/포지션 — 레이아웃·인트로 */
@@ -6715,6 +6835,16 @@ body.is-nav-open .nav.is-open {
   }
 
   .request-form .form-row { grid-template-columns: 1fr; }
+
+  .request-form__checks {
+    grid-template-columns: 1fr;
+  }
+
+  .page-request-reference__lead {
+    text-align: left;
+    padding-left: max(0, env(safe-area-inset-left, 0px));
+    padding-right: max(0, env(safe-area-inset-right, 0px));
+  }
 
   .btn {
     min-height: 44px;

@@ -1122,8 +1122,253 @@
     });
   })();
 
-  /*
+  /** 평판조회 의뢰 → /api/send-reference-request (Vercel·Resend) */
+  (function initReferenceRequestForms() {
+    function isValidEmail(s) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim());
+    }
+
+    function formatResendErrorForUser(raw) {
+      var s = String(raw || "");
+      if (/testing emails|resend\.com\/domains|verify a domain|only send testing/i.test(s)) {
+        return (
+          "[Resend 설정] 아직 발송 도메인(picknmatch.co.kr)이 Resend에서 검증되지 않았습니다. " +
+          "이 상태에서는 Resend 계정에 등록된 본인 이메일로만 테스트 발송이 가능합니다.\n\n" +
+          "shkim@picknmatch.co.kr 등 다른 주소로 받으려면:\n" +
+          "1) https://resend.com/domains 에서 picknmatch.co.kr DNS 검증\n" +
+          "2) Vercel 환경 변수 RESEND_FROM을 검증된 도메인 주소로 설정\n" +
+          "3) 필요 시 REFERENCE_REQUEST_TO·BUSINESS_REQUEST_TO 확인 후 재배포"
+        );
+      }
+      return "";
+    }
+
+    function friendlyErrorForBadBody(status, text) {
+      var t = (text || "").trim();
+      var host = "";
+      try {
+        host = window.location.hostname || "";
+      } catch (e) {}
+      var isLocal =
+        host === "localhost" ||
+        host === "127.0.0.1" ||
+        host === "::1" ||
+        /^192\.168\./.test(host) ||
+        /^10\./.test(host);
+      if (!t) {
+        return "서버에서 내용 없는 응답을 받았습니다. (HTTP " + status + ")";
+      }
+      if (t.charAt(0) === "<" || /<!DOCTYPE/i.test(t)) {
+        if (isLocal || status === 404) {
+          return (
+            "이 환경에서는 메일 API(/api/send-reference-request)가 없습니다. " +
+            "VS Code Live Server 등으로 연 주소에서는 전송을 테스트할 수 없습니다. " +
+            "Vercel에 배포된 사이트에서 시도하거나, 프로젝트 폴더에서 `npx vercel dev` 로 로컬 API를 띄운 뒤 그 주소로 열어 주세요."
+          );
+        }
+        return "서버가 JSON 대신 HTML을 돌려주었습니다. (HTTP " + status + ") 잠시 후 다시 시도해 주세요.";
+      }
+      try {
+        var j = JSON.parse(t);
+        if (j && j.error) return j.error;
+      } catch (e2) {}
+      return "서버 응답을 해석할 수 없습니다. (HTTP " + status + ")";
+    }
+
+    function val(form, name) {
+      var el = form.elements.namedItem(name);
+      return el && "value" in el ? String(el.value || "").trim() : "";
+    }
+
+    function checked(form, name) {
+      var el = form.elements.namedItem(name);
+      return !!(el && el.type === "checkbox" && el.checked);
+    }
+
+    document.querySelectorAll('.request-form[data-type="reference"]').forEach(function (form) {
+      var successEl = document.getElementById("reference-request-success");
+      var errorEl = document.getElementById("reference-request-error");
+      var submitBtn = form.querySelector('[type="submit"]');
+
+      function hideFeedback() {
+        if (successEl) {
+          successEl.hidden = true;
+          successEl.textContent =
+            "의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.";
+        }
+        if (errorEl) {
+          errorEl.hidden = true;
+          errorEl.textContent = "";
+        }
+      }
+
+      form.addEventListener(
+        "input",
+        function () {
+          hideFeedback();
+        },
+        true
+      );
+      form.addEventListener(
+        "change",
+        function () {
+          hideFeedback();
+        },
+        true
+      );
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        hideFeedback();
+
+        var consentEl = form.elements.namedItem("privacy_consent");
+        if (!consentEl || consentEl.type !== "checkbox" || !consentEl.checked) {
+          alert("개인정보 수집 및 이용에 동의해 주세요.");
+          if (consentEl && consentEl.focus) consentEl.focus();
+          return;
+        }
+
+        var phone = val(form, "phone");
+        var phoneDigits = phone.replace(/[\s\-().]/g, "");
+        if (phoneDigits.length < 8) {
+          alert("연락처를 올바르게 입력해 주세요.");
+          var phoneInput = form.elements.namedItem("phone");
+          if (phoneInput && phoneInput.focus) phoneInput.focus();
+          return;
+        }
+
+        var email = val(form, "email");
+        if (!isValidEmail(email)) {
+          alert("유효한 이메일 주소를 입력해 주세요.");
+          var emailInput = form.elements.namedItem("email");
+          if (emailInput && emailInput.focus) emailInput.focus();
+          return;
+        }
+
+        var scopeOk =
+          checked(form, "scope_career") ||
+          checked(form, "scope_reputation") ||
+          checked(form, "scope_education") ||
+          checked(form, "scope_legal") ||
+          checked(form, "scope_other");
+        if (!scopeOk) {
+          alert("희망 조회 항목을 한 가지 이상 선택해 주세요.");
+          return;
+        }
+
+        var payload = {
+          company: val(form, "company"),
+          dept: val(form, "dept"),
+          name: val(form, "name"),
+          contactTitle: val(form, "contact_title"),
+          phone: phone,
+          email: email,
+          targetName: val(form, "target_name"),
+          targetCompany: val(form, "target_company"),
+          targetPeriod: val(form, "target_period"),
+          relationship: val(form, "relationship"),
+          purpose: val(form, "purpose"),
+          purposeDetail: val(form, "purpose_detail"),
+          deadline: val(form, "deadline"),
+          additional: val(form, "additional"),
+          scopeCareer: checked(form, "scope_career"),
+          scopeReputation: checked(form, "scope_reputation"),
+          scopeEducation: checked(form, "scope_education"),
+          scopeLegal: checked(form, "scope_legal"),
+          scopeOther: checked(form, "scope_other"),
+          privacyConsent: true,
+        };
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "전송 중…";
+        }
+
+        fetch("/api/send-reference-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) {
+            return r.text().then(function (text) {
+              var data = null;
+              var trimmed = (text || "").trim();
+              if (trimmed && trimmed.charAt(0) === "{" && trimmed.charAt(trimmed.length - 1) === "}") {
+                try {
+                  data = JSON.parse(trimmed);
+                } catch (err) {
+                  data = null;
+                }
+              }
+              if (!data && trimmed) {
+                var ct = (r.headers.get("content-type") || "").toLowerCase();
+                if (ct.indexOf("application/json") !== -1) {
+                  try {
+                    data = JSON.parse(trimmed);
+                  } catch (err2) {
+                    data = null;
+                  }
+                }
+              }
+              if (!data) {
+                return {
+                  ok: false,
+                  status: r.status,
+                  data: { error: friendlyErrorForBadBody(r.status, text) },
+                };
+              }
+              return { ok: r.ok, status: r.status, data: data };
+            });
+          })
+          .then(function (result) {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "의뢰 보내기";
+            }
+            if (result.ok && result.data && result.data.ok) {
+              form.reset();
+              if (successEl) {
+                successEl.hidden = false;
+                successEl.focus();
+                try {
+                  successEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                } catch (err) {
+                  successEl.scrollIntoView(true);
+                }
+              }
+              return;
+            }
+            var rawErr = (result.data && result.data.error) || "";
+            var msg =
+              formatResendErrorForUser(rawErr) ||
+              rawErr ||
+              "전송에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 문의해 주세요.";
+            if (errorEl) {
+              errorEl.textContent = msg;
+              errorEl.hidden = false;
+              try {
+                errorEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+              } catch (err) {
+                errorEl.scrollIntoView(true);
+              }
+            } else {
+              alert(msg);
+            }
+          })
+          .catch(function () {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "의뢰 보내기";
+            }
+            alert("네트워크 오류로 전송하지 못했습니다.");
+          });
+      });
+    });
+  })();
+
+  /** 그 외 의뢰 폼(복원 시): 접수 안내만 표시 */
   document.querySelectorAll(".request-form").forEach(function (form) {
+    if ((form.getAttribute("data-type") || "") === "reference") return;
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var type = form.getAttribute("data-type") || "문의";
@@ -1132,12 +1377,11 @@
         recruitment: "채용대행",
         reference: "평판조회",
         career: "취업이직컨설팅",
-        resume: "이력서등록"
+        resume: "이력서등록",
       };
       var typeName = typeNames[type] || type;
       alert(typeName + " 의뢰가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.");
       form.reset();
     });
   });
-  */
 })();
