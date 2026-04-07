@@ -101,6 +101,76 @@ main {
   min-height: 40vh;
 }
 
+/* ========================================
+   서브페이지 전용 (메인 제외) — 화면 활용·여백 완화
+   ======================================== */
+body:not(.page-main) {
+  --container: min(1320px, calc(100vw - clamp(1.25rem, 5vw, 3rem)));
+  --prose-width: min(50rem, calc(100vw - 2.5rem));
+  --section-padding-y: clamp(3.5rem, 9vw, 6.25rem);
+}
+
+body:not(.page-main) main {
+  min-height: max(48vh, calc(100dvh - var(--header-offset) - 18rem));
+  width: 100%;
+}
+
+body:not(.page-main) .page-header {
+  min-height: clamp(240px, 34vh, 440px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(6.25rem, 12vw, 9.75rem) clamp(1rem, 4vw, 2rem) clamp(3.25rem, 7vw, 4.5rem);
+}
+
+body:not(.page-main) .page-header .page-tagline {
+  max-width: min(var(--prose-width), 44rem);
+}
+
+body:not(.page-main) .page-intro {
+  padding-left: clamp(1rem, 5vw, 2.75rem);
+  padding-right: clamp(1rem, 5vw, 2.75rem);
+}
+
+body:not(.page-main) .page-name {
+  max-width: 100%;
+}
+
+body:not(.page-main) .section {
+  padding-left: clamp(1rem, 5vw, 2.75rem);
+  padding-right: clamp(1rem, 5vw, 2.75rem);
+}
+
+body:not(.page-main) .content-box {
+  max-width: min(920px, 100%);
+}
+
+body:not(.page-main) .content-box.two-col,
+body:not(.page-main) .content-box.three-col {
+  max-width: min(1120px, 100%);
+}
+
+body:not(.page-main) .company-profile-box {
+  max-width: min(1120px, 100%);
+}
+
+body:not(.page-main) .form-box {
+  max-width: min(720px, 100%);
+}
+
+body:not(.page-main) .stat-grid {
+  max-width: min(960px, 100%);
+}
+
+body:not(.page-main) .contact-box {
+  max-width: min(820px, 100%);
+}
+
+body:not(.page-main) .position-grid-sub {
+  max-width: min(52rem, calc(100% - 1.5rem));
+}
+
 h1, h2, h3 {
   font-family: var(--font-heading);
   font-weight: 700;
