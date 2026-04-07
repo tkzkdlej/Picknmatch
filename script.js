@@ -615,6 +615,58 @@
     });
   })();
 
+  // 빠른 문의: 하단 고정 바 + 헤더 업무 요청(데스크톱) — 전 페이지 공통
+  (function initQuickContactDock() {
+    if (document.getElementById("quick-contact-dock")) return;
+
+    var isMainForm =
+      document.body.classList.contains("page-main") && isMainPagePath();
+    var formHref = isMainForm ? "#business-request-title" : "/#business-request-title";
+
+    document.body.classList.add("has-quick-contact-dock");
+
+    var dock = document.createElement("aside");
+    dock.id = "quick-contact-dock";
+    dock.className = "quick-contact-dock";
+    dock.setAttribute("aria-label", "빠른 문의 · 업무 요청");
+    dock.innerHTML =
+      '<div class="quick-contact-dock__inner">' +
+      '<a class="quick-contact-dock__item quick-contact-dock__item--primary" href="' +
+      formHref +
+      '" data-quick-contact="form">' +
+      '<span class="quick-contact-dock__icon" aria-hidden="true">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>' +
+      "</span>" +
+      '<span class="quick-contact-dock__text"><span class="quick-contact-dock__title">업무 요청</span><span class="quick-contact-dock__sub">폼으로 남기기</span></span>' +
+      "</a>" +
+      '<a class="quick-contact-dock__item" href="tel:01054041672">' +
+      '<span class="quick-contact-dock__icon" aria-hidden="true">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' +
+      "</span>" +
+      '<span class="quick-contact-dock__text"><span class="quick-contact-dock__title">전화</span><span class="quick-contact-dock__sub">010-5404-1672</span></span>' +
+      "</a>" +
+      '<a class="quick-contact-dock__item" href="mailto:shkim@picknmatch.co.kr?subject=%5B%ED%94%BD%EC%95%A4%EB%A7%A4%EC%B9%98%5D%20%EB%AC%B8%EC%9D%98">' +
+      '<span class="quick-contact-dock__icon" aria-hidden="true">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>' +
+      "</span>" +
+      '<span class="quick-contact-dock__text"><span class="quick-contact-dock__title">메일</span><span class="quick-contact-dock__sub">shkim@picknmatch.co.kr</span></span>' +
+      "</a>" +
+      "</div>";
+
+    document.body.appendChild(dock);
+
+    var headerInner = document.querySelector(".header-inner");
+    var navToggle = headerInner && headerInner.querySelector(".nav-toggle");
+    if (headerInner && navToggle && !headerInner.querySelector(".header-quick-cta")) {
+      var cta = document.createElement("a");
+      cta.className = "header-quick-cta";
+      cta.href = formHref;
+      cta.setAttribute("data-quick-contact", "form");
+      cta.textContent = "업무 요청";
+      headerInner.insertBefore(cta, navToggle);
+    }
+  })();
+
   // 업무 요청: 기본 숨김 → CTA 또는 #해시로 표시 후 제목 기준 스크롤
   (function initBusinessRequestAnchorScroll() {
     if (!document.body.classList.contains("page-main") || !isMainPagePath()) return;
