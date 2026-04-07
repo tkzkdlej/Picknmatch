@@ -137,7 +137,13 @@
                   </select>
                 </div>
                 <label class="request-form__label" for="ref_purpose_detail">상세 설명 (선택)</label>
-                <textarea name="purpose_detail" id="ref_purpose_detail" rows="3" placeholder="조회 배경·직무·궁금하신 점을 구체적으로 적어 주세요."></textarea>
+                <textarea
+                  name="purpose_detail"
+                  id="ref_purpose_detail"
+                  class="reference-request-textarea reference-request-textarea--detail"
+                  rows="8"
+                  placeholder="조회 배경·직무·궁금하신 점을 구체적으로 적어 주세요."
+                ></textarea>
               </fieldset>
 
               <fieldset class="request-form__fieldset">
@@ -182,7 +188,13 @@
 
               <fieldset class="request-form__fieldset">
                 <legend class="request-form__legend">추가 전달사항</legend>
-                <textarea name="additional" id="ref_additional" rows="4" placeholder="참고 자료 요청, 대상자와의 관계, 연락 가능 시간대 등"></textarea>
+                <textarea
+                  name="additional"
+                  id="ref_additional"
+                  class="reference-request-textarea reference-request-textarea--additional"
+                  rows="10"
+                  placeholder="참고 자료 요청, 대상자와의 관계, 연락 가능 시간대 등"
+                ></textarea>
               </fieldset>
 
               <label class="form-check form-check--consent">

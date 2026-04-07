@@ -3366,6 +3366,20 @@ html.reveal main > .page-intro .page-name {
   flex-shrink: 0;
 }
 
+/* 평판조회 의뢰: 상세·추가 메모 — 고정 높이(확대), 사용자 리사이즈 비활성화 */
+.request-form--reference .reference-request-textarea {
+  resize: none;
+  min-height: 11rem;
+}
+
+.request-form--reference .reference-request-textarea--detail {
+  min-height: 13rem;
+}
+
+.request-form--reference .reference-request-textarea--additional {
+  min-height: 15rem;
+}
+
 /* 채용핵심분야/포지션 — 레이아웃·인트로 */
 .position-page-inner {
   display: flex;
