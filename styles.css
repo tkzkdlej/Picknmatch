@@ -41,6 +41,9 @@
   --reveal-dur: 0.55s;
   --container: 1120px;
   --prose-width: 42rem;
+  /* 본문 가독성: rem 기준 ~+1px(16→17), 줄간격 완화 — 전역 타이포에 연동 */
+  --root-font-scale: 106.25%;
+  --body-line-height: 1.73;
   /* 타이트 헤더 — 로고 작게(선명도 체감) · 앵커 오프셋 동기화 */
   --header-logo-h: 52px;
   --header-offset: 86px;
@@ -72,6 +75,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: var(--root-font-scale);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   overflow-x: clip;
@@ -79,8 +83,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: var(--body-line-height);
   letter-spacing: -0.015em;
   color: var(--color-text);
   background:
@@ -1331,7 +1335,7 @@ body.page-main .hero-slider .hero-slide {
   max-width: min(52rem, 92vw);
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.65;
+  line-height: 1.72;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
@@ -1863,7 +1867,7 @@ main > .page-intro + .section.position-page-section {
   text-align: center;
   margin-bottom: 2.5rem;
   letter-spacing: -0.01em;
-  line-height: 1.65;
+  line-height: 1.72;
   max-width: var(--prose-width);
   margin-left: auto;
   margin-right: auto;
@@ -2303,7 +2307,7 @@ body.page-main #business-request.business-request--collapsed {
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--color-text-muted);
-  line-height: 1.65;
+  line-height: 1.72;
   margin-bottom: 1.35rem;
   letter-spacing: -0.02em;
 }
@@ -2530,7 +2534,7 @@ body.br-modal-open {
 
 .content-box p {
   margin-bottom: 1.25rem;
-  line-height: 1.8;
+  line-height: 1.82;
   color: var(--color-text);
 }
 
@@ -2584,7 +2588,7 @@ body.br-modal-open {
 .legal-content .legal-table td {
   border: 1px solid var(--color-border-soft);
   padding: 0.8rem 1rem;
-  line-height: 1.65;
+  line-height: 1.72;
   vertical-align: top;
 }
 
@@ -2661,7 +2665,7 @@ body.br-modal-open {
   font-size: 0.95rem;
   color: var(--color-text-muted);
   margin: 0;
-  line-height: 1.65;
+  line-height: 1.72;
 }
 
 .stat-row {
@@ -2876,7 +2880,7 @@ body.br-modal-open {
 .service-card p {
   font-size: 0.9rem;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.68;
 }
 
 .service-link {
@@ -3159,7 +3163,7 @@ html.reveal main > .page-intro .page-name {
   font-size: 0.9rem;
   color: var(--color-text-muted);
   margin: 0;
-  line-height: 1.65;
+  line-height: 1.72;
 }
 
 /* 통계 그리드 */
@@ -3805,7 +3809,7 @@ button.position-card {
   margin: 0;
   padding-left: 1.15rem;
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.72;
   color: var(--color-text);
   letter-spacing: -0.02em;
 }
@@ -3847,7 +3851,7 @@ button.position-card {
   margin: 0;
   padding-left: 1.15rem;
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.72;
   color: var(--color-text);
 }
 
@@ -4146,7 +4150,7 @@ button.position-card {
   width: 100%;
   font-size: 0.78rem;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.68;
 }
 
 .footer-legal {
@@ -4237,7 +4241,7 @@ button.position-card {
   margin: 0;
   font-size: 0.78rem;
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.72;
   letter-spacing: -0.015em;
   color: var(--color-text-muted);
 }
@@ -4320,7 +4324,7 @@ button.position-card {
   padding-left: 1.5rem;
 }
 
-.process-list li { margin-bottom: 0.75rem; line-height: 1.6; }
+.process-list li { margin-bottom: 0.75rem; line-height: 1.68; }
 
 /* ---- 헤드헌팅 서비스 페이지 ---- */
 body.page-headhunting main .section {
@@ -4468,7 +4472,7 @@ body.page-headhunting .hh-section-head__badge {
 body.page-headhunting .hh-section-head__sub {
   margin: 0;
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.72;
   color: var(--color-text-muted);
 }
 
@@ -4591,7 +4595,7 @@ body.page-headhunting .hh-steps__title {
 body.page-headhunting .hh-steps__text {
   margin: 0;
   font-size: 0.9375rem;
-  line-height: 1.65;
+  line-height: 1.72;
   color: var(--color-text);
 }
 
@@ -4655,7 +4659,7 @@ body.page-headhunting .hh-highlight__title {
 body.page-headhunting .hh-highlight__text {
   margin: 0;
   font-size: 0.9375rem;
-  line-height: 1.65;
+  line-height: 1.72;
   color: var(--color-text);
 }
 
@@ -4852,7 +4856,7 @@ body.page-strength .st-section-head__badge {
 body.page-strength .st-section-head__sub {
   margin: 0;
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.72;
   color: var(--color-text-muted);
 }
 
@@ -4931,7 +4935,7 @@ body.page-strength .st-cta__sub {
   max-width: 32rem;
   margin: 0 auto 1.5rem;
   font-size: 0.9375rem;
-  line-height: 1.6;
+  line-height: 1.68;
   color: var(--color-text-muted);
 }
 
@@ -5037,7 +5041,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   border: 1px solid var(--color-border-soft);
   padding: 0.85rem 1rem;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.68;
 }
 
 .company-profile-table th {
@@ -5222,7 +5226,7 @@ body.is-nav-open .nav.is-open {
 
   .footer-nav {
     font-size: 0.8125rem;
-    line-height: 1.6;
+    line-height: 1.68;
   }
 
   .footer-meta {
@@ -5243,7 +5247,7 @@ body.is-nav-open .nav.is-open {
 
   .page-header .page-tagline {
     font-size: 0.8125rem;
-    line-height: 1.62;
+    line-height: 1.7;
     padding: 0 0.25rem;
   }
 
@@ -5315,7 +5319,7 @@ body.is-nav-open .nav.is-open {
     font-size: clamp(0.8125rem, 2.85vw, 0.9rem);
     padding-left: max(0.35rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.35rem, env(safe-area-inset-right, 0px));
-    line-height: 1.65;
+    line-height: 1.72;
     word-break: keep-all;
     overflow-wrap: break-word;
   }
@@ -5596,7 +5600,7 @@ body.is-nav-open .nav.is-open {
 
   body.page-main .hero-sub {
     font-size: 0.8125rem;
-    line-height: 1.62;
+    line-height: 1.7;
   }
 }
 
