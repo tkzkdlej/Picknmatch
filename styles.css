@@ -1125,51 +1125,90 @@ body.entry-splash-on {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.02);
+  transform: scale(1.05);
   backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
-/* 슬라이드별 켄번즈 방향 — 활성 슬라이드만 재생 */
+/* 슬라이드별 켄번즈 — 다단계 키 + 구간 이징으로 확대·이동이 더 자연스럽고 역동적으로 보이게 */
 @keyframes hero-drift-a {
-  from {
-    transform: scale(1.02) translate3d(0, 0, 0);
+  0% {
+    transform: scale(1.05) translate3d(0.15%, 0, 0);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
   }
-  to {
-    transform: scale(1.1) translate3d(-1.2%, 0.8%, 0);
+  28% {
+    transform: scale(1.1) translate3d(-0.9%, 0.55%, 0);
+    animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  52% {
+    transform: scale(1.16) translate3d(-1.65%, 1.05%, 0);
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 1);
+  }
+  78% {
+    transform: scale(1.09) translate3d(-0.75%, 0.45%, 0);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  100% {
+    transform: scale(1.06) translate3d(0.1%, -0.2%, 0);
   }
 }
 
 @keyframes hero-drift-b {
-  from {
-    transform: scale(1.06) translate3d(0.5%, 0, 0);
+  0% {
+    transform: scale(1.07) translate3d(0.35%, -0.15%, 0);
+    animation-timing-function: cubic-bezier(0.55, 0, 0.45, 1);
   }
-  to {
-    transform: scale(1.02) translate3d(-0.5%, 0.4%, 0);
+  22% {
+    transform: scale(1.14) translate3d(-0.45%, 0.4%, 0);
+    animation-timing-function: cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+  48% {
+    transform: scale(1.18) translate3d(-0.85%, 0.65%, 0);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  74% {
+    transform: scale(1.1) translate3d(0.2%, 0.1%, 0);
+    animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  100% {
+    transform: scale(1.055) translate3d(0.5%, -0.25%, 0);
   }
 }
 
 @keyframes hero-drift-c {
-  from {
-    transform: scale(1.02) translate3d(0, 0, 0);
+  0% {
+    transform: scale(1.045) translate3d(-0.1%, 0.1%, 0);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   }
-  to {
-    transform: scale(1.09) translate3d(1%, -0.6%, 0);
+  30% {
+    transform: scale(1.1) translate3d(0.95%, -0.55%, 0);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  58% {
+    transform: scale(1.17) translate3d(1.75%, -1.05%, 0);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  100% {
+    transform: scale(1.08) translate3d(1.1%, -0.5%, 0);
   }
 }
 
 .hero-slide[aria-hidden="false"]:nth-child(1) .hero-slide-media img {
-  transform-origin: 25% 75%;
-  animation: hero-drift-a 22s ease-in-out infinite alternate;
+  transform-origin: 22% 78%;
+  will-change: transform;
+  animation: hero-drift-a 21s cubic-bezier(0.42, 0, 0.58, 1) infinite alternate;
 }
 
 .hero-slide[aria-hidden="false"]:nth-child(2) .hero-slide-media img {
-  transform-origin: 50% 45%;
-  animation: hero-drift-b 24s ease-in-out infinite alternate;
+  transform-origin: 48% 42%;
+  will-change: transform;
+  animation: hero-drift-b 24s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
 }
 
 .hero-slide[aria-hidden="false"]:nth-child(3) .hero-slide-media img {
-  transform-origin: 72% 28%;
-  animation: hero-drift-c 20s ease-in-out infinite alternate;
+  transform-origin: 76% 26%;
+  will-change: transform;
+  animation: hero-drift-c 19s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
