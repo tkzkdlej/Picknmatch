@@ -191,6 +191,27 @@
       "aria-label",
       open ? "메뉴 닫기" : "메뉴 열기"
     );
+    if (open) {
+      var qd = document.getElementById("quick-contact-dock");
+      if (qd && qd._pnmDockSheetTimer) {
+        clearTimeout(qd._pnmDockSheetTimer);
+        qd._pnmDockSheetTimer = null;
+      }
+      if (qd) {
+        qd.classList.remove("is-expanded");
+        document.body.classList.remove("quick-contact-dock--expanded");
+        var qChips = qd.querySelector(".quick-contact-dock__chips");
+        var qSheet = qd.querySelector("#quick-contact-sheet");
+        if (qChips) {
+          qChips.setAttribute("aria-expanded", "false");
+          qChips.setAttribute("aria-label", "빠른 문의 열기");
+        }
+        if (qSheet) {
+          qSheet.setAttribute("hidden", "");
+          qSheet.setAttribute("aria-hidden", "true");
+        }
+      }
+    }
   }
 
   if (navToggle && nav) {
@@ -215,6 +236,19 @@
         navToggle.focus();
       }
     });
+
+    /* 모바일: 메뉴 영역·햄버거 버튼 밖을 터치하면 메뉴 닫기 */
+    document.addEventListener(
+      "pointerdown",
+      function (e) {
+        if (window.innerWidth > MOBILE_NAV_MAX) return;
+        if (!nav.classList.contains("is-open")) return;
+        var t = e.target;
+        if (nav.contains(t) || navToggle.contains(t)) return;
+        setNavOpen(false);
+      },
+      true
+    );
 
     window.addEventListener(
       "resize",
@@ -615,15 +649,47 @@
     });
   })();
 
-  // 빠른 문의: 하단 고정 바 — 네비와 반대로 스크롤 내릴 때 표시, 올릴 때 숨김
+  // 빠른 문의: 데스크톱 가로 바 / 모바일 아이콘 칩 + 탭 시 컴팩트 시트. 스크롤 방향으로 바 노출.
   (function initQuickContactDock() {
     if (document.getElementById("quick-contact-dock")) return;
 
+    var MOBILE_DOCK_UI = 900;
     var isMainForm =
       document.body.classList.contains("page-main") && isMainPagePath();
     var formHref = isMainForm ? "#business-request-title" : "/#business-request-title";
 
     document.body.classList.add("has-quick-contact-dock");
+
+    var svgChat =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>';
+    var svgPhone =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+    var svgMail =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+    var svgClose =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+    var svgDockWH = 'width="18" height="18"';
+    var svgDockWHDesk = 'width="20" height="20"';
+    var svgChatDesk = svgChat.replace(svgDockWH, svgDockWHDesk);
+    var svgPhoneDesk = svgPhone.replace(svgDockWH, svgDockWHDesk);
+    var svgMailDesk = svgMail.replace(svgDockWH, svgDockWHDesk);
+
+    function sheetLinkRow(href, primary, title, sub) {
+      return (
+        '<a class="quick-contact-dock__sheet-link' +
+        (primary ? " quick-contact-dock__sheet-link--primary" : "") +
+        '" href="' +
+        href +
+        '">' +
+        '<span class="quick-contact-dock__sheet-link-text">' +
+        '<span class="quick-contact-dock__sheet-link-title">' +
+        title +
+        "</span>" +
+        '<span class="quick-contact-dock__sheet-link-sub">' +
+        sub +
+        "</span></span></a>"
+      );
+    }
 
     var dock = document.createElement("aside");
     dock.id = "quick-contact-dock";
@@ -631,30 +697,66 @@
     dock.setAttribute("aria-hidden", "true");
     dock.setAttribute("aria-label", "빠른 문의 · 업무 요청");
     dock.innerHTML =
-      '<div class="quick-contact-dock__inner">' +
+      '<div class="quick-contact-dock__backdrop" aria-hidden="true"></div>' +
+      '<div class="quick-contact-dock__slide-wrap">' +
+      '<div class="quick-contact-dock__mobile">' +
+      '<div class="quick-contact-dock__sheet" id="quick-contact-sheet" role="dialog" aria-modal="true" aria-labelledby="quick-contact-sheet-title" hidden>' +
+      '<div class="quick-contact-dock__sheet-head">' +
+      '<span id="quick-contact-sheet-title" class="quick-contact-dock__sheet-title">빠른 문의</span>' +
+      '<button type="button" class="quick-contact-dock__sheet-close" aria-label="닫기">' +
+      svgClose +
+      "</button></div>" +
+      '<div class="quick-contact-dock__sheet-body">' +
+      sheetLinkRow(formHref, true, "업무 요청", "폼으로 남기기") +
+      sheetLinkRow("tel:01054041672", false, "전화", "010-5404-1672") +
+      sheetLinkRow(
+        "mailto:shkim@picknmatch.co.kr?subject=%5B%ED%94%BD%EC%95%A4%EB%A7%A4%EC%B9%98%5D%20%EB%AC%B8%EC%9D%98",
+        false,
+        "메일",
+        "shkim@picknmatch.co.kr"
+      ) +
+      "</div></div>" +
+      '<button type="button" class="quick-contact-dock__chips" aria-expanded="false" aria-controls="quick-contact-sheet" aria-label="빠른 문의 열기">' +
+      '<span class="quick-contact-dock__chips-icons" aria-hidden="true">' +
+      '<span class="quick-contact-dock__chip-ic">' +
+      svgChat +
+      "</span>" +
+      '<span class="quick-contact-dock__chip-ic">' +
+      svgPhone +
+      "</span>" +
+      '<span class="quick-contact-dock__chip-ic">' +
+      svgMail +
+      "</span></span>" +
+      '<span class="quick-contact-dock__chips-label">문의</span>' +
+      "</button></div>" +
+      '<div class="quick-contact-dock__inner quick-contact-dock__inner--desktop">' +
       '<a class="quick-contact-dock__item quick-contact-dock__item--primary" href="' +
       formHref +
       '" data-quick-contact="form">' +
       '<span class="quick-contact-dock__icon" aria-hidden="true">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>' +
+      svgChatDesk +
       "</span>" +
       '<span class="quick-contact-dock__text"><span class="quick-contact-dock__title">업무 요청</span><span class="quick-contact-dock__sub">폼으로 남기기</span></span>' +
       "</a>" +
       '<a class="quick-contact-dock__item" href="tel:01054041672">' +
       '<span class="quick-contact-dock__icon" aria-hidden="true">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' +
+      svgPhoneDesk +
       "</span>" +
       '<span class="quick-contact-dock__text"><span class="quick-contact-dock__title">전화</span><span class="quick-contact-dock__sub">010-5404-1672</span></span>' +
       "</a>" +
       '<a class="quick-contact-dock__item" href="mailto:shkim@picknmatch.co.kr?subject=%5B%ED%94%BD%EC%95%A4%EB%A7%A4%EC%B9%98%5D%20%EB%AC%B8%EC%9D%98">' +
       '<span class="quick-contact-dock__icon" aria-hidden="true">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>' +
+      svgMailDesk +
       "</span>" +
       '<span class="quick-contact-dock__text"><span class="quick-contact-dock__title">메일</span><span class="quick-contact-dock__sub">shkim@picknmatch.co.kr</span></span>' +
-      "</a>" +
-      "</div>";
+      "</a></div></div>";
 
     document.body.appendChild(dock);
+
+    var backdrop = dock.querySelector(".quick-contact-dock__backdrop");
+    var sheet = dock.querySelector("#quick-contact-sheet");
+    var chips = dock.querySelector(".quick-contact-dock__chips");
+    var sheetClose = dock.querySelector(".quick-contact-dock__sheet-close");
 
     var prefersReducedDock =
       typeof window.matchMedia === "function" &&
@@ -665,10 +767,47 @@
     var lastDockScrollY = window.scrollY || document.documentElement.scrollTop || 0;
     var dockTick = false;
 
-    function setDockOpen(open) {
+    function setSheetExpanded(exp) {
+      if (exp && nav && nav.classList.contains("is-open")) {
+        setNavOpen(false);
+      }
+      if (dock._pnmDockSheetTimer) {
+        clearTimeout(dock._pnmDockSheetTimer);
+        dock._pnmDockSheetTimer = null;
+      }
+      document.body.classList.toggle("quick-contact-dock--expanded", exp);
+      if (chips) {
+        chips.setAttribute("aria-expanded", exp ? "true" : "false");
+        chips.setAttribute("aria-label", exp ? "빠른 문의 닫기" : "빠른 문의 열기");
+      }
+      if (exp) {
+        if (sheet) {
+          sheet.removeAttribute("hidden");
+          sheet.setAttribute("aria-hidden", "false");
+        }
+        dock.classList.remove("is-expanded");
+        window.requestAnimationFrame(function () {
+          dock.classList.add("is-expanded");
+        });
+      } else {
+        dock.classList.remove("is-expanded");
+        if (sheet) {
+          sheet.setAttribute("aria-hidden", "true");
+          dock._pnmDockSheetTimer = window.setTimeout(function () {
+            dock._pnmDockSheetTimer = null;
+            if (!dock.classList.contains("is-expanded")) {
+              sheet.setAttribute("hidden", "");
+            }
+          }, 300);
+        }
+      }
+    }
+
+    function setScrollDockOpen(open) {
       dock.classList.toggle("is-visible", open);
       document.body.classList.toggle("quick-contact-dock-open", open);
       dock.setAttribute("aria-hidden", open ? "false" : "true");
+      if (!open) setSheetExpanded(false);
     }
 
     function applyDockScroll() {
@@ -676,17 +815,17 @@
       var y = window.scrollY || document.documentElement.scrollTop || 0;
 
       if (prefersReducedDock) {
-        setDockOpen(true);
+        setScrollDockOpen(true);
         lastDockScrollY = y;
         return;
       }
 
       if (y <= topHidePx) {
-        setDockOpen(false);
+        setScrollDockOpen(false);
       } else if (y > lastDockScrollY + deltaPx) {
-        setDockOpen(true);
+        setScrollDockOpen(true);
       } else if (y < lastDockScrollY - deltaPx) {
-        setDockOpen(false);
+        setScrollDockOpen(false);
       }
 
       lastDockScrollY = y;
@@ -702,21 +841,53 @@
       }
     }
 
+    if (chips && sheet) {
+      chips.addEventListener("click", function () {
+        setSheetExpanded(!dock.classList.contains("is-expanded"));
+      });
+    }
+    if (backdrop) {
+      backdrop.addEventListener("click", function () {
+        setSheetExpanded(false);
+      });
+    }
+    if (sheetClose) {
+      sheetClose.addEventListener("click", function () {
+        setSheetExpanded(false);
+      });
+    }
+    dock.querySelectorAll(".quick-contact-dock__sheet-link").forEach(function (a) {
+      a.addEventListener("click", function () {
+        setSheetExpanded(false);
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (!dock.classList.contains("is-expanded")) return;
+      setSheetExpanded(false);
+      if (chips && window.innerWidth <= MOBILE_DOCK_UI) chips.focus();
+    });
+
+    window.addEventListener("resize", function () {
+      lastDockScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      if (window.innerWidth > MOBILE_DOCK_UI) {
+        setSheetExpanded(false);
+      }
+      applyDockScroll();
+    });
+
     if (prefersReducedDock) {
-      setDockOpen(true);
+      setScrollDockOpen(true);
     } else {
       if (lastDockScrollY > topHidePx) {
-        setDockOpen(true);
+        setScrollDockOpen(true);
       } else {
-        setDockOpen(false);
+        setScrollDockOpen(false);
       }
     }
 
     window.addEventListener("scroll", onDockScroll, { passive: true });
-    window.addEventListener("resize", function () {
-      lastDockScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      applyDockScroll();
-    });
   })();
 
   // 업무 요청: 기본 숨김 → CTA 또는 #해시로 표시 후 제목 기준 스크롤
