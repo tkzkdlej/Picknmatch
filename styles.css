@@ -4318,61 +4318,24 @@ button.position-card {
   height: 1.125rem;
 }
 
+/* 도크가 열렸을 때만 본문 하단 여백(가림 방지) */
 body.has-quick-contact-dock {
+  padding-bottom: 0;
+}
+
+body.has-quick-contact-dock.quick-contact-dock-open {
   padding-bottom: calc(3.65rem + env(safe-area-inset-bottom, 0px));
 }
 
 .has-quick-contact-dock .scroll-top {
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+.has-quick-contact-dock.quick-contact-dock-open .scroll-top {
   bottom: calc(4.15rem + env(safe-area-inset-bottom, 0px));
 }
 
-/* 헤더 — 빠른 업무 요청(데스크톱). 모바일은 하단 도크로 통일 */
-.header-quick-cta {
-  display: none;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1.1rem;
-  margin-right: 0.15rem;
-  font-family: var(--font-page-hero);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  border-radius: 999px;
-  border: 1px solid rgba(var(--color-accent-rgb), 0.45);
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-soft) 100%);
-  box-shadow: 0 6px 18px rgba(var(--color-accent-rgb), 0.28);
-  transition:
-    transform 0.2s var(--ease-out),
-    box-shadow 0.2s ease,
-    border-color 0.2s ease,
-    filter 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.header-quick-cta:hover {
-  color: #fff;
-  border-color: rgba(var(--color-accent-rgb), 0.75);
-  box-shadow: 0 8px 22px rgba(var(--color-accent-rgb), 0.36);
-  filter: brightness(1.03);
-  transform: translateY(-1px);
-}
-
-.header-quick-cta:focus-visible {
-  outline: 2px solid rgba(var(--color-accent-rgb), 0.65);
-  outline-offset: 3px;
-}
-
-@media (min-width: 901px) {
-  .header-quick-cta {
-    display: inline-flex;
-  }
-}
-
-/* 하단 고정 — 업무 요청 · 전화 · 메일 (양방향 소통 진입점) */
+/* 하단 고정 — 업무 요청 · 전화 · 메일 (스크롤 방향에 따라 표시) */
 .quick-contact-dock {
   position: fixed;
   left: 0;
@@ -4382,6 +4345,13 @@ body.has-quick-contact-dock {
   padding: 0 max(0.5rem, env(safe-area-inset-left, 0px)) env(safe-area-inset-bottom, 0px)
     max(0.5rem, env(safe-area-inset-right, 0px));
   pointer-events: none;
+  transform: translate3d(0, calc(100% + 16px), 0);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.quick-contact-dock.is-visible {
+  transform: translate3d(0, 0, 0);
 }
 
 .quick-contact-dock__inner {
@@ -4398,19 +4368,6 @@ body.has-quick-contact-dock {
   box-shadow:
     0 -8px 32px rgba(15, 23, 42, 0.1),
     0 -1px 0 rgba(var(--color-accent-rgb), 0.2);
-  transform: translate3d(0, 0, 0);
-  animation: quick-contact-dock-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes quick-contact-dock-in {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 110%, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
 }
 
 .quick-contact-dock__item {
@@ -4500,22 +4457,19 @@ body.has-quick-contact-dock {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .quick-contact-dock__inner {
-    animation: none;
-  }
-
-  .header-quick-cta:hover {
-    transform: none;
+  .quick-contact-dock {
+    transform: none !important;
+    transition: none;
   }
 }
 
 @media print {
-  .quick-contact-dock,
-  .header-quick-cta {
+  .quick-contact-dock {
     display: none !important;
   }
 
-  body.has-quick-contact-dock {
+  body.has-quick-contact-dock,
+  body.has-quick-contact-dock.quick-contact-dock-open {
     padding-bottom: 0;
   }
 }

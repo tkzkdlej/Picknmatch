@@ -615,7 +615,7 @@
     });
   })();
 
-  // 빠른 문의: 하단 고정 바 + 헤더 업무 요청(데스크톱) — 전 페이지 공통
+  // 빠른 문의: 하단 고정 바 — 네비와 반대로 스크롤 내릴 때 표시, 올릴 때 숨김
   (function initQuickContactDock() {
     if (document.getElementById("quick-contact-dock")) return;
 
@@ -628,6 +628,7 @@
     var dock = document.createElement("aside");
     dock.id = "quick-contact-dock";
     dock.className = "quick-contact-dock";
+    dock.setAttribute("aria-hidden", "true");
     dock.setAttribute("aria-label", "빠른 문의 · 업무 요청");
     dock.innerHTML =
       '<div class="quick-contact-dock__inner">' +
@@ -655,16 +656,67 @@
 
     document.body.appendChild(dock);
 
-    var headerInner = document.querySelector(".header-inner");
-    var navToggle = headerInner && headerInner.querySelector(".nav-toggle");
-    if (headerInner && navToggle && !headerInner.querySelector(".header-quick-cta")) {
-      var cta = document.createElement("a");
-      cta.className = "header-quick-cta";
-      cta.href = formHref;
-      cta.setAttribute("data-quick-contact", "form");
-      cta.textContent = "업무 요청";
-      headerInner.insertBefore(cta, navToggle);
+    var prefersReducedDock =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var topHidePx = 100;
+    var deltaPx = 6;
+    var lastDockScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    var dockTick = false;
+
+    function setDockOpen(open) {
+      dock.classList.toggle("is-visible", open);
+      document.body.classList.toggle("quick-contact-dock-open", open);
+      dock.setAttribute("aria-hidden", open ? "false" : "true");
     }
+
+    function applyDockScroll() {
+      dockTick = false;
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+
+      if (prefersReducedDock) {
+        setDockOpen(true);
+        lastDockScrollY = y;
+        return;
+      }
+
+      if (y <= topHidePx) {
+        setDockOpen(false);
+      } else if (y > lastDockScrollY + deltaPx) {
+        setDockOpen(true);
+      } else if (y < lastDockScrollY - deltaPx) {
+        setDockOpen(false);
+      }
+
+      lastDockScrollY = y;
+    }
+
+    function onDockScroll() {
+      if (!dockTick) {
+        window.requestAnimationFrame(function () {
+          applyDockScroll();
+          dockTick = false;
+        });
+        dockTick = true;
+      }
+    }
+
+    if (prefersReducedDock) {
+      setDockOpen(true);
+    } else {
+      if (lastDockScrollY > topHidePx) {
+        setDockOpen(true);
+      } else {
+        setDockOpen(false);
+      }
+    }
+
+    window.addEventListener("scroll", onDockScroll, { passive: true });
+    window.addEventListener("resize", function () {
+      lastDockScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      applyDockScroll();
+    });
   })();
 
   // 업무 요청: 기본 숨김 → CTA 또는 #해시로 표시 후 제목 기준 스크롤
