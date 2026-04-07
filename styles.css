@@ -4908,6 +4908,20 @@ body.page-strength .st-cta__actions .btn-lg {
   min-width: min(100%, 15rem);
 }
 
+/* CTA 밴드는 밝은 배경 — 기본 btn-outline(밝은 글자)은 대비 부족 */
+body.page-strength .st-cta__actions .btn-outline {
+  color: var(--color-primary);
+  background: var(--color-white);
+  border-color: rgba(26, 54, 93, 0.35);
+  box-shadow: var(--shadow-sm);
+}
+
+body.page-strength .st-cta__actions .btn-outline:hover {
+  color: var(--color-primary);
+  border-color: var(--color-accent);
+  background: rgba(212, 175, 55, 0.14);
+}
+
 @media (hover: hover) and (pointer: fine) {
   body.page-strength .strength-card:hover {
     transform: translateY(-2px);
