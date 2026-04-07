@@ -34,8 +34,11 @@
 /resume                         /position/resume                  301!
 /resume/                        /position/resume                  301!
 
-# 2) 끝 슬래시 제거(표시 URL·canonical과 동일하게)
-/main/                          /main                             301!
+# 2) 메인은 루트(/) — 레거시 /main 통합
+/main                           /                                 301!
+/main/                          /                                 301!
+
+# 3) 끝 슬래시 제거(표시 URL·canonical과 동일하게)
 /about-us/greeting/             /about-us/greeting                301!
 /about-us/introduce/            /about-us/introduce               301!
 /about-us/members/              /about-us/members                 301!

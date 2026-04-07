@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" id="top">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -18,7 +18,7 @@
       property="og:description"
       content="기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌"
     />
-    <meta property="og:url" content="https://picknmatch.co.kr/main" />
+    <meta property="og:url" content="https://www.picknmatch.co.kr/" />
     <meta property="og:image" content="https://www.picknmatch.co.kr/images/logo-transparent.png" />
     <meta property="og:image:secure_url" content="https://www.picknmatch.co.kr/images/logo-transparent.png" />
     <meta property="og:image:type" content="image/png" />
@@ -31,17 +31,656 @@
       content="기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌"
     />
     <meta name="twitter:image" content="https://www.picknmatch.co.kr/images/logo-transparent.png" />
+    <link rel="canonical" href="https://www.picknmatch.co.kr/" />
+    <!-- 루트(/) 직접 유입 시 엔트리 스플래시용 플래그 — root-redirect.js 의 replace 없음 -->
+    <script src="/root-entry-flags.js"></script>
+    <!-- 구조화 데이터: Organization / WebSite / 주요 페이지(ItemList). 사이트링크는 구글 자동 노출이나 구조·내비와 함께 신호 강화 -->
+    <script type="application/ld+json" src="/schema-org-main.json"></script>
     <link rel="alternate" type="application/rss+xml" title="픽앤매치 RSS" href="https://picknmatch.co.kr/rss.xml" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#252525" media="(prefers-color-scheme: dark)" />
+    <!-- Favicon: 기본(검색 크롤러) + 라이트·다크 -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-light.png" />
-    <link rel="canonical" href="https://picknmatch.co.kr/main" />
-    <!-- CSP: 인라인 스크립트 불가 → 외부 파일. 스크립트를 먼저 로드해 sessionStorage 설정 후 replace(메타보다 우선) -->
-    <script src="/root-redirect.js"></script>
-    <meta http-equiv="refresh" content="0; url=/main" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-light-32x32.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-light-16x16.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-light.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-dark-32x32.png" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-dark-16x16.png" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" />
   </head>
-  <body>
-    <p style="margin:1rem;font-family:system-ui,sans-serif;font-size:0.9rem;">
-      <a href="/main">메인으로 이동</a> (자동 이동되지 않을 때)
-    </p>
+  <body class="page-main">
+    <!-- 검색·SNS·메신저·메일 등 외부 유입 시 표시 — script.js에서 제어 -->
+    <div
+      id="entry-splash"
+      class="entry-splash"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-label="픽앤매치 소개. 지금 바로 시작하려면 화면을 누르세요."
+      tabindex="-1"
+    >
+      <div class="entry-splash__doors" aria-hidden="true">
+        <span class="entry-splash__door entry-splash__door--left"></span>
+        <span class="entry-splash__door entry-splash__door--right"></span>
+      </div>
+      <div class="entry-splash__inner">
+        <div class="entry-splash__brand">
+          <img src="/images/logo-white.png" alt="" class="entry-splash__logo" width="320" height="82" decoding="async" draggable="false" />
+        </div>
+        <p class="entry-splash__kicker">Executive Search · 채용대행</p>
+        <span class="entry-splash__accent" aria-hidden="true"></span>
+        <p class="entry-splash__tagline">
+          <span class="entry-splash__tagline-line">기업의 성장과 인재의 비전을 잇는</span>
+          <span class="entry-splash__tagline-line">단단한 연결 고리, 픽앤매치</span>
+        </p>
+        <p class="entry-splash__hint" aria-hidden="true">지금 바로 시작하세요</p>
+      </div>
+    </div>
+
+    <header class="header header--over-hero">
+      <div class="header-inner">
+        <a href="#top" class="logo"><img draggable="false" src="/images/logo-transparent.png" data-logo-default="/images/logo-white.png" data-logo-over-hero="/images/logo-transparent.png" alt="Pick &amp; Match 공식 로고 · 주식회사 픽앤매치" /></a>
+        <nav class="nav">
+          <div class="nav-item has-dropdown">
+            <a href="/about-us/greeting" class="nav-link">ABOUT US</a>
+            <ul class="nav-dropdown">
+              <li><a href="/about-us/greeting">인사말</a></li>
+              <li><a href="/about-us/introduce">회사소개</a></li>
+              <li><a href="/about-us/members">MEMBERS</a></li>
+              <li><a href="/about-us/location">오시는길</a></li>
+            </ul>
+          </div>
+          <div class="nav-item has-dropdown">
+            <a href="/client/strength" class="nav-link">CLIENT</a>
+            <ul class="nav-dropdown">
+              <li><a href="/client/strength">픽앤매치의 강점</a></li>
+              <li><a href="/client/headhunting">헤드헌팅서비스</a></li>
+              <!-- 비활성: 채용대행·취업이직컨설팅
+              <li><a href="/client/recruitment">채용대행</a></li>
+              <li><a href="/client/career">취업이직컨설팅</a></li>
+              -->
+              <li><a href="/client/reference">평판조회서비스</a></li>
+              <!-- 비활성: 포지션 의뢰 <li><a href="/client/request-headhunting">포지션 의뢰</a></li> -->
+            </ul>
+          </div>
+          <div class="nav-item has-dropdown">
+            <a href="/position" class="nav-link">POSITION</a>
+            <ul class="nav-dropdown">
+              <li><a href="/position">채용핵심분야/포지션</a></li>
+              <!-- 비활성: 인재 등록·컨설팅 의뢰
+              <li><a href="/position/resume">인재 등록</a></li>
+              <li><a href="/client/request-career">커리어 컨설팅 의뢰</a></li>
+              -->
+            </ul>
+          </div>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero: 이미지 슬라이드 3장 — 첨부하신 「신뢰·속도」(21일 추천) 슬라이드만 제외 -->
+      <section
+        class="hero hero-slider"
+        data-hero-slider
+        aria-roledescription="carousel"
+        aria-label="메인 비주얼. 좌우로 드래그하거나 스와이프하여 슬라이드를 넘길 수 있습니다."
+        tabindex="0"
+      >
+        <div class="hero-slides">
+          <div class="hero-slides-track">
+          <article id="hero-slide-0" class="hero-slide" data-slide-index="0" aria-hidden="false">
+            <div class="hero-slide-media">
+              <img
+                src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&amp;fit=crop&amp;w=1920&amp;q=85"
+                width="1920"
+                height="1080"
+                alt="블루아워 조명이 켜진 도심 유리 빌딩 스카이라인 야경"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </div>
+            <div class="hero-slide-scrim" aria-hidden="true"></div>
+            <div class="hero-content">
+              <p class="hero-kicker">Executive Search Partner</p>
+              <h1 class="hero-main-phrase">
+                기업의 성장과 인재의 비전을 잇는<br />단단한 연결 고리, <span class="hero-accent">픽앤매치</span>
+              </h1>
+              <p class="hero-sub">AI관련 산업 반도체, 2차전지, 에너지, 전력, 소재·재료 전문 Executive Search 파트너</p>
+              <div class="hero-cta">
+                <a href="#business-request-title" class="hero-cta-btn">지금 바로 시작하세요</a>
+              </div>
+            </div>
+          </article>
+
+          <article id="hero-slide-1" class="hero-slide" data-slide-index="1" aria-hidden="true">
+            <div class="hero-slide-media">
+              <img
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=1920&amp;q=80"
+                width="1920"
+                height="1080"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="hero-slide-scrim" aria-hidden="true"></div>
+            <div class="hero-content">
+              <p class="hero-kicker">산업 특화 서치</p>
+              <p class="hero-main-phrase">
+                핵심 인재와 성장 전략을<br /><span class="hero-accent">정확히 연결</span>하는 파트너
+              </p>
+              <p class="hero-sub">친환경, 방산, 중공업, 유통, 건설 등 대기업/중견기업 제조 핵심산업 이해에 기반한 맞춤 매칭</p>
+              <div class="hero-cta">
+                <a href="#business-request-title" class="hero-cta-btn">지금 바로 시작하세요</a>
+              </div>
+            </div>
+          </article>
+
+          <article id="hero-slide-2" class="hero-slide" data-slide-index="2" aria-hidden="true">
+            <div class="hero-slide-media">
+              <img
+                src="https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&amp;fit=crop&amp;w=1920&amp;q=80"
+                width="1920"
+                height="1080"
+                alt="오피스에서 비즈니스 악수를 나누는 두 사람의 손 클로즈업"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="hero-slide-scrim" aria-hidden="true"></div>
+            <div class="hero-content">
+              <p class="hero-kicker">함께 성장하는 미래</p>
+              <p class="hero-main-phrase">
+                더 나은 내일을 향한<br /><span class="hero-accent">기업과 인재의 든든한 연결</span>
+              </p>
+              <p class="hero-sub">정확한 매칭, 빠른 실행, 신뢰 기반의 장기 파트너십을 지향합니다</p>
+              <div class="hero-cta">
+                <a href="#business-request-title" class="hero-cta-btn">지금 바로 시작하세요</a>
+              </div>
+            </div>
+          </article>
+          </div>
+        </div>
+
+        <div class="hero-slider-ui">
+          <div class="hero-dots" role="group" aria-label="슬라이드 선택">
+            <button type="button" class="hero-dot is-active" aria-current="true" aria-label="1번 슬라이드 (현재)" data-slide-to="0"></button>
+            <button type="button" class="hero-dot" aria-label="2번 슬라이드" data-slide-to="1"></button>
+            <button type="button" class="hero-dot" aria-label="3번 슬라이드" data-slide-to="2"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 회사 소개 요약: 설립연도·업력, 핵심 강점 3가지, 대표이사 실적 -->
+      <section class="section intro-summary">
+        <div class="container">
+          <p class="section-eyebrow" lang="en">Why us</p>
+          <h2 class="section-title">픽앤매치를 선택하는 이유</h2>
+          <p class="section-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+          <div class="intro-grid">
+            <div class="intro-block">
+              <h3>10년+ 헤드헌팅 전문성</h3>
+              <p>대기업 핵심 부서 출신 대표이사의 심층 네트워크와 검증된 프로세스</p>
+            </div>
+            <div class="intro-block">
+              <h3>산업별 맞춤 서치</h3>
+              <p>화학·반도체·2차전지·친환경·중공업·에너지·소재·재료·방산·유통·건설 특화 분야의 정밀한 인재 발굴</p>
+            </div>
+            <div class="intro-block">
+              <h3>비밀 유지 & 신속 매칭</h3>
+              <p>철저한 기밀보장, 평균 7~10일 내 최적후보 추천</p>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-item"><span class="stat-num">100+</span><span>성공 매칭</span></div>
+            <div class="stat-item"><span class="stat-num">10+</span><span>산업 영역</span></div>
+            <div class="stat-item"><span class="stat-num">90%+</span><span>성공률</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 전문 산업/직무: 10개 -->
+      <section class="section section-alt">
+        <div class="container">
+          <p class="section-eyebrow" lang="en">Industries</p>
+          <h2 class="section-title">핵심 산업 분야</h2>
+          <p class="section-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+          <div class="industry-grid">
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="화학 실험·연구 실험실"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">화학</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1566930665082-4ae9dbbb5b6b?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="대형 설비·기계가 갖춰진 중공업 제조 현장"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">중공업</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="전자기판·반도체 부품"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">반도체</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1581244249923-172ef5029576?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="배터리·에너지 저장"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">2차전지</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="풍력·친환경 에너지"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">친환경</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="태양광 패널이 설치된 에너지 시설"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">에너지</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1697698532634-ea59b636ccea?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="강재·금속 코일 등 소재·재료 적치"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">소재·재료</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1685839704154-96094d2617f3?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="장갑 전차·지상 방위 무기체계"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">방산</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="물류 창고·유통 시설"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">유통</span>
+            </div>
+            <div class="industry-card">
+              <div class="industry-card-bg">
+                <img
+                  src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                  width="800"
+                  height="600"
+                  alt="건설 현장·크레인"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="industry-card-overlay" aria-hidden="true"></div>
+              <span class="industry-card-label">건설</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 프로세스: 4~6단계 -->
+      <section class="section">
+        <div class="container">
+          <p class="section-eyebrow" lang="en">Process</p>
+          <h2 class="section-title">헤드헌팅 프로세스</h2>
+          <p class="section-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+          <div class="process-flow">
+            <div class="flow-step"><span>01</span>고객 니즈 분석</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><span>02</span>인재 서치</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><span>03</span>검증·추천</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><span>04</span>면접·협상</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><span>05</span>입사 후 Follow-up</div>
+          </div>
+          <p style="text-align: center; margin-top: 1.5rem;"><a href="/client/headhunting" class="service-link">상세 프로세스 보기 →</a></p>
+        </div>
+      </section>
+
+      <!-- CLIENT 서비스 섹션 비표시(복구 시 아래 블록 주석 해제). 내부에 중첩 주석 없음. -->
+      <!--
+      <section class="section section-alt">
+        <div class="container">
+          <h2 class="section-title">CLIENT</h2>
+          <p class="section-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
+          <div class="service-grid" id="services">
+            <article class="service-card">
+              <div class="service-icon" aria-hidden="true">
+                <svg class="service-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                  <path d="M4.5 20.118a7.5 7.5 0 0 1 15 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.5-1.632Z" />
+                </svg>
+              </div>
+              <h3>Executive Search</h3>
+              <p>C-level·임원급 헤드헌팅. 비밀 채용 전문.</p>
+              <a href="/client/headhunting" class="service-link">자세히 보기 →</a>
+            </article>
+            [비활성 보관: 채용대행 카드]
+            <article class="service-card">
+              <div class="service-icon" aria-hidden="true">
+                <svg class="service-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                  <path d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2V5Z" />
+                  <path d="M9 12h6M9 16h6" />
+                </svg>
+              </div>
+              <h3>채용대행</h3>
+              <p>대규모 공채·상시채용 전 과정 대행.</p>
+              <a href="/client/recruitment" class="service-link">자세히 보기 →</a>
+            </article>
+            <article class="service-card">
+              <div class="service-icon" aria-hidden="true">
+                <svg class="service-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" fill="none" />
+                  <path d="m20 20-4.2-4.2" />
+                </svg>
+              </div>
+              <h3>평판조회</h3>
+              <p>후보자 경력·평판 체계적 조회.</p>
+              <a href="/client/reference" class="service-link">자세히 보기 →</a>
+            </article>
+            [비활성 보관: 커리어 컨설팅 카드]
+            <article class="service-card">
+              <div class="service-icon" aria-hidden="true">
+                <svg class="service-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <h3>커리어 컨설팅</h3>
+              <p>맞춤형 이직·커리어 컨설팅.</p>
+              <a href="/client/career" class="service-link">자세히 보기 →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+      -->
+
+      <!-- 업무 요청 (이메일 전송) -->
+      <section
+        id="business-request"
+        class="section section-alt section-business-request business-request--collapsed"
+        aria-labelledby="business-request-title"
+        aria-hidden="true"
+      >
+        <div class="container">
+          <p class="section-eyebrow" lang="en">Inquiry</p>
+          <h2 id="business-request-title" class="section-title">업무 요청</h2>
+          <p class="section-tagline">의뢰·문의 사항을 남겨 주시면 빠르게 연락드리겠습니다.</p>
+          <form id="business-request-form" class="business-request-form" novalidate>
+            <div class="br-field">
+              <label class="br-label" for="br-company">회사명 <span class="br-req" aria-hidden="true">*</span></label>
+              <input class="br-input" type="text" id="br-company" name="company" autocomplete="organization" required maxlength="160" placeholder="회사 또는 기관명" />
+            </div>
+            <div class="br-field">
+              <label class="br-label" for="br-name">이름 <span class="br-req" aria-hidden="true">*</span></label>
+              <input class="br-input" type="text" id="br-name" name="name" autocomplete="name" required maxlength="120" placeholder="성함 또는 담당자명" />
+            </div>
+            <div class="br-field">
+              <div class="br-label" id="br-email-label">이메일 <span class="br-req" aria-hidden="true">*</span></div>
+              <div class="br-email-row" role="group" aria-labelledby="br-email-label">
+                <input
+                  class="br-input br-email-local"
+                  type="text"
+                  id="br-email-local"
+                  autocomplete="username"
+                  inputmode="email"
+                  required
+                  maxlength="64"
+                  placeholder="아이디"
+                />
+                <span class="br-email-at" aria-hidden="true">@</span>
+                <div class="br-email-domain-wrap">
+                  <label class="visually-hidden" for="br-email-domain">이메일 도메인 선택</label>
+                  <select id="br-email-domain" class="br-input br-select br-email-domain-select">
+                    <option value="">직접 입력</option>
+                    <option value="gmail.com" selected>gmail.com</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                    <option value="kakao.com">kakao.com</option>
+                    <option value="nate.com">nate.com</option>
+                    <option value="outlook.com">outlook.com</option>
+                    <option value="hotmail.com">hotmail.com</option>
+                    <option value="live.com">live.com</option>
+                    <option value="yahoo.com">yahoo.com</option>
+                    <option value="icloud.com">icloud.com</option>
+                    <option value="protonmail.com">protonmail.com</option>
+                  </select>
+                  <input
+                    class="br-input br-email-domain-custom"
+                    type="text"
+                    id="br-email-domain-custom"
+                    maxlength="120"
+                    placeholder="example.com"
+                    autocomplete="off"
+                    hidden
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="br-field">
+              <label class="br-label" for="br-message">요청 내용 <span class="br-req" aria-hidden="true">*</span></label>
+              <textarea
+                class="br-textarea"
+                id="br-message"
+                name="message"
+                required
+                rows="8"
+                maxlength="20000"
+                placeholder="포지션·일정·기밀 요청 등 구체적으로 적어 주시면 상담에 도움이 됩니다."
+              ></textarea>
+            </div>
+            <div class="br-field br-field--file">
+              <div class="br-label" id="business-request-file-label">파일 첨부 <span class="br-opt">(선택)</span></div>
+              <div class="br-file-shell" role="group" aria-labelledby="business-request-file-label">
+                <input
+                  type="file"
+                  id="business-request-file"
+                  name="attachment"
+                  class="br-file-input"
+                  tabindex="-1"
+                  accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg,.webp,.zip"
+                />
+                <div class="br-file-row">
+                  <button type="button" class="br-file-btn" id="business-request-file-btn">
+                    파일 선택
+                  </button>
+                  <span class="br-file-display" id="business-request-file-display" aria-live="polite">선택된 파일 없음</span>
+                </div>
+              </div>
+              <p id="business-request-file-hint" class="br-file-hint">PDF, 이미지, 문서 등 · 최대 4MB</p>
+            </div>
+            <div class="br-field br-field--consent">
+              <div class="br-consent">
+                <input
+                  type="checkbox"
+                  id="br-privacy-consent"
+                  name="privacy_consent"
+                  value="yes"
+                  required
+                  aria-required="true"
+                />
+                <div class="br-consent__text">
+                  <label for="br-privacy-consent" class="br-consent__label">개인정보 수집 및 이용에 동의합니다.</label>
+                  <a href="/privacy" class="br-consent__link">[내용보기]</a>
+                </div>
+              </div>
+            </div>
+            <div class="br-actions">
+              <button type="submit" class="br-submit">업무 요청 보내기</button>
+            </div>
+            <p class="br-privacy">제출하신 정보는 업무 문의 회신 목적으로만 사용됩니다.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <div
+      id="business-request-success-modal"
+      class="br-success-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="br-success-title"
+      aria-describedby="br-success-desc"
+    >
+      <div class="br-success-modal__panel">
+        <h2 id="br-success-title" class="br-success-modal__title">요청이 완료되었습니다</h2>
+        <p id="br-success-desc" class="br-success-modal__desc">
+          <span class="br-success-modal__tagline">정확한 안목으로 뽑고(Pick), 최적의 자리에 맞추겠습니다(Match)</span>
+          <span class="br-success-modal__thanks">감사합니다</span>
+        </p>
+        <button type="button" class="br-success-modal__btn" id="business-request-success-ok">확인</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="container footer-grid">
+          <div class="footer-col">
+            <h2 class="footer-heading">ABOUT US</h2>
+            <ul class="footer-list">
+              <li><a href="/about-us/greeting">인사말</a></li>
+              <li><a href="/about-us/introduce">회사소개</a></li>
+              <li><a href="/about-us/members">MEMBERS</a></li>
+              <li><a href="/about-us/location">오시는길</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">CLIENT</h2>
+            <ul class="footer-list">
+              <li><a href="/client/strength">픽앤매치의 강점</a></li>
+              <li><a href="/client/headhunting">헤드헌팅서비스</a></li>
+              <li><a href="/client/reference">평판조회서비스</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">POSITION</h2>
+            <ul class="footer-list">
+              <li><a href="/position">채용핵심분야/포지션</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-col--contact">
+            <h2 class="footer-heading">연락처</h2>
+            <ul class="footer-contact-rows">
+              <li>
+                <span class="footer-contact-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </span>
+                <a href="tel:01054041672">010-5404-1672</a>
+              </li>
+              <li>
+                <span class="footer-contact-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </span>
+                <a href="mailto:shkim@picknmatch.co.kr">shkim@picknmatch.co.kr</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container footer-bottom-inner">
+          <p class="footer-meta-line">
+            <span>주식회사 픽앤매치</span><span class="footer-sep" aria-hidden="true">|</span><span>대표이사 김승환</span>
+          </p>
+          <div class="footer-bottom-center">
+            <a href="#top" class="footer-bottom-logo" aria-label="페이지 최상단으로 이동">
+              <img src="/images/logo-transparent.png" alt="" width="200" height="52" class="footer-bottom-logo__img" draggable="false" decoding="async" />
+            </a>
+            <p class="footer-legal">
+              <a href="/privacy">개인정보처리방침</a><span class="footer-sep" aria-hidden="true">|</span><a href="/terms">이용약관</a>
+            </p>
+          </div>
+          <p class="footer-copy">Copyright © 2026 pick&amp;match All rights reserved</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/business-request.js" defer></script>
   </body>
 </html>

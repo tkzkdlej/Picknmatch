@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>픽앤매치 | 기업 맞춤형 인재 서치 전문</title>
-    <link>https://picknmatch.co.kr/main</link>
+    <link>https://www.picknmatch.co.kr/</link>
     <description>기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌</description>
     <language>ko-KR</language>
     <lastBuildDate>Wed, 02 Apr 2026 00:00:00 +0900</lastBuildDate>
@@ -10,12 +10,12 @@
     <image>
       <url>https://picknmatch.co.kr/images/logo-white.png</url>
       <title>픽앤매치</title>
-      <link>https://picknmatch.co.kr/main</link>
+      <link>https://www.picknmatch.co.kr/</link>
     </image>
     <item>
       <title>메인 | 픽앤매치</title>
-      <link>https://picknmatch.co.kr/main</link>
-      <guid isPermaLink="true">https://picknmatch.co.kr/main</guid>
+      <link>https://www.picknmatch.co.kr/</link>
+      <guid isPermaLink="true">https://www.picknmatch.co.kr/</guid>
       <pubDate>Wed, 02 Apr 2026 00:00:00 +0900</pubDate>
       <description><![CDATA[Executive Search, 헤드헌팅, 채용 대행. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌 픽앤매치입니다.]]></description>
     </item>

@@ -3,11 +3,11 @@
 (function () {
   "use strict";
 
-  /** 메인(/main)에서만: 로고 클릭 시 맨 위로 스크롤. 그 외 페이지는 href="/main" 그대로 이동. */
+  /** 메인(루트 / 또는 레거시 /main)에서만: 로고 클릭 시 맨 위로 스크롤. 그 외 페이지는 홈(/)으로 이동. */
   function isMainPagePath() {
     var p = (window.location.pathname || "").replace(/\/index\.html$/i, "");
     if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
-    return p === "/main";
+    return p === "/" || p === "";
   }
 
   /** 메인: 새로고침(F5) 시 항상 히어로 최상단 — 스크롤 복원·#해시로 인한 중간 위치 방지 */
@@ -45,8 +45,8 @@
   })();
 
   /**
-   * 엔트리 스플래시: 메인(/main) 첫 방문 시 — 검색·SNS·메신저·공유 링크·referrer 비공개 인앱 등.
-   * 같은 사이트 내부 링크로만 들어온 경우는 제외. ?entry=0 이면 비표시. root-redirect.js 와 동기화.
+   * 엔트리 스플래시: 메인(/) 첫 방문 시 — 검색·SNS·메신저·공유 링크·referrer 비공개 인앱 등.
+   * 같은 사이트 내부 링크로만 들어온 경우는 제외. ?entry=0 이면 비표시. root-entry-flags.js 와 동기화.
    */
   function isOurSiteReferrer(ref) {
     if (!ref) return false;
@@ -89,7 +89,7 @@
       fromSearch = false;
     }
 
-    /* 루트(/) → /main 리다이렉트 직후 등 — root-redirect.js 에서 넘긴 플래그 */
+    /* 루트(/) 직접 유입 또는 구버전 리다이렉트 직후 — root-entry-flags.js 등에서 넘긴 플래그 */
     if (!fromSearch) {
       try {
         if (window.sessionStorage && sessionStorage.getItem("pnm_from_search_entry") === "1") {

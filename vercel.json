@@ -15,8 +15,9 @@
     }
   ],
   "redirects": [
-    { "source": "/index.html", "destination": "/main", "permanent": true },
-    { "source": "/main.html", "destination": "/main", "permanent": true },
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/main.html", "destination": "/", "permanent": true },
+    { "source": "/main", "destination": "/", "permanent": true },
     { "source": "/company.html", "destination": "/about-us/introduce", "permanent": true },
     { "source": "/achievement.html", "destination": "/client/achievement", "permanent": true },
     { "source": "/career.html", "destination": "/client/career", "permanent": true },
@@ -67,7 +68,7 @@
     { "source": "/resume", "destination": "/position/resume", "permanent": true },
     { "source": "/resume/", "destination": "/position/resume", "permanent": true },
 
-    { "source": "/main/", "destination": "/main", "permanent": true },
+    { "source": "/main/", "destination": "/", "permanent": true },
     { "source": "/about-us/greeting/", "destination": "/about-us/greeting", "permanent": true },
     { "source": "/about-us/introduce/", "destination": "/about-us/introduce", "permanent": true },
     { "source": "/about-us/members/", "destination": "/about-us/members", "permanent": true },

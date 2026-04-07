@@ -6,7 +6,7 @@
       "@id": "https://picknmatch.co.kr/#organization",
       "name": "주식회사 픽앤매치",
       "alternateName": ["픽앤매치", "Pick & Match", "Picknmatch"],
-      "url": "https://picknmatch.co.kr/main",
+      "url": "https://www.picknmatch.co.kr/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://www.picknmatch.co.kr/images/logo-transparent.png"
@@ -16,7 +16,7 @@
     {
       "@type": "WebSite",
       "@id": "https://picknmatch.co.kr/#website",
-      "url": "https://picknmatch.co.kr/",
+      "url": "https://www.picknmatch.co.kr/",
       "name": "픽앤매치",
       "alternateName": "Pick & Match",
       "publisher": { "@id": "https://picknmatch.co.kr/#organization" },
@@ -24,8 +24,8 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://picknmatch.co.kr/main#webpage",
-      "url": "https://picknmatch.co.kr/main",
+      "@id": "https://www.picknmatch.co.kr/#webpage",
+      "url": "https://www.picknmatch.co.kr/",
       "name": "픽앤매치 | 기업 맞춤형 인재 서치 전문",
       "description": "기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치. 제조업과 기술산업 중심의 핵심 인재를 정확하게 연결하는 서치펌",
       "isPartOf": { "@id": "https://picknmatch.co.kr/#website" },

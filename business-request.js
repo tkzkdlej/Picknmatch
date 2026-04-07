@@ -92,7 +92,7 @@
     modal.hidden = true;
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("br-modal-open");
-    window.location.href = "/main";
+    window.location.href = "/";
   }
 
   if (modalBtn) {
