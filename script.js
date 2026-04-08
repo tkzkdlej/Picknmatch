@@ -663,8 +663,6 @@
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
     var svgFabClose =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
-    var svgPanelClose =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
 
     function sheetLinkRow(href, primary, title, sub, dataForm) {
       var dataAttr = dataForm ? ' data-quick-contact="form"' : "";
@@ -696,10 +694,7 @@
       '<div class="quick-contact-dock__anchor">' +
       '<div class="quick-contact-dock__panel" id="quick-contact-panel" role="dialog" aria-modal="true" aria-labelledby="quick-contact-panel-title" hidden>' +
       '<div class="quick-contact-dock__panel-head">' +
-      '<span id="quick-contact-panel-title" class="quick-contact-dock__panel-title">빠른 문의</span>' +
-      '<button type="button" class="quick-contact-dock__panel-close" aria-label="닫기">' +
-      svgPanelClose +
-      "</button></div>" +
+      '<span id="quick-contact-panel-title" class="quick-contact-dock__panel-title">빠른 문의</span></div>' +
       '<div class="quick-contact-dock__panel-body">' +
       sheetLinkRow(formHref, true, "업무 요청", "폼으로 남기기", true) +
       sheetLinkRow("tel:01054041672", false, "전화", "010-5404-1672") +
@@ -724,7 +719,6 @@
     var backdrop = dock.querySelector(".quick-contact-dock__backdrop");
     var panel = dock.querySelector("#quick-contact-panel");
     var fab = dock.querySelector(".quick-contact-dock__fab");
-    var panelClose = dock.querySelector(".quick-contact-dock__panel-close");
 
     var prefersReducedDock =
       typeof window.matchMedia === "function" &&
@@ -818,12 +812,6 @@
     if (backdrop) {
       backdrop.addEventListener("click", function () {
         setSheetExpanded(false);
-      });
-    }
-    if (panelClose) {
-      panelClose.addEventListener("click", function () {
-        setSheetExpanded(false);
-        if (fab) fab.focus();
       });
     }
     dock.querySelectorAll(".quick-contact-dock__sheet-link").forEach(function (a) {
