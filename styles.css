@@ -4399,74 +4399,13 @@ button.position-card {
   opacity: 0.72;
 }
 
-/* 맨 위로 스크롤 */
-.scroll-top {
-  position: fixed;
-  right: 1.25rem;
-  bottom: 1.5rem;
-  z-index: 90;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  border: 1px solid rgba(var(--color-accent-rgb), 0.42);
-  border-radius: var(--radius-md);
-  background: linear-gradient(165deg, var(--color-primary-light) 0%, var(--color-primary) 55%, #0d1522 100%);
-  color: rgba(255, 255, 255, 0.96);
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(0.45rem);
-  transition:
-    opacity 0.28s var(--ease-out),
-    visibility 0.28s,
-    transform 0.28s var(--ease-out),
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    color 0.2s ease;
-}
-
-.scroll-top.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.scroll-top:hover {
-  color: var(--color-gold-highlight);
-  border-color: rgba(var(--color-accent-rgb), 0.65);
-  box-shadow: var(--shadow-lg);
-}
-
-.scroll-top:focus-visible {
-  outline: 2px solid rgba(var(--color-accent-rgb), 0.55);
-  outline-offset: 3px;
-}
-
-.scroll-top svg {
-  display: block;
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-/* FAB 도크 노출 시 본문·맨위로 버튼 하단 여백 */
+/* FAB 도크 노출 시 본문 하단 여백 */
 body.has-quick-contact-dock {
   padding-bottom: 0;
 }
 
 body.has-quick-contact-dock.quick-contact-dock-open {
   padding-bottom: calc(4.85rem + env(safe-area-inset-bottom, 0px));
-}
-
-.has-quick-contact-dock .scroll-top {
-  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
-}
-
-.has-quick-contact-dock.quick-contact-dock-open .scroll-top {
-  bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
 }
 
 /* 빠른 문의: 우하단 단일 FAB — 클릭 시 패널 토글 */
@@ -6675,20 +6614,6 @@ body.is-nav-open .nav.is-open {
 
   .map-fallback {
     min-height: clamp(220px, 38vh, 340px);
-  }
-
-  .scroll-top {
-    right: max(1rem, env(safe-area-inset-right, 0px));
-    bottom: max(1.2rem, env(safe-area-inset-bottom, 0px));
-    width: 2.75rem;
-    height: 2.75rem;
-    min-width: 44px;
-    min-height: 44px;
-  }
-
-  .scroll-top svg {
-    width: 1rem;
-    height: 1rem;
   }
 }
 

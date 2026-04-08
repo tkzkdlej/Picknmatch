@@ -960,41 +960,6 @@
     }
   })();
 
-  // 의뢰 폼 제출 처리 (비활성: 복원 시 주석 해제)
-  // 맨 위로 스크롤
-  (function initScrollTop() {
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "scroll-top";
-    btn.setAttribute("aria-label", "맨 위로");
-    btn.innerHTML =
-      '<svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M4 14h16l-8-9-8 9z"/></svg>';
-
-    document.body.appendChild(btn);
-
-    var threshold = 320;
-    var prefersReduced =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    function onScroll() {
-      var y = window.scrollY || document.documentElement.scrollTop;
-      btn.classList.toggle("is-visible", y > threshold);
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    btn.addEventListener("click", function () {
-      if (prefersReduced) {
-        window.scrollTo(0, 0);
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-      btn.blur();
-    });
-  })();
-
   /** 평판조회 의뢰 → /api/send-reference-request (Vercel·Resend) */
   (function initReferenceRequestForms() {
     function isValidEmail(s) {
