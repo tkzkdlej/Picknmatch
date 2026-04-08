@@ -5630,6 +5630,22 @@ body.page-reference .ref-section-head__sub {
   color: var(--color-text-muted);
 }
 
+body.page-reference .ref-section-head__sub--stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 36rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+body.page-reference .ref-section-head__sub-line {
+  display: block;
+  max-width: 100%;
+  text-wrap: balance;
+}
+
 body.page-reference .ref-scope-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
