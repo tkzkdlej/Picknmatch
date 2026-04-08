@@ -4405,7 +4405,7 @@ body.has-quick-contact-dock {
 }
 
 body.has-quick-contact-dock.quick-contact-dock-open {
-  padding-bottom: calc(4.85rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(5.15rem + env(safe-area-inset-bottom, 0px));
 }
 
 /* 빠른 문의: 우하단 단일 FAB — 클릭 시 패널 토글 */
@@ -4415,8 +4415,9 @@ body.has-quick-contact-dock.quick-contact-dock-open {
   bottom: 0;
   left: auto;
   top: auto;
-  z-index: 88;
-  padding: 0 max(0.65rem, env(safe-area-inset-right, 0px)) max(0.65rem, env(safe-area-inset-bottom, 0px)) 0;
+  z-index: 92;
+  padding: 0 max(0.75rem, env(safe-area-inset-right, 0px))
+    max(1.15rem, calc(0.45rem + env(safe-area-inset-bottom, 0px))) 0;
   width: auto;
   height: auto;
   pointer-events: none;
@@ -4467,8 +4468,9 @@ body.has-quick-contact-dock.quick-contact-dock-open {
   background: linear-gradient(165deg, #fff 0%, #f8fafc 100%);
   border: 1px solid rgba(26, 36, 54, 0.1);
   box-shadow:
-    0 14px 44px rgba(15, 23, 42, 0.15),
-    0 0 0 1px rgba(var(--color-accent-rgb), 0.12);
+    0 16px 48px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(var(--color-accent-rgb), 0.16),
+    0 0 28px rgba(var(--color-accent-rgb), 0.1);
   overflow: hidden;
   transform-origin: 100% 100%;
   transform: translate3d(0, 12px, 0) scale(0.93);
@@ -4589,23 +4591,25 @@ body.has-quick-contact-dock.quick-contact-dock-open {
   flex-shrink: 0;
   pointer-events: auto;
   position: relative;
-  width: 3.35rem;
-  height: 3.35rem;
+  width: 3.6rem;
+  height: 3.6rem;
   padding: 0;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   color: var(--color-primary);
   background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    #fff 42%,
-    rgba(var(--color-accent-rgb), 0.15) 100%
+    150deg,
+    #fff 0%,
+    #fafbfc 38%,
+    rgba(var(--color-accent-rgb), 0.22) 100%
   );
   box-shadow:
-    0 4px 18px rgba(15, 23, 42, 0.14),
-    0 0 0 1px rgba(var(--color-accent-rgb), 0.34),
-    0 1px 0 rgba(255, 255, 255, 0.92) inset;
+    0 0 0 3px rgba(255, 255, 255, 0.98),
+    0 0 0 5px rgba(var(--color-accent-rgb), 0.42),
+    0 6px 22px rgba(15, 23, 42, 0.2),
+    0 14px 40px rgba(var(--color-accent-rgb), 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
   transition:
     transform 0.38s cubic-bezier(0.34, 1.45, 0.64, 1),
     box-shadow 0.32s ease;
@@ -4614,22 +4618,26 @@ body.has-quick-contact-dock.quick-contact-dock-open {
 
 .quick-contact-dock__fab:hover {
   box-shadow:
-    0 8px 30px rgba(15, 23, 42, 0.16),
-    0 0 0 1px rgba(var(--color-accent-rgb), 0.46),
-    0 1px 0 rgba(255, 255, 255, 0.96) inset;
+    0 0 0 3px rgba(255, 255, 255, 0.98),
+    0 0 0 5px rgba(var(--color-accent-rgb), 0.55),
+    0 10px 32px rgba(15, 23, 42, 0.22),
+    0 18px 48px rgba(var(--color-accent-rgb), 0.26),
+    0 1px 0 rgba(255, 255, 255, 0.98) inset;
 }
 
 .quick-contact-dock__fab:focus-visible {
-  outline: 2px solid rgba(var(--color-accent-rgb), 0.55);
-  outline-offset: 3px;
+  outline: 3px solid rgba(var(--color-accent-rgb), 0.65);
+  outline-offset: 4px;
 }
 
 .quick-contact-dock.is-expanded .quick-contact-dock__fab {
   transform: scale(1.05);
   box-shadow:
-    0 10px 34px rgba(var(--color-accent-rgb), 0.2),
-    0 0 0 1px rgba(var(--color-accent-rgb), 0.48),
-    0 1px 0 rgba(255, 255, 255, 0.96) inset;
+    0 0 0 3px rgba(255, 255, 255, 0.98),
+    0 0 0 5px rgba(var(--color-accent-rgb), 0.58),
+    0 12px 36px rgba(15, 23, 42, 0.22),
+    0 20px 52px rgba(var(--color-accent-rgb), 0.28),
+    0 1px 0 rgba(255, 255, 255, 0.98) inset;
 }
 
 .quick-contact-dock__fab:active {
@@ -4653,7 +4661,8 @@ body.has-quick-contact-dock.quick-contact-dock-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-accent-dark);
+  color: var(--color-primary);
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.9));
   transition:
     opacity 0.28s ease,
     transform 0.38s cubic-bezier(0.34, 1.4, 0.64, 1);
@@ -4661,6 +4670,8 @@ body.has-quick-contact-dock.quick-contact-dock-open {
 
 .quick-contact-dock__fab-icon svg {
   display: block;
+  width: 1.45rem;
+  height: 1.45rem;
 }
 
 .quick-contact-dock__fab-icon--close {
