@@ -4400,12 +4400,12 @@ button.position-card {
   opacity: 0.72;
 }
 
-/* FAB 도크 노출 시 본문 하단 여백 */
+/* FAB 도크: 본문(main)만 하단 여백 — 푸터 아래 빈 줄(body 패딩) 방지 */
 body.has-quick-contact-dock {
   padding-bottom: 0;
 }
 
-body.has-quick-contact-dock.quick-contact-dock-open {
+body.has-quick-contact-dock.quick-contact-dock-open main {
   padding-bottom: calc(5.15rem + env(safe-area-inset-bottom, 0px));
 }
 
@@ -4712,6 +4712,10 @@ body.has-quick-contact-dock.quick-contact-dock-open {
 
   body.has-quick-contact-dock,
   body.has-quick-contact-dock.quick-contact-dock-open {
+    padding-bottom: 0;
+  }
+
+  body.has-quick-contact-dock.quick-contact-dock-open main {
     padding-bottom: 0;
   }
 }
