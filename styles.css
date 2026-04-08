@@ -595,6 +595,7 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   padding: 10px;
   border-radius: var(--radius-sm);
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .nav-toggle span {
@@ -4428,6 +4429,17 @@ body.has-quick-contact-dock.quick-contact-dock-open main {
   padding-bottom: calc(5.15rem + env(safe-area-inset-bottom, 0px));
 }
 
+/* 좁은 뷰포트: FAB가 본문·푸터 CTA를 가리지 않도록 main 하단 여백(열림 시 조금 더 확보) */
+@media (max-width: 900px) {
+  body.has-quick-contact-dock main {
+    padding-bottom: calc(4.35rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.has-quick-contact-dock.quick-contact-dock-open main {
+    padding-bottom: calc(5.95rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 /* 빠른 문의: 우하단 단일 FAB — 클릭 시 패널 토글 */
 .quick-contact-dock {
   position: fixed;
@@ -4545,6 +4557,7 @@ body.has-quick-contact-dock.quick-contact-dock-open main {
     background 0.2s ease,
     border-color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .quick-contact-dock__sheet-link:hover {
@@ -4610,6 +4623,7 @@ body.has-quick-contact-dock.quick-contact-dock-open main {
     transform 0.38s cubic-bezier(0.34, 1.45, 0.64, 1),
     box-shadow 0.32s ease;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .quick-contact-dock__fab:hover {
@@ -6183,6 +6197,105 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   .stat-row {
     padding-left: max(0.85rem, env(safe-area-inset-left, 0px));
     padding-right: max(0.85rem, env(safe-area-inset-right, 0px));
+  }
+
+  .hero-cta-btn {
+    touch-action: manipulation;
+  }
+}
+
+/* 평판조회: 모바일에서 절차 카드·FAQ 터치·타이포 정리 */
+@media (max-width: 768px) {
+  body.page-reference .ref-steps {
+    gap: 0.65rem;
+    max-width: none;
+  }
+
+  body.page-reference .ref-steps__item {
+    padding: 1rem 1rem 1.15rem 3.5rem;
+    gap: 0.55rem 0.75rem;
+  }
+
+  body.page-reference .ref-steps__item::before {
+    left: 0.7rem;
+    top: 1.05rem;
+    width: 2.375rem;
+    height: 2.375rem;
+    font-size: 0.78rem;
+  }
+
+  body.page-reference .ref-steps__item:not(:last-child)::after {
+    left: 1.84rem;
+    top: 3.5rem;
+  }
+
+  body.page-reference .ref-steps__icon {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  body.page-reference .ref-steps__title {
+    font-size: 1rem;
+  }
+
+  body.page-reference .ref-steps__text {
+    font-size: 0.875rem;
+    line-height: 1.66;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  body.page-reference .ref-faq__q {
+    min-height: 48px;
+    padding: 0.85rem 1rem;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  body.page-reference .ref-faq__a p {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  body.page-reference .ref-scope-card__title {
+    font-size: 1rem;
+  }
+
+  body.page-reference .ref-scope-card__text {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  body.page-reference .ref-deliver-list {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  body.page-reference .ref-notice__text {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+}
+
+@media (max-width: 380px) {
+  body.page-reference .ref-steps__item {
+    padding: 0.95rem 0.75rem 1.05rem 3.15rem;
+  }
+
+  body.page-reference .ref-steps__item::before {
+    left: 0.55rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 0.72rem;
+  }
+
+  body.page-reference .ref-steps__item:not(:last-child)::after {
+    left: 1.6rem;
+    top: 3.35rem;
   }
 }
 
