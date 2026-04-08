@@ -5630,19 +5630,7 @@ body.page-reference .ref-section-head__sub {
   color: var(--color-text-muted);
 }
 
-body.page-reference .ref-section-head__sub--stacked {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  max-width: 36rem;
-  margin-inline: auto;
-  text-align: center;
-}
-
-body.page-reference .ref-section-head__sub-line {
-  display: block;
-  max-width: 100%;
+body.page-reference .ref-section-head:not(.ref-section-head--left) .ref-section-head__sub {
   text-wrap: balance;
 }
 
