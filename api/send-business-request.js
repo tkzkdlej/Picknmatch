@@ -10,17 +10,33 @@
 
 const { Resend } = require("resend");
 
+/** JSON + base64 첨부 고려(대략 4MB 첨부 시 본문 팽창) */
+var MAX_JSON_BODY_BYTES = 9 * 1024 * 1024;
+
 function readBody(req) {
   return new Promise(function (resolve, reject) {
     var chunks = [];
+    var total = 0;
     req.on("data", function (c) {
-      chunks.push(c);
+      total += c.length;
+      if (total <= MAX_JSON_BODY_BYTES) chunks.push(c);
     });
     req.on("end", function () {
+      if (total > MAX_JSON_BODY_BYTES) {
+        return resolve(null);
+      }
       resolve(Buffer.concat(chunks).toString("utf8"));
     });
     req.on("error", reject);
   });
+}
+
+/** 이메일 Subject·From 표시명 등 헤더 줄바꿈 주입 방지 */
+function stripSmtpHeaderBreaks(s) {
+  return String(s || "")
+    .replace(/[\r\n\x00\x1a]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function isValidEmail(s) {
@@ -67,6 +83,7 @@ function normalizeResendErrorMessage(raw) {
 
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
 
   if (req.method === "OPTIONS") {
     res.setHeader("Allow", "POST, OPTIONS");
@@ -91,6 +108,9 @@ module.exports = async function handler(req, res) {
     raw = await readBody(req);
   } catch (e) {
     return res.status(400).json({ ok: false, error: "본문을 읽을 수 없습니다." });
+  }
+  if (raw === null) {
+    return res.status(413).json({ ok: false, error: "요청 본문이 허용 크기를 초과했습니다." });
   }
 
   var body;
@@ -129,9 +149,11 @@ module.exports = async function handler(req, res) {
    * 목록(첫 화면): 제목 [회사명] · 발신 표시명에 회사명(네이버 등에서 보낸이 줄과 맞춤)
    * 열람 화면: 본문 상단 블록에 이름·고객 이메일 표시(Resend 발신 주소는 검증 도메인만 가능)
    */
-  var fromHeader = '"' + escapeDisplayName(company) + '" <' + fromEnvelope + ">";
+  var companyHdr = stripSmtpHeaderBreaks(company);
+  var nameHdr = stripSmtpHeaderBreaks(name);
+  var fromHeader = '"' + escapeDisplayName(companyHdr) + '" <' + fromEnvelope + ">";
 
-  var subject = "[" + company + "] 업무 요청 · " + name;
+  var subject = "[" + companyHdr + "] 업무 요청 · " + nameHdr;
 
   var footer =
     "\n\n────────────────────\nfrom picknmatch · 픽앤매치 웹사이트 업무 요청";

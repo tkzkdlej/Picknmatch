@@ -5473,6 +5473,8 @@ body.page-reference .ref-steps__icon {
 
 body.page-reference .ref-steps__icon svg {
   display: block;
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
 body.page-reference .ref-steps__body {
@@ -5491,8 +5493,8 @@ body.page-reference .ref-steps__title {
 body.page-reference .ref-steps__text {
   margin: 0;
   font-size: 0.9375rem;
-  line-height: 1.65;
-  color: var(--color-text-muted);
+  line-height: 1.68;
+  color: #3d4d63;
 }
 
 body.page-reference .ref-deliver-wrap {
@@ -6241,6 +6243,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   body.page-reference .ref-steps__text {
     font-size: 0.875rem;
     line-height: 1.66;
+    color: #3d4d63;
     word-break: keep-all;
     overflow-wrap: break-word;
   }

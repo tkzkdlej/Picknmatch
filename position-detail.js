@@ -223,6 +223,19 @@
       .replace(/"/g, "&quot;");
   }
 
+  /** http(s)만 허용 — 잘못된/악의적 href(예: javascript:) 차단 */
+  function safeExternalUrl(u) {
+    var s = String(u || "").trim();
+    if (!s) return "";
+    try {
+      var parsed = new URL(s);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return "";
+      return parsed.href;
+    } catch (e) {
+      return "";
+    }
+  }
+
   var currentKey = null;
 
   function populatePanel(panel, key) {
@@ -276,10 +289,11 @@
         var items = list
           .map(function (c) {
             var name = esc(c.name);
-            if (c.url) {
+            var href = safeExternalUrl(c.url);
+            if (href) {
               return (
                 '<li><a href="' +
-                esc(c.url) +
+                esc(href) +
                 '" target="_blank" rel="noopener noreferrer">' +
                 name +
                 "</a></li>"

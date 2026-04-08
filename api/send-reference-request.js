@@ -7,17 +7,31 @@
 
 const { Resend } = require("resend");
 
+var MAX_JSON_BODY_BYTES = 2 * 1024 * 1024;
+
 function readBody(req) {
   return new Promise(function (resolve, reject) {
     var chunks = [];
+    var total = 0;
     req.on("data", function (c) {
-      chunks.push(c);
+      total += c.length;
+      if (total <= MAX_JSON_BODY_BYTES) chunks.push(c);
     });
     req.on("end", function () {
+      if (total > MAX_JSON_BODY_BYTES) {
+        return resolve(null);
+      }
       resolve(Buffer.concat(chunks).toString("utf8"));
     });
     req.on("error", reject);
   });
+}
+
+function stripSmtpHeaderBreaks(s) {
+  return String(s || "")
+    .replace(/[\r\n\x00\x1a]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function isValidEmail(s) {
@@ -67,6 +81,7 @@ function trimLen(s, max) {
 
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
 
   if (req.method === "OPTIONS") {
     res.setHeader("Allow", "POST, OPTIONS");
@@ -91,6 +106,9 @@ module.exports = async function handler(req, res) {
     raw = await readBody(req);
   } catch (e) {
     return res.status(400).json({ ok: false, error: "본문을 읽을 수 없습니다." });
+  }
+  if (raw === null) {
+    return res.status(413).json({ ok: false, error: "요청 본문이 허용 크기를 초과했습니다." });
   }
 
   var body;
@@ -164,9 +182,11 @@ module.exports = async function handler(req, res) {
     process.env.BUSINESS_REQUEST_TO ||
     "shkim@picknmatch.co.kr";
   var fromEnvelope = parseFromEnvelopeAddress(process.env.RESEND_FROM);
-  var fromHeader = '"' + escapeDisplayName(company) + '" <' + fromEnvelope + ">";
+  var companyHdr = stripSmtpHeaderBreaks(company);
+  var nameHdr = stripSmtpHeaderBreaks(name);
+  var fromHeader = '"' + escapeDisplayName(companyHdr) + '" <' + fromEnvelope + ">";
 
-  var subject = "[평판조회 의뢰] " + company + " · " + name;
+  var subject = "[평판조회 의뢰] " + companyHdr + " · " + nameHdr;
 
   var textBody =
     "평판조회 의뢰 — 픽앤매치 웹사이트\n\n" +
