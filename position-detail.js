@@ -101,7 +101,7 @@
       ],
       companies: [
         { name: "SK에코플랜트", url: "https://www.skecoplant.com" },
-        { name: "아이에스동서", url: "https://www.isdongseo.com" },
+        { name: "아이에스동서", url: "https://www.isdongseo.co.kr" },
       ],
       image: {
         src: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
@@ -120,7 +120,7 @@
         "송배전·전력망 운영과 탄소중립 지향 에너지 솔루션",
       ],
       companies: [
-        { name: "한화솔루션", url: "https://www.hanwha-solutions.com" },
+        { name: "한화솔루션", url: "https://www.hanwhasolutions.com" },
         { name: "두산에너빌리티", url: "https://www.doosanenerbility.com" },
       ],
       image: {
@@ -140,7 +140,7 @@
         "해당 소재의 연구·개발·제조 일원화",
       ],
       companies: [
-        { name: "포스코퓨처엠", url: "https://www.posco-futurem.com" },
+        { name: "포스코퓨처엠", url: "https://www.poscofuturem.com" },
         { name: "에코프로비엠", url: "https://www.ecoprobm.co.kr" },
         { name: "LG이노텍", url: "https://www.lginnotek.com" },
       ],
@@ -204,7 +204,7 @@
         "스마트시티·모듈러 등 건설 자동화·혁신 공법 도입",
       ],
       companies: [
-        { name: "현대건설", url: "https://www.hdec.co.kr" },
+        { name: "현대건설", url: "https://www.hdec.kr" },
         { name: "삼성물산(건설)", url: "https://www.samsungcnt.com" },
         { name: "GS건설", url: "https://www.gsenc.com" },
       ],
