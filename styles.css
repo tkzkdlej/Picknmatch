@@ -6338,9 +6338,9 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   :root {
     --nav-drawer-dur: 0.92s;
     --nav-drawer-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    --nav-overlay-dur: 0.78s;
-    --nav-acc-open: 0.52s;
-    --nav-acc-close: 0.38s;
+    --nav-overlay-dur: 0.92s;
+    --nav-acc-open: 0.68s;
+    --nav-acc-close: 0.58s;
   }
 
   .nav-overlay {
@@ -6400,15 +6400,16 @@ body.page-strength .st-cta__actions .btn-outline:hover {
       -6px 0 36px rgba(15, 23, 42, 0.07),
       0 28px 56px rgba(18, 28, 46, 0.11);
     transform: translate3d(calc(100% + 1.5rem), 0, 0);
-    opacity: 1;
     visibility: hidden;
     pointer-events: none;
+    opacity: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     transition:
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
-      opacity calc(var(--nav-drawer-dur) * 0.85) var(--nav-drawer-ease),
+      opacity var(--nav-drawer-dur) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear var(--nav-drawer-dur);
-    opacity: 0;
     z-index: 150;
   }
 
@@ -6419,7 +6420,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     opacity: 1;
     transition:
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
-      opacity calc(var(--nav-drawer-dur) * 0.85) var(--nav-drawer-ease),
+      opacity var(--nav-drawer-dur) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear 0s;
   }
@@ -6503,9 +6504,9 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav-drawer-brand__img {
     display: block;
-    height: 3.05rem;
+    height: 2.72rem;
     width: auto;
-    max-width: min(260px, 92%);
+    max-width: min(248px, 90%);
     object-fit: contain;
     object-position: left center;
   }
@@ -6638,8 +6639,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     opacity: 0.52;
     transform: translateY(-58%) rotate(45deg);
     transition:
-      transform 0.55s var(--nav-drawer-ease),
-      opacity 0.32s ease;
+      transform var(--nav-acc-open) var(--nav-drawer-ease),
+      opacity calc(var(--nav-acc-open) * 0.55) ease;
   }
 
   .nav.is-open .nav-item.has-dropdown.is-expanded > .nav-link::after {
@@ -6655,7 +6656,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     background-image: none !important;
   }
 
-  /* 닫힐 때: opacity 먼저 줄이고 visibility 지연 없음 → 잔상·번짐 완화 */
+  /* 닫힘: 높이·패딩을 드로어와 같은 이징으로 줄이고, opacity·visibility는 짧게 맞춰 잔상 최소화 */
   .nav.is-open .nav-item.has-dropdown:not(.is-expanded) .nav-dropdown {
     max-height: 0 !important;
     opacity: 0 !important;
@@ -6665,12 +6666,13 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     overflow: hidden !important;
     border: none !important;
     pointer-events: none !important;
+    transform: translate3d(0, 0, 0);
     transition:
-      opacity 0.14s ease,
-      visibility 0s linear 0.14s,
       max-height var(--nav-acc-close) var(--nav-drawer-ease),
       padding var(--nav-acc-close) var(--nav-drawer-ease),
-      margin var(--nav-acc-close) var(--nav-drawer-ease);
+      margin var(--nav-acc-close) var(--nav-drawer-ease),
+      opacity calc(var(--nav-acc-close) * 0.45) ease,
+      visibility 0s linear calc(var(--nav-acc-close) * 0.4);
   }
 
   .nav.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown,
@@ -6690,9 +6692,9 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     pointer-events: auto !important;
     transition:
       max-height var(--nav-acc-open) var(--nav-drawer-ease),
-      opacity 0.28s ease 0.05s,
       padding var(--nav-acc-open) var(--nav-drawer-ease),
       margin var(--nav-acc-open) var(--nav-drawer-ease),
+      opacity calc(var(--nav-acc-open) * 0.55) ease 0.08s,
       visibility 0s linear 0s;
   }
 
@@ -6728,8 +6730,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav-toggle span {
     transition:
-      transform 0.58s var(--nav-drawer-ease),
-      opacity 0.36s ease;
+      transform var(--nav-drawer-dur) var(--nav-drawer-ease),
+      opacity calc(var(--nav-drawer-dur) * 0.65) ease;
     transform-origin: center;
   }
 

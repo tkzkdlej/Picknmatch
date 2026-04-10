@@ -182,6 +182,14 @@
   var navToggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".nav");
   var navOverlay = null;
+  var navCloseCollapseTimer = null;
+
+  function mobileNavDrawerCollapseDelayMs() {
+    try {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return 0;
+    } catch (err) {}
+    return 950;
+  }
 
   /** ≤900px: .nav 를 body 직속으로 두어 fixed 드로어가 항상 뷰포트 기준이 되게 함(헤더 containing block 이슈 방지). */
   function relocateNavForViewport() {
@@ -377,6 +385,30 @@
 
   function setNavOpen(open) {
     if (!nav || !navToggle) return;
+
+    if (open) {
+      if (navCloseCollapseTimer !== null) {
+        clearTimeout(navCloseCollapseTimer);
+        navCloseCollapseTimer = null;
+      }
+      collapseNavAccordions();
+    } else {
+      if (navCloseCollapseTimer !== null) {
+        clearTimeout(navCloseCollapseTimer);
+        navCloseCollapseTimer = null;
+      }
+      var collapseDelay =
+        window.innerWidth <= MOBILE_NAV_MAX ? mobileNavDrawerCollapseDelayMs() : 0;
+      if (collapseDelay > 0) {
+        navCloseCollapseTimer = setTimeout(function () {
+          navCloseCollapseTimer = null;
+          collapseNavAccordions();
+        }, collapseDelay);
+      } else {
+        collapseNavAccordions();
+      }
+    }
+
     nav.classList.toggle("is-open", open);
     document.body.classList.toggle("is-nav-open", open);
     navToggle.classList.toggle("is-active", open);
@@ -388,8 +420,8 @@
     if (navOverlay) {
       navOverlay.setAttribute("aria-hidden", open ? "false" : "true");
     }
-    if (!open) {
-      collapseNavAccordions();
+    if (open && window.innerWidth <= MOBILE_NAV_MAX) {
+      void nav.offsetWidth;
     }
     syncNavParentTabindex();
     if (open) {
@@ -456,6 +488,10 @@
       "resize",
       function () {
         if (window.innerWidth > MOBILE_NAV_MAX) {
+          if (navCloseCollapseTimer !== null) {
+            clearTimeout(navCloseCollapseTimer);
+            navCloseCollapseTimer = null;
+          }
           setNavOpen(false);
           collapseNavAccordions();
         }
