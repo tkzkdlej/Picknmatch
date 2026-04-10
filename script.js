@@ -1200,17 +1200,38 @@
     document.querySelectorAll('.request-form[data-type="reference"]').forEach(function (form) {
       var formFooter = document.getElementById("reference-request-form-footer");
       var successModal = document.getElementById("reference-request-success-modal");
-      var btnSuccessAgain = document.getElementById("reference-request-success-again");
       var errorEl = document.getElementById("reference-request-error");
       var submitBtn = form.querySelector('[type="submit"]');
       /** form.reset() 이 input/change 를 일으켜 hideFeedback → 모달 즉시 닫힘 방지 */
       var suppressReferenceHideFeedback = false;
+      var referenceModalScrollY = 0;
+
+      function applyReferenceModalScrollLock() {
+        referenceModalScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        document.body.style.position = "fixed";
+        document.body.style.top = "-" + referenceModalScrollY + "px";
+        document.body.style.left = "0";
+        document.body.style.right = "0";
+        document.body.style.width = "100%";
+        document.documentElement.classList.add("reference-request-modal-open");
+        document.body.classList.add("reference-request-modal-open");
+      }
+
+      function releaseReferenceModalScrollLock() {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.width = "";
+        document.documentElement.classList.remove("reference-request-modal-open");
+        document.body.classList.remove("reference-request-modal-open");
+        window.scrollTo(0, referenceModalScrollY);
+      }
 
       function closeReferenceRequestSuccessModal(opts) {
         opts = opts || {};
         if (!successModal || successModal.hidden) return;
         successModal.classList.remove("is-open");
-        document.body.classList.remove("reference-request-modal-open");
         var dur = opts.instant ? 0 : 320;
         try {
           if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) dur = 0;
@@ -1218,6 +1239,7 @@
         window.setTimeout(function () {
           successModal.hidden = true;
           successModal.setAttribute("aria-hidden", "true");
+          releaseReferenceModalScrollLock();
           if (formFooter) formFooter.hidden = false;
           if (opts.focusSelector) {
             var fel = document.querySelector(opts.focusSelector);
@@ -1235,7 +1257,7 @@
         if (formFooter) formFooter.hidden = true;
         successModal.hidden = false;
         successModal.setAttribute("aria-hidden", "false");
-        document.body.classList.add("reference-request-modal-open");
+        applyReferenceModalScrollLock();
         window.requestAnimationFrame(function () {
           window.requestAnimationFrame(function () {
             successModal.classList.add("is-open");
@@ -1256,12 +1278,6 @@
         }
         if (suppressReferenceHideFeedback) return;
         closeReferenceRequestSuccessModal({ instant: true });
-      }
-
-      if (btnSuccessAgain) {
-        btnSuccessAgain.addEventListener("click", function () {
-          closeReferenceRequestSuccessModal({ focusSelector: "#ref_company" });
-        });
       }
 
       document.addEventListener("keydown", function onRefModalEscape(e) {

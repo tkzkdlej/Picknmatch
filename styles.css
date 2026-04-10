@@ -3714,8 +3714,11 @@ html.reveal main > .page-intro .page-name {
   display: none !important;
 }
 
+html.reference-request-modal-open,
 body.reference-request-modal-open {
-  overflow: hidden;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 
 .reference-request-modal[hidden] {
@@ -3731,14 +3734,18 @@ body.reference-request-modal-open {
   justify-content: center;
   padding: 1.25rem;
   box-sizing: border-box;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .reference-request-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(15, 34, 66, 0.48);
+  background: rgba(15, 34, 66, 0.42);
   opacity: 0;
   transition: opacity 0.34s var(--ease-out);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .reference-request-modal.is-open .reference-request-modal__backdrop {
@@ -3775,6 +3782,11 @@ body.reference-request-modal-open {
   .reference-request-modal__backdrop,
   .reference-request-modal__dialog {
     transition-duration: 0.01ms;
+  }
+
+  .reference-request-modal__backdrop {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 
