@@ -3801,6 +3801,82 @@ body.br-modal-open {
     min-height: 44px;
     padding: 0.45rem 0;
   }
+
+  /* 산업 동향 & 인사이트 — 모바일·태블릿 */
+  .industry-insights .section-title {
+    padding: 0 max(0.25rem, env(safe-area-inset-left, 0px)) 0 max(0.25rem, env(safe-area-inset-right, 0px));
+  }
+
+  .industry-insights .section-tagline,
+  .industry-insights__lead {
+    padding: 0 max(0.35rem, env(safe-area-inset-left, 0px)) 0 max(0.35rem, env(safe-area-inset-right, 0px));
+    font-size: clamp(0.875rem, 3.1vw, 0.95rem);
+    line-height: 1.72;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .insight-feed__toolbar {
+    margin-left: max(0, env(safe-area-inset-left, 0px));
+    margin-right: max(0, env(safe-area-inset-right, 0px));
+    padding: 0.55rem 0.65rem;
+  }
+
+  .insight-feed__topics {
+    justify-content: center;
+  }
+
+  .insight-topic-chip {
+    font-size: 0.625rem;
+    padding: 0.32rem 0.55rem;
+    letter-spacing: 0.05em;
+  }
+
+  .insight-feed__updated {
+    text-align: center;
+    font-size: 0.78rem;
+  }
+
+  .insight-feed__footnote {
+    padding-left: max(0.35rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.35rem, env(safe-area-inset-right, 0px));
+    font-size: 0.78rem;
+    line-height: 1.72;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .insight-card__content {
+    padding: 0.95rem max(0.85rem, env(safe-area-inset-left, 0px)) 1.05rem max(0.85rem, env(safe-area-inset-right, 0px));
+    gap: 0.5rem;
+  }
+
+  .insight-card__title {
+    line-height: 1.42;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .insight-card__source-note {
+    font-size: 0.6875rem;
+    line-height: 1.62;
+    opacity: 0.95;
+  }
+
+  .insight-card__excerpt {
+    font-size: 0.84rem;
+    line-height: 1.7;
+  }
+
+  .insight-card__link-btn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(var(--color-accent-rgb), 0.15);
+  }
 }
 
 @media (min-width: 701px) and (max-width: 1024px) {
@@ -8204,6 +8280,94 @@ body.is-nav-open .nav.is-open .nav-drawer-scroll {
     gap: 1rem 1.35rem;
   }
 
+  .stat-row--interactive {
+    -webkit-tap-highlight-color: rgba(var(--color-accent-rgb), 0.12);
+  }
+
+  .stat-row__hint {
+    font-size: clamp(0.75rem, 2.8vw, 0.8125rem);
+    line-height: 1.45;
+    padding: 0 max(0.25rem, env(safe-area-inset-left, 0px)) 0 max(0.25rem, env(safe-area-inset-right, 0px));
+  }
+
+  /* Why us — 실적 사례 패널 모바일 */
+  .success-stories-panel.is-open {
+    max-height: min(44rem, 88dvh);
+  }
+
+  .success-stories-panel__inner {
+    padding: 1.1rem max(0.65rem, env(safe-area-inset-left, 0px)) 1rem max(0.65rem, env(safe-area-inset-right, 0px));
+  }
+
+  .success-stories-panel__head {
+    position: relative;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    padding-right: 3.1rem;
+    gap: 0.75rem;
+  }
+
+  .success-stories-panel__intro {
+    min-width: 0;
+  }
+
+  .success-stories-panel__title {
+    font-size: 1.02rem;
+    padding-right: 0;
+  }
+
+  .success-stories-panel__lead {
+    font-size: 0.78rem;
+    line-height: 1.62;
+  }
+
+  .success-stories-panel__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3rem;
+    height: 3rem;
+    margin: 0;
+  }
+
+  .success-stories-marquee {
+    margin: 0 -0.15rem;
+  }
+
+  .success-stories-marquee__viewport {
+    border-radius: var(--radius-sm);
+  }
+
+  .success-story-card {
+    flex: 0 0 min(280px, 85vw);
+    max-width: min(280px, 85vw);
+    padding: 0.9rem 0.95rem;
+  }
+
+  .success-story-card__text {
+    font-size: 0.84rem;
+    line-height: 1.65;
+  }
+
+  .success-stories-panel.is-open {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .success-stories-panel.is-open .success-stories-marquee__track {
+    animation-duration: 58s;
+  }
+
+  /* 터치 기기: 호버 고정·미세 줌 제거 */
+  .insight-card:hover {
+    transform: none;
+  }
+
+  .insight-card:hover .insight-card__media img {
+    transform: none;
+  }
+
   .stat-item .stat-num {
     font-size: clamp(1.4rem, 5.5vw, 1.65rem);
   }
@@ -8340,6 +8504,41 @@ body.is-nav-open .nav.is-open .nav-drawer-scroll {
 
   .map-fallback {
     min-height: clamp(220px, 38vh, 340px);
+  }
+}
+
+/* 좁은 모바일 — 인사이트·통계·실적 사례 여백 */
+@media (max-width: 480px) {
+  .insight-grid {
+    max-width: 100%;
+  }
+
+  .insight-feed__toolbar {
+    padding: 0.48rem 0.5rem;
+    gap: 0.6rem;
+  }
+
+  .industry-insights__lead {
+    font-size: 0.84rem;
+    line-height: 1.68;
+  }
+
+  .insight-card__source-note {
+    font-size: 0.65625rem;
+  }
+
+  .stat-row {
+    padding-left: max(0.65rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.65rem, env(safe-area-inset-right, 0px));
+  }
+
+  .success-stories-panel__inner {
+    padding: 1rem max(0.5rem, env(safe-area-inset-left, 0px)) 0.95rem max(0.5rem, env(safe-area-inset-right, 0px));
+  }
+
+  .success-story-card {
+    flex: 0 0 min(260px, 88vw);
+    max-width: min(260px, 88vw);
   }
 }
 
