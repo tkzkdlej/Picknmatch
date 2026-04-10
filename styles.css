@@ -3621,6 +3621,17 @@ body.br-modal-open {
   color: var(--color-primary);
 }
 
+.insight-card__source-note {
+  margin: 0.2rem 0 0;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  color: var(--color-text-soft);
+  opacity: 0.92;
+}
+
 .insight-card__excerpt {
   font-size: 0.875rem;
   line-height: 1.68;
