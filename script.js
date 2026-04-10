@@ -1534,7 +1534,7 @@
     if (!root || !document.body.classList.contains("page-main")) return;
 
     var LEAD_FALLBACK =
-      "국내(한국) 뉴스 중 <strong>선택된 주제</strong>별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약</strong>을 보여 드립니다. 카드 이미지는 메인 페이지와 같은 <strong>분야 대표 사진</strong>을 쓰며, 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
+      "핵심 산업 분야별 국내 뉴스 <strong>요약</strong>과 분야 <strong>이미지</strong>. 전문은 <strong>원문</strong>에서 확인하세요.";
 
     function esc(s) {
       return String(s == null ? "" : s)
@@ -1690,9 +1690,9 @@
       if (!labels.length) return;
       var line = esc(labels.join(" · "));
       leadEl.innerHTML =
-        "국내(한국) 뉴스 중 <strong>" +
+        "<strong>" +
         line +
-        "</strong> 등 이번에 무작위로 선택된 주제별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약</strong>을 보여 드립니다. 카드 이미지는 메인 페이지와 같은 <strong>분야 대표 사진</strong>을 쓰며, 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
+        "</strong> 분야의 국내 뉴스 <strong>요약</strong>과 <strong>이미지</strong>. 전문은 <strong>원문</strong>에서 확인하세요.";
     }
 
     function renderError(msg) {
