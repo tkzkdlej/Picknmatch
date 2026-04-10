@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "api/kr-news-insights.js": { "maxDuration": 45 },
+    "api/news-img.js": { "maxDuration": 20 }
+  },
   "headers": [
     {
       "source": "/(.*)",
