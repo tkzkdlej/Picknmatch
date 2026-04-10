@@ -2991,6 +2991,48 @@ body.br-modal-open {
   margin: 0;
 }
 
+.insight-card__full p + p {
+  margin-top: 0.65rem;
+}
+
+.insight-card__sources {
+  margin-top: 0.85rem !important;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(15, 34, 66, 0.12);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  color: var(--color-text-soft);
+}
+
+.insight-card__sources-label {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+  margin-bottom: 0.35rem;
+}
+
+.insight-card__sources a {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-all;
+  transition:
+    color 0.35s var(--ease-out),
+    text-underline-offset 0.35s var(--ease-out);
+}
+
+.insight-card__sources a:hover {
+  color: var(--color-accent-dark);
+}
+
+.insight-card__sources-sep {
+  margin: 0 0.28rem;
+  opacity: 0.55;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .insight-card,
   .insight-card__media img,
