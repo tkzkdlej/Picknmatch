@@ -97,7 +97,18 @@
                   <input type="text" name="contact_title" id="ref_contact_title" placeholder="직함 (선택)" />
                 </div>
                 <div class="form-row">
-                  <input type="tel" name="phone" id="ref_phone" placeholder="연락처 (필수)" required inputmode="numeric" pattern="[0-9]*" autocomplete="tel" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    id="ref_phone"
+                    placeholder="연락처 (필수, 숫자 11자리)"
+                    required
+                    maxlength="11"
+                    inputmode="numeric"
+                    pattern="[0-9]{11}"
+                    autocomplete="tel"
+                    data-phone-max-digits="11"
+                  />
                   <input type="email" name="email" id="ref_email" placeholder="이메일 (필수)" required autocomplete="email" />
                 </div>
               </fieldset>
@@ -198,25 +209,6 @@
                 <button type="submit" class="btn btn-primary btn-full" id="reference-request-submit">의뢰 보내기</button>
               </div>
             </form>
-
-            <div
-              id="reference-request-success-inline"
-              class="reference-request-success-inline"
-              hidden
-              aria-hidden="true"
-            >
-              <p class="reference-request-success-panel" role="status" id="reference-request-success-message" tabindex="-1">
-                의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.
-              </p>
-              <div class="reference-request-success-actions">
-                <a
-                  href="/client/request-reference"
-                  class="btn btn-outline reference-request-success-again"
-                  id="reference-request-success-again"
-                  >추가로 의뢰하기</a>
-                <a href="/" class="btn btn-primary reference-request-success-home" id="reference-request-success-home">홈으로 돌아가기</a>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -284,6 +276,34 @@
         </div>
       </div>
     </footer>
+
+    <div
+      id="reference-request-success-modal"
+      class="reference-request-modal"
+      hidden
+      aria-hidden="true"
+      role="presentation"
+    >
+      <div class="reference-request-modal__backdrop" aria-hidden="true"></div>
+      <div
+        class="reference-request-modal__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="reference-request-success-title"
+        tabindex="-1"
+      >
+        <p class="reference-request-success-panel" id="reference-request-success-title">
+          의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.
+        </p>
+        <div class="reference-request-success-actions">
+          <button type="button" class="btn btn-outline reference-request-success-again" id="reference-request-success-again">
+            추가로 의뢰하기
+          </button>
+          <a href="/" class="btn btn-primary reference-request-success-home" id="reference-request-success-home">홈으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
+
     <script src="/script.js"></script>
   </body>
 </html>

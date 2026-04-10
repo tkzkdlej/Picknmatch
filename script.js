@@ -1199,49 +1199,74 @@
 
     document.querySelectorAll('.request-form[data-type="reference"]').forEach(function (form) {
       var formFooter = document.getElementById("reference-request-form-footer");
-      var successInline = document.getElementById("reference-request-success-inline");
-      var successMsg = document.getElementById("reference-request-success-message");
+      var successModal = document.getElementById("reference-request-success-modal");
+      var btnSuccessAgain = document.getElementById("reference-request-success-again");
       var errorEl = document.getElementById("reference-request-error");
       var submitBtn = form.querySelector('[type="submit"]');
+
+      function closeReferenceRequestSuccessModal(opts) {
+        opts = opts || {};
+        if (!successModal || successModal.hidden) return;
+        successModal.classList.remove("is-open");
+        document.body.classList.remove("reference-request-modal-open");
+        var dur = opts.instant ? 0 : 320;
+        try {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) dur = 0;
+        } catch (e0) {}
+        window.setTimeout(function () {
+          successModal.hidden = true;
+          successModal.setAttribute("aria-hidden", "true");
+          if (formFooter) formFooter.hidden = false;
+          if (opts.focusSelector) {
+            var fel = document.querySelector(opts.focusSelector);
+            if (fel && fel.focus) {
+              try {
+                fel.focus();
+              } catch (e1) {}
+            }
+          }
+        }, dur);
+      }
+
+      function openReferenceRequestSuccessModal() {
+        if (!successModal) return;
+        if (formFooter) formFooter.hidden = true;
+        successModal.hidden = false;
+        successModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("reference-request-modal-open");
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(function () {
+            successModal.classList.add("is-open");
+            var dlg = successModal.querySelector(".reference-request-modal__dialog");
+            if (dlg && dlg.focus) {
+              try {
+                dlg.focus();
+              } catch (e2) {}
+            }
+          });
+        });
+      }
 
       function hideFeedback() {
         if (errorEl) {
           errorEl.hidden = true;
           errorEl.textContent = "";
         }
-        if (successInline) {
-          successInline.hidden = true;
-          successInline.setAttribute("aria-hidden", "true");
-        }
-        if (formFooter) {
-          formFooter.hidden = false;
-        }
+        closeReferenceRequestSuccessModal({ instant: true });
       }
 
-      function showReferenceRequestInlineSuccess() {
-        if (formFooter) formFooter.hidden = true;
-        if (successInline) {
-          successInline.hidden = false;
-          successInline.setAttribute("aria-hidden", "false");
-        }
-        window.setTimeout(function () {
-          var el = successMsg || successInline;
-          if (el) {
-            try {
-              el.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            } catch (e1) {
-              try {
-                el.scrollIntoView(true);
-              } catch (e2) {}
-            }
-          }
-          if (successMsg && successMsg.focus) {
-            try {
-              successMsg.focus();
-            } catch (e3) {}
-          }
-        }, 80);
+      if (btnSuccessAgain) {
+        btnSuccessAgain.addEventListener("click", function () {
+          closeReferenceRequestSuccessModal({ focusSelector: "#ref_company" });
+        });
       }
+
+      document.addEventListener("keydown", function onRefModalEscape(e) {
+        if (e.key !== "Escape") return;
+        if (!successModal || successModal.hidden || !successModal.classList.contains("is-open")) return;
+        e.preventDefault();
+        closeReferenceRequestSuccessModal({ focusSelector: "#ref_company" });
+      });
 
       form.addEventListener(
         "input",
@@ -1270,9 +1295,9 @@
         }
 
         var phone = val(form, "phone");
-        var phoneDigits = phone.replace(/[\s\-().]/g, "");
-        if (phoneDigits.length < 8) {
-          alert("연락처를 올바르게 입력해 주세요.");
+        var phoneDigits = phone.replace(/\D/g, "");
+        if (phoneDigits.length !== 11) {
+          alert("연락처는 휴대전화 번호 숫자 11자리로 입력해 주세요.");
           var phoneInput = form.elements.namedItem("phone");
           if (phoneInput && phoneInput.focus) phoneInput.focus();
           return;
@@ -1302,7 +1327,7 @@
           dept: val(form, "dept"),
           name: val(form, "name"),
           contactTitle: val(form, "contact_title"),
-          phone: phone,
+          phone: phoneDigits,
           email: email,
           targetName: val(form, "target_name"),
           targetCompany: val(form, "target_company"),
@@ -1368,7 +1393,7 @@
             }
             if (result.ok && result.data && result.data.ok) {
               form.reset();
-              showReferenceRequestInlineSuccess();
+              openReferenceRequestSuccessModal();
               return;
             }
             var rawErr = (result.data && result.data.error) || "";
@@ -1550,6 +1575,11 @@
       if (el.getAttribute("data-allow-non-phone-chars") === "true") return;
       function strip() {
         var v = String(el.value || "").replace(/\D/g, "");
+        var max = el.getAttribute("data-phone-max-digits");
+        if (max) {
+          var n = parseInt(max, 10);
+          if (!isNaN(n) && n > 0) v = v.slice(0, n);
+        }
         if (v !== el.value) el.value = v;
       }
       el.addEventListener("input", strip);

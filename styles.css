@@ -3709,24 +3709,77 @@ html.reveal main > .page-intro .page-name {
   word-break: break-word;
 }
 
-/* 평판조회 의뢰 — 전송 성공: 하단(동의·제출) 대신 성공 박스 + 버튼 */
+/* 평판조회 의뢰 — 전송 성공: 하단(동의·제출) 숨김 + 화면 중앙 dialog */
 .reference-request-form-footer[hidden] {
   display: none !important;
 }
 
-.reference-request-success-inline[hidden] {
+body.reference-request-modal-open {
+  overflow: hidden;
+}
+
+.reference-request-modal[hidden] {
   display: none !important;
 }
 
-.reference-request-success-inline:not([hidden]) {
+.reference-request-modal:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-top: 0.35rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
 }
 
-.reference-request-success-panel {
+.reference-request-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 34, 66, 0.48);
+  opacity: 0;
+  transition: opacity 0.34s var(--ease-out);
+}
+
+.reference-request-modal.is-open .reference-request-modal__backdrop {
+  opacity: 1;
+}
+
+.reference-request-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 26rem;
   margin: 0;
+  padding: 1.65rem 1.45rem 1.5rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(15, 34, 66, 0.08);
+  box-shadow:
+    0 4px 6px rgba(15, 34, 66, 0.05),
+    0 22px 48px rgba(15, 34, 66, 0.16);
+  transform: scale(0.94) translateY(14px);
+  opacity: 0;
+  transition:
+    transform 0.4s var(--ease-out),
+    opacity 0.34s var(--ease-out);
+  outline: none;
+}
+
+.reference-request-modal.is-open .reference-request-modal__dialog {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reference-request-modal__backdrop,
+  .reference-request-modal__dialog {
+    transition-duration: 0.01ms;
+  }
+}
+
+.reference-request-modal .reference-request-success-panel {
+  margin: 0 0 1.35rem;
   width: 100%;
   padding: 1.2rem 1.35rem;
   border-radius: 12px;
@@ -3749,25 +3802,30 @@ html.reveal main > .page-intro .page-name {
 }
 
 .reference-request-success-actions .btn {
-  flex: 1 1 12rem;
-  max-width: 18rem;
-  min-width: min(100%, 10rem);
+  flex: 1 1 11rem;
+  max-width: 100%;
+  min-width: min(100%, 9.5rem);
   text-align: center;
   text-decoration: none;
   box-sizing: border-box;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
-/* 밝은 폼 배경용 — 기본 btn-outline 은 어두운 배너용(흰 글자) */
 .reference-request-success-actions .btn-outline {
   color: var(--color-primary);
   border: 2px solid rgba(15, 34, 66, 0.28);
-  background: transparent;
+  background: #fff;
 }
 
 .reference-request-success-actions .btn-outline:hover {
   border-color: rgba(var(--color-accent-rgb), 0.65);
   background: rgba(var(--color-accent-rgb), 0.06);
   transform: translateY(-1px);
+}
+
+.reference-request-success-actions .btn-primary {
+  box-shadow: 0 8px 20px rgba(var(--color-accent-rgb), 0.28);
 }
 
 .request-form--reference .request-form__fieldset {
