@@ -2883,13 +2883,19 @@ body.br-modal-open {
   border: 1px solid rgba(var(--color-accent-rgb), 0.22);
 }
 
-.insight-topic-chip--battery {
+.insight-topic-chip--mod0 {
+  color: var(--color-accent-dark);
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border-color: rgba(var(--color-accent-rgb), 0.22);
+}
+
+.insight-topic-chip--mod1 {
   color: #0f766e;
   background: rgba(16, 185, 129, 0.12);
   border-color: rgba(16, 185, 129, 0.35);
 }
 
-.insight-topic-chip--hiring {
+.insight-topic-chip--mod2 {
   color: #92400e;
   background: rgba(217, 119, 6, 0.12);
   border-color: rgba(217, 119, 6, 0.35);
@@ -3068,6 +3074,95 @@ body.br-modal-open {
 
 .insight-card--topic-hiring {
   border-top: 3px solid #c2410c;
+}
+
+.insight-card--topic-bio {
+  border-top: 3px solid #0d9488;
+}
+
+.insight-card--topic-ai {
+  border-top: 3px solid #7c3aed;
+}
+
+.insight-card--topic-auto {
+  border-top: 3px solid #4b5563;
+}
+
+.insight-card--topic-fin {
+  border-top: 3px solid #1e3a8a;
+}
+
+.insight-card--topic-build {
+  border-top: 3px solid #b45309;
+}
+
+.insight-card--topic-energy {
+  border-top: 3px solid #ca8a04;
+}
+
+.insight-card--topic-retail {
+  border-top: 3px solid #0369a1;
+}
+
+.insight-card--topic-startup {
+  border-top: 3px solid #db2777;
+}
+
+.insight-card--topic-re {
+  border-top: 3px solid #4338ca;
+}
+
+.insight-card--topic-chem {
+  border-top: 3px solid #15803d;
+}
+
+.insight-card--topic-game {
+  border-top: 3px solid #a21caf;
+}
+
+.insight-card--topic-robot {
+  border-top: 3px solid #475569;
+}
+
+.insight-card--topic-n0 {
+  border-top: 3px solid rgba(var(--color-accent-rgb), 0.85);
+}
+
+.insight-card--topic-n1 {
+  border-top: 3px solid #64748b;
+}
+
+.insight-card--topic-n2 {
+  border-top: 3px solid #94a3b8;
+}
+
+.insight-card__link-btn {
+  display: block;
+  margin-top: 0.6rem;
+  padding: 0.62rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-soft) 100%);
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(var(--color-accent-rgb), 0.28);
+  transition:
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out),
+    filter 0.25s var(--ease-out);
+}
+
+.insight-card__link-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(var(--color-accent-rgb), 0.32);
+}
+
+.insight-card__link-btn:focus-visible {
+  outline: 2px solid rgba(var(--color-accent-rgb), 0.55);
+  outline-offset: 3px;
 }
 
 .insight-card:hover {

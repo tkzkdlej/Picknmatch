@@ -1,5 +1,5 @@
 /**
- * 국내(한국) 뉴스 — Google News RSS(ko-KR) 최신 1건씩 × 3주제
+ * 국내(한국) 뉴스 — Google News RSS(ko-KR) 최신 1건씩 × 3주제(요청마다 풀에서 무작위 3개)
  * 기사 링크를 따라 메타(og:description, og:image)를 보강합니다.
  *
  * 저작권: 전문 본문이 아니라 RSS·OG 메타에 공개된 요약·썸네일만 사용합니다.
@@ -9,11 +9,41 @@
 var UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36";
 
-var FEEDS = [
+/** 검색어·표시용 라벨 — 매 요청마다 3개를 무작위 추출 */
+var TOPIC_POOL = [
   { query: encodeURIComponent("반도체"), category: "반도체" },
   { query: encodeURIComponent("2차전지"), category: "2차전지 · 배터리" },
   { query: encodeURIComponent("채용"), category: "채용 · 인력" },
+  { query: encodeURIComponent("바이오"), category: "바이오" },
+  { query: encodeURIComponent("인공지능"), category: "AI · 디지털" },
+  { query: encodeURIComponent("자동차"), category: "자동차" },
+  { query: encodeURIComponent("금융"), category: "금융" },
+  { query: encodeURIComponent("건설"), category: "건설" },
+  { query: encodeURIComponent("에너지"), category: "에너지" },
+  { query: encodeURIComponent("유통"), category: "유통 · 물류" },
+  { query: encodeURIComponent("스타트업"), category: "스타트업" },
+  { query: encodeURIComponent("부동산"), category: "부동산" },
+  { query: encodeURIComponent("화학"), category: "화학 · 소재" },
+  { query: encodeURIComponent("게임"), category: "게임 · 엔터" },
+  { query: encodeURIComponent("로봇"), category: "로봇 · 자동화" },
 ];
+
+function shuffleInPlace(arr) {
+  var a = arr;
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i];
+    a[i] = a[j];
+    a[j] = t;
+  }
+  return a;
+}
+
+function pickRandomFeeds(n) {
+  var copy = TOPIC_POOL.slice();
+  shuffleInPlace(copy);
+  return copy.slice(0, Math.min(n, copy.length));
+}
 
 function rssUrl(q) {
   return "https://news.google.com/rss/search?q=" + q + "&hl=ko&gl=KR&ceid=KR:ko";
@@ -28,8 +58,8 @@ function decodeHtmlEntities(s) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&nbsp;/g, " ")
-    .replace(/&#(\d+);/g, function (_, n) {
-      return String.fromCharCode(parseInt(n, 10));
+    .replace(/&#(\d+);/g, function (_, num) {
+      return String.fromCharCode(parseInt(num, 10));
     });
 }
 
@@ -161,8 +191,10 @@ module.exports = async function handler(req, res) {
   );
 
   try {
+    var feeds = pickRandomFeeds(3);
+
     var rssBodies = await Promise.all(
-      FEEDS.map(function (f) {
+      feeds.map(function (f) {
         return fetchText(rssUrl(f.query), 11000).then(function (x) {
           return x.text;
         });
@@ -170,9 +202,9 @@ module.exports = async function handler(req, res) {
     );
 
     var rawItems = [];
-    for (var i = 0; i < FEEDS.length; i++) {
+    for (var i = 0; i < feeds.length; i++) {
       var item = parseFirstItem(rssBodies[i] || "");
-      if (item) rawItems.push({ feed: FEEDS[i], item: item });
+      if (item) rawItems.push({ feed: feeds[i], item: item });
     }
 
     var enriched = await Promise.all(
@@ -207,15 +239,21 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    var topics = feeds.map(function (f) {
+      return { category: f.category };
+    });
+
     return res.status(200).json({
       ok: true,
       fetchedAt: new Date().toISOString(),
+      topics: topics,
       cards: cards,
     });
   } catch (e) {
     return res.status(200).json({
       ok: false,
       error: "뉴스를 불러오지 못했습니다.",
+      topics: [],
       cards: [],
     });
   }

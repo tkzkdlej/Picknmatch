@@ -1529,7 +1529,12 @@
   (function initKrNewsInsightFeed() {
     var root = document.getElementById("insight-feed");
     var statusEl = document.getElementById("insight-feed-status");
+    var topicsEl = document.getElementById("insight-feed-topics");
+    var leadEl = document.getElementById("insight-section-lead");
     if (!root || !document.body.classList.contains("page-main")) return;
+
+    var LEAD_FALLBACK =
+      "국내(한국) 뉴스 중 <strong>선택된 주제</strong>별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약·썸네일</strong>을 보여 드립니다. 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
 
     function esc(s) {
       return String(s == null ? "" : s)
@@ -1537,6 +1542,53 @@
         .replace(/</g, "&lt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
+    }
+
+    function sourceLabelFromUrl(urlStr) {
+      var raw = String(urlStr || "").trim();
+      if (!raw || raw === "#") return "언론사";
+      try {
+        var base =
+          typeof location !== "undefined" && location.href
+            ? location.href
+            : "https://www.picknmatch.co.kr/";
+        var u = new URL(raw, base);
+        var h = u.hostname.replace(/^www\./, "");
+        var map = {
+          "news.naver.com": "네이버뉴스",
+          "n.news.naver.com": "네이버뉴스",
+          "m.news.naver.com": "네이버뉴스",
+          "news.google.com": "Google 뉴스",
+          "news.google.co.kr": "Google 뉴스",
+          "v.daum.net": "다음뉴스",
+          "news.daum.net": "다음뉴스",
+          "yna.co.kr": "연합뉴스",
+          "www.yna.co.kr": "연합뉴스",
+          "yonhapnews.co.kr": "연합뉴스",
+          "www.yonhapnews.co.kr": "연합뉴스",
+          "chosun.com": "조선일보",
+          "www.chosun.com": "조선일보",
+          "joins.com": "중앙일보",
+          "www.joins.com": "중앙일보",
+          "hani.co.kr": "한겨레",
+          "www.hani.co.kr": "한겨레",
+          "khan.co.kr": "경향신문",
+          "www.khan.co.kr": "경향신문",
+          "mk.co.kr": "매일경제",
+          "www.mk.co.kr": "매일경제",
+          "hankyung.com": "한국경제",
+          "www.hankyung.com": "한국경제",
+        };
+        if (map[h]) return map[h];
+        var parts = h.split(".");
+        if (parts.length >= 2) {
+          var base = parts[parts.length - 2];
+          if (base && base.length > 2) return base;
+        }
+        return h || "언론사";
+      } catch (err) {
+        return "언론사";
+      }
     }
 
     function setStatus(msg) {
@@ -1568,21 +1620,88 @@
       }
     }
 
-    function insightTopicClass(cat) {
+    function insightTopicClass(cat, index) {
       var s = String(cat || "");
+      var i = typeof index === "number" ? index : 0;
       if (/반도체/.test(s)) return "insight-card--topic-semi";
       if (/2차|전지|배터리/.test(s)) return "insight-card--topic-battery";
       if (/채용|인력/.test(s)) return "insight-card--topic-hiring";
-      return "";
+      if (/바이오/.test(s)) return "insight-card--topic-bio";
+      if (/AI|디지털/.test(s)) return "insight-card--topic-ai";
+      if (/자동차/.test(s)) return "insight-card--topic-auto";
+      if (/금융/.test(s)) return "insight-card--topic-fin";
+      if (/건설/.test(s)) return "insight-card--topic-build";
+      if (/에너지/.test(s)) return "insight-card--topic-energy";
+      if (/유통|물류/.test(s)) return "insight-card--topic-retail";
+      if (/스타트업/.test(s)) return "insight-card--topic-startup";
+      if (/부동산/.test(s)) return "insight-card--topic-re";
+      if (/화학|소재/.test(s)) return "insight-card--topic-chem";
+      if (/게임|엔터/.test(s)) return "insight-card--topic-game";
+      if (/로봇|자동화/.test(s)) return "insight-card--topic-robot";
+      return "insight-card--topic-n" + (i % 3);
     }
 
-    var fallbackImgSrc =
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
+    function fallbackImageForCategory(cat) {
+      var s = String(cat || "");
+      var u = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
+      if (/반도체|칩|파운드리/.test(s))
+        return "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
+      if (/2차|전지|배터리|리튬/.test(s))
+        return "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=960&q=80";
+      if (/채용|인력|인재/.test(s))
+        return "https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&fit=crop&w=960&q=80";
+      if (/바이오|의료|제약/.test(s))
+        return "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=960&q=80";
+      if (/AI|인공지능|디지털/.test(s))
+        return "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=960&q=80";
+      if (/자동차|모빌리티/.test(s))
+        return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=960&q=80";
+      if (/금융|은행|투자/.test(s))
+        return "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=960&q=80";
+      if (/건설|인프라/.test(s))
+        return "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=960&q=80";
+      if (/에너지|전력|태양광|풍력/.test(s))
+        return "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=960&q=80";
+      if (/유통|물류|창고/.test(s))
+        return "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=960&q=80";
+      if (/스타트업/.test(s))
+        return "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=960&q=80";
+      if (/부동산|리츠/.test(s))
+        return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=960&q=80";
+      if (/화학|소재/.test(s))
+        return "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=960&q=80";
+      if (/게임|엔터/.test(s))
+        return "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=960&q=80";
+      if (/로봇|자동화/.test(s))
+        return "https://images.unsplash.com/photo-1485827404703-e89f11e2013d?auto=format&fit=crop&w=960&q=80";
+      return u;
+    }
 
-    var chev =
-      '<span class="insight-card__chev" aria-hidden="true">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
-      "</span>";
+    function renderTopicToolbar(topics) {
+      if (!topicsEl || !topics || !topics.length) return;
+      var html = "";
+      for (var i = 0; i < topics.length; i++) {
+        var cat = topics[i].category || "";
+        var modClass = "insight-topic-chip--mod" + (i % 3);
+        html +=
+          '<li><span class="insight-topic-chip ' + modClass + '">' + esc(cat) + "</span></li>";
+      }
+      topicsEl.innerHTML = html;
+    }
+
+    function updateInsightLead(topics) {
+      if (!leadEl || !topics || !topics.length) return;
+      var labels = [];
+      for (var i = 0; i < topics.length; i++) {
+        if (topics[i].category) labels.push(topics[i].category);
+      }
+      if (!labels.length) return;
+      var line = esc(labels.join(" · "));
+      leadEl.innerHTML =
+        "국내(한국) 뉴스 중 <strong>" +
+        line +
+        "</strong> 등 이번에 무작위로 선택된 주제별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약·썸네일</strong>을 보여 드립니다. 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
+    }
 
     function renderError(msg) {
       root.classList.remove("insight-feed--loading");
@@ -1590,9 +1709,11 @@
         '<p class="insight-feed__error" role="alert">' + esc(msg) + "</p>";
       setStatus(msg);
       setInsightUpdatedLine("지금은 기사를 불러올 수 없습니다.", "insight-feed__updated--error");
+      if (topicsEl) topicsEl.innerHTML = "";
+      if (leadEl) leadEl.innerHTML = LEAD_FALLBACK;
     }
 
-    function renderCards(cards, fetchedAt) {
+    function renderCards(cards, fetchedAt, topics) {
       var ft = formatFetchedAt(fetchedAt);
       if (ft) {
         setInsightUpdatedLine("최신 수집 · " + ft, "insight-feed__updated--ok");
@@ -1600,28 +1721,34 @@
         setInsightUpdatedLine("국내 뉴스 " + cards.length + "건 표시", "insight-feed__updated--ok");
       }
 
+      renderTopicToolbar(topics || []);
+      updateInsightLead(topics || []);
+
       var html = "";
       for (var i = 0; i < cards.length; i++) {
         var c = cards[i] || {};
         var title = c.title || "뉴스";
         var src = (c.image && String(c.image).trim()) || "";
-        var srcEsc = esc(src);
+        var fb = fallbackImageForCategory(c.category);
+        var primarySrc = src ? esc(src) : esc(fb);
         var dateAttr = c.date && String(c.date).length >= 10 ? esc(String(c.date).slice(0, 10)) : "";
         var dateDisp = esc(c.dateDisplay || "—");
         var excerpt = esc(c.excerpt || "");
-        var body = esc(c.body || c.excerpt || title);
-        var url = esc(c.sourceUrl || "#");
+        var rawUrl = c.sourceUrl || "#";
+        var url = esc(rawUrl);
+        var linkLabel = "원문 기사 보기 (" + sourceLabelFromUrl(rawUrl) + ")";
         var cat = esc(c.category || "");
-        var topicCls = insightTopicClass(c.category);
+        var topicCls = insightTopicClass(c.category, i);
+        var fbEsc = esc(fb);
 
         var imgTag =
           '<img src="' +
-          (src ? srcEsc : esc(fallbackImgSrc)) +
+          primarySrc +
           '" width="640" height="360" alt="' +
           esc(title) +
-          '" loading="lazy" decoding="async" itemprop="image"' +
-          (src ? ' onerror="this.onerror=null;this.src=\'' + fallbackImgSrc + '\'"' : "") +
-          " />";
+          '" loading="lazy" decoding="async" itemprop="image" onerror="this.onerror=null;this.src=\'' +
+          fbEsc +
+          '\'" />';
 
         html +=
           '<article class="insight-card' +
@@ -1645,23 +1772,11 @@
           '<p class="insight-card__excerpt" itemprop="description">' +
           excerpt +
           "</p>" +
-          '<details class="insight-card__details">' +
-          '<summary class="insight-card__summary">' +
-          '<span class="insight-card__summary-text">인사이트 더 보기</span>' +
-          chev +
-          "</summary>" +
-          '<div class="insight-card__full">' +
-          '<p class="insight-card__body-copy" itemprop="articleBody">' +
-          body +
-          "</p>" +
-          '<p class="insight-card__sources">' +
-          '<span class="insight-card__sources-label">원문</span>' +
-          '<a href="' +
+          '<a class="insight-card__link-btn" href="' +
           url +
-          '" rel="noopener noreferrer" target="_blank" itemprop="url">기사 전문 보기 (언론사)</a>' +
-          "</p>" +
-          "</div>" +
-          "</details>" +
+          '" rel="noopener noreferrer" target="_blank" itemprop="url">' +
+          esc(linkLabel) +
+          "</a>" +
           "</div>" +
           "</article>";
       }
@@ -1688,7 +1803,7 @@
           renderError("표시할 국내 뉴스가 없습니다.");
           return;
         }
-        renderCards(cards, data.fetchedAt);
+        renderCards(cards, data.fetchedAt, data.topics || []);
       })
       .catch(function () {
         renderError("네트워크 오류로 뉴스를 불러오지 못했습니다.");
