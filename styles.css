@@ -6717,6 +6717,11 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   body.page-main .header.header--over-hero .nav-toggle.is-active span {
     background: #fff;
   }
+
+  /* 서브페이지만: 햄버거 메뉴 구간에서 로고를 살짝 왼쪽으로 */
+  body:not(.page-main) .header-inner {
+    padding-left: max(0.82rem, env(safe-area-inset-left, 0px));
+  }
 }
 
 @media (max-width: 900px) and (prefers-reduced-motion: reduce) {
