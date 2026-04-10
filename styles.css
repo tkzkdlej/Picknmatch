@@ -7203,3 +7203,252 @@ body.is-nav-open .nav.is-open .nav-drawer-scroll {
     min-height: min(100dvh, 640px);
   }
 }
+
+/* 데스크톱: 열림·닫힘·헤더 전환을 더 길고 부드럽게 (모바일 타이밍은 유지) */
+@media (min-width: 901px) {
+  :root {
+    --ui-dur-1: 0.48s;
+    --ui-dur-2: 0.58s;
+    --ui-dur-3: 0.68s;
+    --ui-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .header {
+    transition:
+      transform var(--ui-dur-3) var(--ui-ease-soft),
+      box-shadow var(--ui-dur-2) var(--ui-ease-soft),
+      background var(--ui-dur-2) var(--ui-ease-soft),
+      border-color var(--ui-dur-2) var(--ui-ease-soft),
+      backdrop-filter var(--ui-dur-2) var(--ui-ease-soft);
+  }
+
+  .header-inner {
+    transition:
+      padding var(--ui-dur-2) var(--ease-out),
+      min-height var(--ui-dur-2) var(--ease-out);
+  }
+
+  .nav-link {
+    transition:
+      color var(--ui-dur-1) var(--ease-out),
+      background var(--ui-dur-1) var(--ease-out),
+      box-shadow var(--ui-dur-1) var(--ease-out);
+  }
+
+  .nav-item.has-dropdown > .nav-link::after {
+    transition:
+      width 0.44s var(--ui-ease-soft),
+      opacity var(--ui-dur-1) var(--ease-out);
+  }
+
+  .nav-dropdown {
+    transition:
+      opacity 0.44s var(--ui-ease-soft),
+      visibility 0.44s var(--ui-ease-soft),
+      transform 0.5s var(--ui-ease-soft);
+  }
+
+  .nav-dropdown a {
+    transition:
+      background 0.34s var(--ease-out),
+      color 0.34s var(--ease-out),
+      border-color 0.34s var(--ease-out);
+  }
+
+  .quick-contact-dock__backdrop {
+    transition:
+      opacity var(--ui-dur-2) var(--ui-ease-soft),
+      visibility var(--ui-dur-2) var(--ui-ease-soft);
+  }
+
+  .quick-contact-dock__anchor {
+    transition: transform var(--ui-dur-3) var(--ui-ease-soft);
+  }
+
+  .quick-contact-dock__panel {
+    transition:
+      opacity 0.5s var(--ui-ease-soft),
+      transform 0.58s var(--ui-ease-soft);
+  }
+
+  .quick-contact-dock__sheet-link {
+    transition:
+      background 0.36s var(--ease-out),
+      border-color 0.36s var(--ease-out);
+  }
+
+  .quick-contact-dock__fab {
+    transition:
+      transform 0.54s var(--ui-ease-soft),
+      box-shadow var(--ui-dur-2) var(--ease-out);
+  }
+
+  .quick-contact-dock__fab-icon {
+    transition:
+      opacity 0.44s var(--ease-out),
+      transform 0.54s cubic-bezier(0.26, 1, 0.4, 1);
+  }
+
+  body.page-reference .ref-faq__item {
+    transition:
+      box-shadow 0.42s var(--ui-ease-soft),
+      border-color 0.42s var(--ui-ease-soft);
+  }
+
+  body.page-reference .ref-faq__q::after {
+    transition: transform 0.48s var(--ui-ease-soft);
+  }
+
+  @keyframes ui-br-modal-bg-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes ui-br-modal-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.972);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .br-success-modal:not([hidden]) {
+    animation: ui-br-modal-bg-in 0.52s var(--ui-ease-soft) both;
+  }
+
+  .br-success-modal:not([hidden]) .br-success-modal__panel {
+    animation: ui-br-modal-panel-in 0.62s var(--ui-ease-soft) 0.05s both;
+  }
+
+  .position-inline-detail.is-visible {
+    animation: position-inline-shell 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .position-inline-detail.is-visible .position-inline-detail__card::before {
+    animation-duration: 0.98s;
+  }
+
+  .position-inline-detail.is-visible .position-inline-detail__head {
+    animation-duration: 0.62s;
+    animation-delay: 0.09s;
+  }
+
+  .position-inline-detail.is-visible .position-inline-detail__figure:not([hidden]) {
+    animation-duration: 0.64s;
+    animation-delay: 0.16s;
+  }
+
+  .position-inline-detail.is-visible .position-inline-detail__main {
+    animation-duration: 0.66s;
+    animation-delay: 0.22s;
+  }
+
+  .position-inline-detail.is-visible .position-inline-detail__img {
+    animation-duration: 1.12s;
+    animation-delay: 0.12s;
+  }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  :root {
+    --ui-dur-1: 0.16s;
+    --ui-dur-2: 0.18s;
+    --ui-dur-3: 0.2s;
+  }
+
+  .header {
+    transition:
+      box-shadow 0.2s ease,
+      background 0.2s ease,
+      border-color 0.2s ease,
+      backdrop-filter 0.2s ease;
+  }
+
+  .header-inner {
+    transition:
+      padding 0.2s ease,
+      min-height 0.2s ease;
+  }
+
+  .nav-link {
+    transition:
+      color 0.16s ease,
+      background 0.16s ease,
+      box-shadow 0.16s ease;
+  }
+
+  .nav-item.has-dropdown > .nav-link::after {
+    transition:
+      width 0.2s ease,
+      opacity 0.16s ease;
+  }
+
+  .nav-dropdown {
+    transition:
+      opacity 0.16s ease,
+      visibility 0.16s ease,
+      transform 0.18s ease;
+  }
+
+  .nav-dropdown a {
+    transition:
+      background 0.16s ease,
+      color 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .quick-contact-dock__backdrop {
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
+  }
+
+  .quick-contact-dock__anchor {
+    transition: transform 0.22s ease;
+  }
+
+  .quick-contact-dock__panel {
+    transition:
+      opacity 0.2s ease,
+      transform 0.22s ease;
+  }
+
+  .quick-contact-dock__sheet-link {
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .quick-contact-dock__fab {
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .quick-contact-dock__fab-icon {
+    transition:
+      opacity 0.2s ease,
+      transform 0.22s ease;
+  }
+
+  body.page-reference .ref-faq__item {
+    transition:
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  body.page-reference .ref-faq__q::after {
+    transition: transform 0.22s ease;
+  }
+}

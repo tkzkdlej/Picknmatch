@@ -946,7 +946,7 @@
             if (!dock.classList.contains("is-expanded")) {
               panel.setAttribute("hidden", "");
             }
-          }, 300);
+          }, 600);
         }
       }
     }
