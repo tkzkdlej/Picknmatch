@@ -6364,7 +6364,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     pointer-events: none;
     transition:
       transform 0.4s var(--ease-out),
-      visibility 0.4s;
+      visibility 0s linear 0.42s;
     z-index: 150;
   }
 
@@ -6374,7 +6374,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     pointer-events: auto;
     transition:
       transform 0.4s var(--ease-out),
-      visibility 0s;
+      visibility 0s linear 0s;
   }
 
   body.page-main .header.header--over-hero .nav.is-open {
