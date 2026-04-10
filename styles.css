@@ -3709,6 +3709,51 @@ html.reveal main > .page-intro .page-name {
   word-break: break-word;
 }
 
+/* 평판조회 의뢰 — 전송 성공 시 본문 대체 화면 */
+.reference-request-success-screen[hidden] {
+  display: none !important;
+}
+
+.reference-request-success-screen:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(72vh, calc(100dvh - 5.5rem));
+  padding: clamp(2rem, 8vw, 4rem) 1rem 3rem;
+  box-sizing: border-box;
+}
+
+.reference-request-success-screen__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  width: 100%;
+  max-width: 36rem;
+}
+
+.reference-request-success-panel {
+  margin: 0;
+  width: 100%;
+  padding: 1.2rem 1.35rem;
+  border-radius: 12px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #0f766e;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.65;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(15, 118, 110, 0.06);
+}
+
+.reference-request-success-home {
+  flex-shrink: 0;
+  min-width: min(100%, 14rem);
+  text-align: center;
+  text-decoration: none;
+}
+
 .request-form--reference .request-form__fieldset {
   border: none;
   margin: 0 0 1.65rem;

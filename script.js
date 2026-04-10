@@ -1198,20 +1198,37 @@
     }
 
     document.querySelectorAll('.request-form[data-type="reference"]').forEach(function (form) {
-      var successEl = document.getElementById("reference-request-success");
+      var mainContent = document.getElementById("reference-request-main-content");
+      var successScreen = document.getElementById("reference-request-success-screen");
+      var successHome = document.getElementById("reference-request-success-home");
       var errorEl = document.getElementById("reference-request-error");
       var submitBtn = form.querySelector('[type="submit"]');
 
       function hideFeedback() {
-        if (successEl) {
-          successEl.hidden = true;
-          successEl.textContent =
-            "의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.";
-        }
         if (errorEl) {
           errorEl.hidden = true;
           errorEl.textContent = "";
         }
+      }
+
+      function showReferenceRequestSuccessView() {
+        if (mainContent) mainContent.hidden = true;
+        if (successScreen) {
+          successScreen.hidden = false;
+          successScreen.setAttribute("aria-hidden", "false");
+        }
+        document.body.classList.add("reference-request--success");
+        try {
+          window.scrollTo(0, 0);
+        } catch (e1) {}
+        window.setTimeout(function () {
+          var el = successHome || document.getElementById("reference-request-success-message");
+          if (el && el.focus) {
+            try {
+              el.focus();
+            } catch (e2) {}
+          }
+        }, 80);
       }
 
       form.addEventListener(
@@ -1339,15 +1356,7 @@
             }
             if (result.ok && result.data && result.data.ok) {
               form.reset();
-              if (successEl) {
-                successEl.hidden = false;
-                successEl.focus();
-                try {
-                  successEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                } catch (err) {
-                  successEl.scrollIntoView(true);
-                }
-              }
+              showReferenceRequestSuccessView();
               return;
             }
             var rawErr = (result.data && result.data.error) || "";
