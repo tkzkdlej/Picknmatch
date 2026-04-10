@@ -191,6 +191,113 @@
     navOverlay.addEventListener("click", function () {
       setNavOpen(false);
     });
+
+    (function setupMobileNavDrawerChrome() {
+      if (!nav.querySelector(".nav-drawer-scroll")) {
+        var items = nav.querySelectorAll(":scope > .nav-item");
+        if (items.length) {
+          var scroll = document.createElement("div");
+          scroll.className = "nav-drawer-scroll";
+          items.forEach(function (el) {
+            scroll.appendChild(el);
+          });
+          nav.insertBefore(scroll, nav.firstChild);
+        }
+      }
+
+      if (nav.querySelector(".nav-drawer-meta")) return;
+
+      var meta = document.createElement("div");
+      meta.className = "nav-drawer-meta";
+      meta.setAttribute("aria-hidden", "true");
+
+      var kicker = document.createElement("p");
+      kicker.className = "nav-drawer-meta__kicker";
+      kicker.textContent = "Executive Search Partner";
+
+      var lead = document.createElement("p");
+      lead.className = "nav-drawer-meta__lead";
+      lead.textContent = "기업 맞춤형 인재 서치 · 헤드헌팅";
+
+      var cta = document.createElement("a");
+      cta.className = "nav-drawer-meta__cta";
+      cta.href = document.body.classList.contains("page-main")
+        ? "#business-request-title"
+        : "/#business-request-title";
+      cta.textContent = document.body.classList.contains("page-main")
+        ? "지금 업무 요청하기"
+        : "업무 요청하기 · 홈";
+
+      var note = document.createElement("p");
+      note.className = "nav-drawer-meta__note";
+      note.appendChild(document.createTextNode("빠른 연락 "));
+      var tel = document.createElement("a");
+      tel.href = "tel:01054041672";
+      tel.textContent = "010-5404-1672";
+      note.appendChild(tel);
+      note.appendChild(document.createTextNode(" · "));
+      var mail = document.createElement("a");
+      mail.href = "mailto:shkim@picknmatch.co.kr";
+      mail.textContent = "메일 문의";
+      note.appendChild(mail);
+
+      meta.appendChild(kicker);
+      meta.appendChild(lead);
+      meta.appendChild(cta);
+      meta.appendChild(note);
+      nav.appendChild(meta);
+    })();
+
+    nav.querySelectorAll(".nav-item.has-dropdown").forEach(function (item, idx) {
+      var parent = item.querySelector(".nav-link--parent");
+      var submenu = item.querySelector(".nav-dropdown");
+      if (!parent || !submenu) return;
+      var sid = "nav-mobile-dd-" + idx;
+      submenu.id = submenu.id || sid;
+      parent.setAttribute("role", "button");
+      parent.setAttribute("aria-expanded", "false");
+      parent.setAttribute("aria-controls", submenu.id);
+      parent.setAttribute("tabindex", "-1");
+      parent.addEventListener("click", function (e) {
+        if (window.innerWidth > MOBILE_NAV_MAX) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var opening = !item.classList.contains("is-expanded");
+        nav.querySelectorAll(".nav-item.has-dropdown.is-expanded").forEach(function (other) {
+          if (other !== item) {
+            other.classList.remove("is-expanded");
+            var op = other.querySelector(".nav-link--parent");
+            if (op) op.setAttribute("aria-expanded", "false");
+          }
+        });
+        item.classList.toggle("is-expanded", opening);
+        parent.setAttribute("aria-expanded", opening ? "true" : "false");
+      });
+      parent.addEventListener("keydown", function (e) {
+        if (window.innerWidth > MOBILE_NAV_MAX) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          parent.click();
+        }
+      });
+    });
+  }
+
+  function collapseNavAccordions() {
+    if (!nav) return;
+    nav.querySelectorAll(".nav-item.has-dropdown.is-expanded").forEach(function (item) {
+      item.classList.remove("is-expanded");
+      var p = item.querySelector(".nav-link--parent");
+      if (p) p.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  function syncNavParentTabindex() {
+    if (!nav) return;
+    var enabled = nav.classList.contains("is-open") && window.innerWidth <= MOBILE_NAV_MAX;
+    nav.querySelectorAll(".nav-link--parent").forEach(function (p) {
+      p.setAttribute("tabindex", enabled ? "0" : "-1");
+    });
   }
 
   function setNavOpen(open) {
@@ -206,6 +313,10 @@
     if (navOverlay) {
       navOverlay.setAttribute("aria-hidden", open ? "false" : "true");
     }
+    if (!open) {
+      collapseNavAccordions();
+    }
+    syncNavParentTabindex();
     if (open) {
       var qd = document.getElementById("quick-contact-dock");
       if (qd && qd._pnmDockSheetTimer) {
@@ -270,7 +381,9 @@
       function () {
         if (window.innerWidth > MOBILE_NAV_MAX) {
           setNavOpen(false);
+          collapseNavAccordions();
         }
+        syncNavParentTabindex();
       },
       { passive: true }
     );
