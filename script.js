@@ -362,7 +362,7 @@
       }
       return;
     }
-    /* 드로어만: 히어로 위(어두운 패널) → 흰 로고, 그 외(밝은 패널) → 다크 글리프 로고. 헤더 로고(data-logo-*)와 별개 */
+    /* 드로어만: 히어로 위 → 다크 글리프 로고, 그 외(밝은 패널) → 흰 로고(헤더와 별개) */
     var onDark =
       document.body.classList.contains("page-main") &&
       headerEl &&
@@ -371,7 +371,7 @@
     if (drawerImg) {
       var lightPanelSrc = drawerImg.getAttribute("data-logo-drawer-light") || "/images/logo-transparent.png";
       var darkPanelSrc = drawerImg.getAttribute("data-logo-drawer-dark") || "/images/logo-white.png";
-      drawerImg.setAttribute("src", onDark ? darkPanelSrc : lightPanelSrc);
+      drawerImg.setAttribute("src", onDark ? lightPanelSrc : darkPanelSrc);
     }
   }
 
