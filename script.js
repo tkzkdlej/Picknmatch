@@ -1198,9 +1198,9 @@
     }
 
     document.querySelectorAll('.request-form[data-type="reference"]').forEach(function (form) {
-      var mainContent = document.getElementById("reference-request-main-content");
-      var successScreen = document.getElementById("reference-request-success-screen");
-      var successHome = document.getElementById("reference-request-success-home");
+      var formFooter = document.getElementById("reference-request-form-footer");
+      var successInline = document.getElementById("reference-request-success-inline");
+      var successMsg = document.getElementById("reference-request-success-message");
       var errorEl = document.getElementById("reference-request-error");
       var submitBtn = form.querySelector('[type="submit"]');
 
@@ -1209,24 +1209,36 @@
           errorEl.hidden = true;
           errorEl.textContent = "";
         }
+        if (successInline) {
+          successInline.hidden = true;
+          successInline.setAttribute("aria-hidden", "true");
+        }
+        if (formFooter) {
+          formFooter.hidden = false;
+        }
       }
 
-      function showReferenceRequestSuccessView() {
-        if (mainContent) mainContent.hidden = true;
-        if (successScreen) {
-          successScreen.hidden = false;
-          successScreen.setAttribute("aria-hidden", "false");
+      function showReferenceRequestInlineSuccess() {
+        if (formFooter) formFooter.hidden = true;
+        if (successInline) {
+          successInline.hidden = false;
+          successInline.setAttribute("aria-hidden", "false");
         }
-        document.body.classList.add("reference-request--success");
-        try {
-          window.scrollTo(0, 0);
-        } catch (e1) {}
         window.setTimeout(function () {
-          var el = successHome || document.getElementById("reference-request-success-message");
-          if (el && el.focus) {
+          var el = successMsg || successInline;
+          if (el) {
             try {
-              el.focus();
-            } catch (e2) {}
+              el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (e1) {
+              try {
+                el.scrollIntoView(true);
+              } catch (e2) {}
+            }
+          }
+          if (successMsg && successMsg.focus) {
+            try {
+              successMsg.focus();
+            } catch (e3) {}
           }
         }, 80);
       }
@@ -1355,8 +1367,7 @@
               submitBtn.textContent = "의뢰 보내기";
             }
             if (result.ok && result.data && result.data.ok) {
-              form.reset();
-              showReferenceRequestSuccessView();
+              showReferenceRequestInlineSuccess();
               return;
             }
             var rawErr = (result.data && result.data.error) || "";

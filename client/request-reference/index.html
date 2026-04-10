@@ -68,7 +68,6 @@
     </header>
 
     <main>
-      <div id="reference-request-main-content">
       <div class="page-header page-header--clients">
         <h1 class="page-title">CLIENT</h1>
         <p class="page-tagline">기업의 성장과 인재의 비전을 잇는 단단한 연결 고리, 픽앤매치</p>
@@ -190,31 +189,37 @@
                 ></textarea>
               </fieldset>
 
-              <label class="form-check form-check--consent">
-                <input type="checkbox" name="privacy_consent" id="ref_privacy_consent" value="1" required />
-                <span><a href="/privacy" target="_blank" rel="noopener noreferrer">개인정보처리방침</a>에 따라 수집·이용에 동의합니다. (필수)</span>
-              </label>
+              <div id="reference-request-form-footer" class="reference-request-form-footer">
+                <label class="form-check form-check--consent">
+                  <input type="checkbox" name="privacy_consent" id="ref_privacy_consent" value="1" required />
+                  <span><a href="/privacy" target="_blank" rel="noopener noreferrer">개인정보처리방침</a>에 따라 수집·이용에 동의합니다. (필수)</span>
+                </label>
 
-              <button type="submit" class="btn btn-primary btn-full" id="reference-request-submit">의뢰 보내기</button>
+                <button type="submit" class="btn btn-primary btn-full" id="reference-request-submit">의뢰 보내기</button>
+              </div>
             </form>
+
+            <div
+              id="reference-request-success-inline"
+              class="reference-request-success-inline"
+              hidden
+              aria-hidden="true"
+            >
+              <p class="reference-request-success-panel" role="status" id="reference-request-success-message" tabindex="-1">
+                의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.
+              </p>
+              <div class="reference-request-success-actions">
+                <a
+                  href="/client/request-reference"
+                  class="btn btn-outline reference-request-success-again"
+                  id="reference-request-success-again"
+                  >추가로 의뢰하기</a>
+                <a href="/" class="btn btn-primary reference-request-success-home" id="reference-request-success-home">홈으로 돌아가기</a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      </div>
-
-      <div
-        id="reference-request-success-screen"
-        class="reference-request-success-screen"
-        hidden
-        aria-hidden="true"
-      >
-        <div class="container reference-request-success-screen__inner">
-          <p class="reference-request-success-panel" role="status" id="reference-request-success-message" tabindex="-1">
-            의뢰가 접수되었습니다. 확인 후 빠른 시일 내에 연락드리겠습니다.
-          </p>
-          <a href="/" class="btn btn-primary reference-request-success-home" id="reference-request-success-home">홈으로 돌아가기</a>
-        </div>
-      </div>
     </main>
 
     <footer class="footer">
