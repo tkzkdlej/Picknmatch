@@ -1810,6 +1810,136 @@
       });
   })();
 
+  /** 메인 — Why us: 통계 배너 클릭 시 대표 매칭 실적 사례(가명) 다이얼로그 */
+  (function initSuccessStoriesDialog() {
+    if (!document.body.classList.contains("page-main")) return;
+
+    var trigger = document.getElementById("why-us-stats-trigger");
+    var dialog = document.getElementById("success-stories-dialog");
+    var listEl = document.getElementById("success-stories-list");
+    if (!trigger || !dialog || !listEl) return;
+
+    /** 이름: 성 + ** / 회사: 일부만 블러(모자이크) 처리된 HTML */
+    var MOCK_STORIES = [
+      {
+        name: "김**",
+        companyHtml:
+          '<span class="success-story-card__company">반도체 대기업 <span class="mask">중</span>·후공정 계열</span>',
+        text:
+          "파운드리 공정 엔지니어 포지션으로 3주 내 후보군 제시 후 최종 합류. 대표이사의 반도체 현장 네트워크가 후보·기업 간 기대치 조율에 큰 도움이 되었다고 전해졌습니다.",
+      },
+      {
+        name: "이**",
+        companyHtml:
+          '<span class="success-story-card__company">2차전지 소재 <span class="mask">내</span>·글로벌</span>',
+        text:
+          "양극재 개발 리드급 인재 영입 건으로, 비공개 리스트 기반으로 본사·연구소 동시 서치를 진행해 연내 입사에 성공했습니다.",
+      },
+      {
+        name: "박**",
+        companyHtml:
+          '<span class="success-story-card__company">S<span class="mask">K</span>그룹 계열사</span>',
+        text:
+          "배터리 설비 투자 확대에 맞춰 공장장급 후보를 다수 면접까지 연결. 최종 협상 단계에서 조건 정리까지 지원한 사례입니다.",
+      },
+      {
+        name: "최**",
+        companyHtml:
+          '<span class="success-story-card__company">중공업 <span class="mask">장</span>비·플랜트</span>',
+        text:
+          "해외 프로젝트 수주 증가로 현장 PM 인력이 필요했던 건으로, 관련 경력 15년+ 후보를 소개해 계약 후 빠르게 투입되었습니다.",
+      },
+      {
+        name: "정**",
+        companyHtml:
+          '<span class="success-story-card__company">화학·소재 <span class="mask">다</span>국적 기업</span>',
+        text:
+          "촉매·정밀화학 분야 연구책임자 채용. 학계·타사 동시 접촉이 필요했으나 기밀 유지하며 일정에 맞춰 마감했습니다.",
+      },
+      {
+        name: "한**",
+        companyHtml:
+          '<span class="success-story-card__company">에너지·전력 <span class="mask">발</span>전사업</span>',
+        text:
+          "신재생 EPC 프로젝트 관리자 포지션. 자격·언어 조건이 까다로웠으나 필터링된 후보만 추천해 면접 전환율을 높였습니다.",
+      },
+    ];
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderList() {
+      var html = "";
+      for (var i = 0; i < MOCK_STORIES.length; i++) {
+        var s = MOCK_STORIES[i];
+        html +=
+          '<li class="success-story-card">' +
+          '<div class="success-story-card__meta">' +
+          '<span class="success-story-card__name">' +
+          esc(s.name) +
+          "</span>" +
+          s.companyHtml +
+          "</div>" +
+          '<p class="success-story-card__text">' +
+          esc(s.text) +
+          "</p>" +
+          "</li>";
+      }
+      listEl.innerHTML = html;
+    }
+
+    function openDialog() {
+      renderList();
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute("open", "");
+      }
+      trigger.setAttribute("aria-expanded", "true");
+      document.documentElement.classList.add("success-stories-dialog-open");
+    }
+
+    function closeDialog() {
+      if (typeof dialog.close === "function") {
+        dialog.close();
+      } else {
+        dialog.removeAttribute("open");
+      }
+    }
+
+    dialog.addEventListener("close", function () {
+      trigger.setAttribute("aria-expanded", "false");
+      document.documentElement.classList.remove("success-stories-dialog-open");
+      try {
+        trigger.focus();
+      } catch (err) {}
+    });
+
+    trigger.addEventListener("click", function (e) {
+      e.preventDefault();
+      openDialog();
+    });
+
+    trigger.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openDialog();
+      }
+    });
+
+    dialog.addEventListener("click", function (e) {
+      if (e.target === dialog) closeDialog();
+    });
+
+    dialog.querySelectorAll(".success-stories-dialog__close").forEach(function (btn) {
+      btn.addEventListener("click", closeDialog);
+    });
+  })();
+
   /** 연락처 필드: 번호(숫자)만 입력 — `input[type="tel"][name="phone"]`. 예외 시 `data-allow-non-phone-chars="true"` */
   (function initPhoneDigitsOnlyInputs() {
     function bind(el) {

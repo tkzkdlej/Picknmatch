@@ -2731,6 +2731,181 @@ body.br-modal-open {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
 }
 
+.stat-row--interactive {
+  position: relative;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  transition:
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out),
+    transform 0.2s var(--ease-out);
+}
+
+.stat-row--interactive:hover {
+  border-color: rgba(var(--color-accent-rgb), 0.28);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 8px 28px rgba(15, 34, 66, 0.08);
+}
+
+.stat-row--interactive:focus {
+  outline: none;
+}
+
+.stat-row--interactive:focus-visible {
+  outline: 2px solid rgba(var(--color-accent-rgb), 0.55);
+  outline-offset: 3px;
+}
+
+.stat-row--interactive:active {
+  transform: translateY(1px);
+}
+
+.stat-row__hint {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+  opacity: 0.92;
+}
+
+.stat-row--interactive[aria-expanded="true"] .stat-row__hint {
+  color: var(--color-accent-dark);
+  font-weight: 600;
+}
+
+/* Why us — 성공 사례 다이얼로그 */
+.success-stories-dialog {
+  margin: 0;
+  padding: clamp(1rem, 4vw, 1.75rem);
+  border: none;
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.success-stories-dialog::backdrop {
+  background: rgba(15, 34, 66, 0.48);
+  backdrop-filter: blur(3px);
+}
+
+html.success-stories-dialog-open,
+html.success-stories-dialog-open body {
+  overflow: hidden;
+}
+
+.success-stories-dialog__panel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(82vh, 720px);
+  overflow: auto;
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, #fff 0%, #faf8f5 100%);
+  border: 1px solid rgba(15, 34, 66, 0.1);
+  box-shadow: 0 24px 48px rgba(15, 34, 66, 0.18);
+}
+
+.success-stories-dialog__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(15, 34, 66, 0.06);
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.success-stories-dialog__close:hover {
+  background: rgba(15, 34, 66, 0.12);
+}
+
+.success-stories-dialog__title {
+  margin: 0 2rem 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.success-stories-dialog__lead {
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+
+.success-stories-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.success-story-card {
+  padding: 1rem 1.05rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 34, 66, 0.08);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.success-story-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.success-story-card__name {
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.02em;
+}
+
+.success-story-card__company {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.success-story-card__company .mask {
+  display: inline-block;
+  filter: blur(3px);
+  opacity: 0.72;
+  user-select: none;
+  vertical-align: baseline;
+  margin: 0 0.06em;
+}
+
+.success-story-card__text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.72;
+  color: var(--color-text);
+}
+
 .stat-item { text-align: center; }
 
 .stat-item .stat-num {
