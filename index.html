@@ -418,17 +418,34 @@
         <div class="container">
           <p class="section-eyebrow" lang="en">Insights</p>
           <h2 id="industry-insights-title" class="section-title">산업 동향 &amp; 인사이트</h2>
-          <p class="section-tagline">
+          <p class="section-tagline industry-insights__lead">
             <strong>국내(한국) 뉴스</strong> 중 반도체·2차전지·채용 키워드 최신 기사를 골라,
             언론사 페이지에 공개된 <strong>요약·썸네일</strong>을 보여 드립니다. 전문(전체 본문)은 저작권 보호를 위해
             <strong>원문 링크</strong>에서 확인해 주세요.
           </p>
           <p id="insight-feed-status" class="visually-hidden" aria-live="polite">국내 뉴스를 불러오는 중입니다.</p>
-          <div class="insight-grid insight-feed insight-feed--loading" id="insight-feed" role="list" data-insight-feed>
-            <div class="insight-card insight-card--skeleton" aria-hidden="true"><div class="insight-card__media"></div><div class="insight-card__content"><div class="insight-skel-line insight-skel-line--short"></div><div class="insight-skel-line"></div><div class="insight-skel-line"></div></div></div>
-            <div class="insight-card insight-card--skeleton" aria-hidden="true"><div class="insight-card__media"></div><div class="insight-card__content"><div class="insight-skel-line insight-skel-line--short"></div><div class="insight-skel-line"></div><div class="insight-skel-line"></div></div></div>
-            <div class="insight-card insight-card--skeleton" aria-hidden="true"><div class="insight-card__media"></div><div class="insight-card__content"><div class="insight-skel-line insight-skel-line--short"></div><div class="insight-skel-line"></div><div class="insight-skel-line"></div></div></div>
+
+          <div class="insight-feed__toolbar" id="insight-feed-toolbar">
+            <ul class="insight-feed__topics" aria-label="다루는 주제 키워드">
+              <li><span class="insight-topic-chip">반도체</span></li>
+              <li><span class="insight-topic-chip insight-topic-chip--battery">2차전지</span></li>
+              <li><span class="insight-topic-chip insight-topic-chip--hiring">채용 · 인력</span></li>
+            </ul>
+            <p class="insight-feed__updated insight-feed__updated--pending" id="insight-feed-updated" aria-live="polite">
+              최신 기사를 불러오는 중입니다.
+            </p>
           </div>
+
+          <div class="insight-grid insight-feed insight-feed--loading" id="insight-feed" role="list" data-insight-feed>
+            <div class="insight-card insight-card--skeleton insight-card--skeleton--shimmer" aria-hidden="true"><div class="insight-card__media"></div><div class="insight-card__content"><div class="insight-skel-line insight-skel-line--short"></div><div class="insight-skel-line"></div><div class="insight-skel-line"></div></div></div>
+            <div class="insight-card insight-card--skeleton insight-card--skeleton--shimmer" aria-hidden="true"><div class="insight-card__media"></div><div class="insight-card__content"><div class="insight-skel-line insight-skel-line--short"></div><div class="insight-skel-line"></div><div class="insight-skel-line"></div></div></div>
+            <div class="insight-card insight-card--skeleton insight-card--skeleton--shimmer" aria-hidden="true"><div class="insight-card__media"></div><div class="insight-card__content"><div class="insight-skel-line insight-skel-line--short"></div><div class="insight-skel-line"></div><div class="insight-skel-line"></div></div></div>
+          </div>
+
+          <p class="insight-feed__footnote" id="insight-feed-footnote">
+            키워드별 최신 1건씩 자동 수집하며, 본문 요약·이미지는 언론사·포털에 공개된 메타 정보를 기준으로 합니다.
+            <a href="https://news.google.com/?hl=ko&amp;gl=KR&amp;ceid=KR%3Ako" rel="noopener noreferrer" target="_blank">Google 뉴스(한국)</a> 흐름을 참고합니다.
+          </p>
           <noscript>
             <p class="insight-feed__noscript">
               이 섹션은 최신 국내 뉴스를 불러오려면 자바스크립트가 필요합니다. 브라우저에서 JS를 켜 주시거나

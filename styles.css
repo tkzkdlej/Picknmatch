@@ -2827,9 +2827,110 @@ body.br-modal-open {
 }
 
 /* 메인 — 산업 동향 & 인사이트 (카드 뉴스형) */
-.industry-insights .section-tagline {
+.industry-insights {
+  position: relative;
+  background: linear-gradient(
+      165deg,
+      rgba(var(--color-accent-rgb), 0.06) 0%,
+      rgba(255, 255, 255, 0) 55%
+    ),
+    var(--color-bg);
+  border-top: 1px solid rgba(15, 34, 66, 0.06);
+  border-bottom: 1px solid rgba(15, 34, 66, 0.05);
+}
+
+.industry-insights .section-tagline,
+.industry-insights__lead {
   max-width: 46rem;
   margin-inline: auto;
+}
+
+.insight-feed__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem 1.25rem;
+  margin: 1.35rem auto 1rem;
+  padding: 0.65rem 0.85rem;
+  max-width: 58rem;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(15, 34, 66, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+}
+
+.insight-feed__topics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.insight-topic-chip {
+  display: inline-block;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border-radius: 999px;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.22);
+}
+
+.insight-topic-chip--battery {
+  color: #0f766e;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.insight-topic-chip--hiring {
+  color: #92400e;
+  background: rgba(217, 119, 6, 0.12);
+  border-color: rgba(217, 119, 6, 0.35);
+}
+
+.insight-feed__updated {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-soft);
+  letter-spacing: 0.01em;
+}
+
+.insight-feed__updated--pending {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.insight-feed__updated--ok {
+  color: var(--color-accent-dark);
+}
+
+.insight-feed__updated--error {
+  color: #b45309;
+}
+
+.insight-feed__footnote {
+  margin: 1.35rem auto 0;
+  padding-top: 1rem;
+  max-width: 46rem;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  text-align: center;
+  border-top: 1px dashed rgba(15, 34, 66, 0.12);
+}
+
+.insight-feed__footnote a {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
 }
 
 .insight-grid {
@@ -2908,6 +3009,32 @@ body.br-modal-open {
   }
 }
 
+@keyframes insight-skel-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.insight-card--skeleton--shimmer .insight-card__media {
+  background: linear-gradient(
+    110deg,
+    rgba(18, 28, 46, 0.07) 0%,
+    rgba(18, 28, 46, 0.14) 42%,
+    rgba(18, 28, 46, 0.07) 85%
+  );
+  background-size: 220% 100%;
+  animation: insight-skel-shimmer 1.85s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insight-card--skeleton--shimmer .insight-card__media {
+    animation: none;
+  }
+}
+
 .insight-card__body-copy {
   margin: 0;
   font-size: 0.875rem;
@@ -2929,6 +3056,18 @@ body.br-modal-open {
     transform 0.52s var(--ease-out),
     box-shadow 0.52s var(--ease-out),
     border-color 0.48s var(--ease-out);
+}
+
+.insight-card--topic-semi {
+  border-top: 3px solid #2563eb;
+}
+
+.insight-card--topic-battery {
+  border-top: 3px solid #059669;
+}
+
+.insight-card--topic-hiring {
+  border-top: 3px solid #c2410c;
 }
 
 .insight-card:hover {
@@ -3154,6 +3293,15 @@ body.br-modal-open {
     grid-template-columns: 1fr;
     max-width: 26rem;
     margin-inline: auto;
+  }
+
+  .insight-feed__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .insight-feed__updated {
+    width: 100%;
   }
 
   .insight-card__summary {

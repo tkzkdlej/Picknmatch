@@ -1543,6 +1543,39 @@
       if (statusEl) statusEl.textContent = msg;
     }
 
+    var updatedLineEl = document.getElementById("insight-feed-updated");
+
+    function setInsightUpdatedLine(text, extraClass) {
+      if (!updatedLineEl) return;
+      updatedLineEl.textContent = text || "";
+      updatedLineEl.className =
+        "insight-feed__updated" + (extraClass ? " " + extraClass : "");
+    }
+
+    function formatFetchedAt(iso) {
+      if (!iso) return "";
+      try {
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return "";
+        return d.toLocaleString("ko-KR", {
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      } catch (err) {
+        return "";
+      }
+    }
+
+    function insightTopicClass(cat) {
+      var s = String(cat || "");
+      if (/반도체/.test(s)) return "insight-card--topic-semi";
+      if (/2차|전지|배터리/.test(s)) return "insight-card--topic-battery";
+      if (/채용|인력/.test(s)) return "insight-card--topic-hiring";
+      return "";
+    }
+
     var fallbackImgSrc =
       "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
 
@@ -1556,9 +1589,17 @@
       root.innerHTML =
         '<p class="insight-feed__error" role="alert">' + esc(msg) + "</p>";
       setStatus(msg);
+      setInsightUpdatedLine("지금은 기사를 불러올 수 없습니다.", "insight-feed__updated--error");
     }
 
-    function renderCards(cards) {
+    function renderCards(cards, fetchedAt) {
+      var ft = formatFetchedAt(fetchedAt);
+      if (ft) {
+        setInsightUpdatedLine("최신 수집 · " + ft, "insight-feed__updated--ok");
+      } else {
+        setInsightUpdatedLine("국내 뉴스 " + cards.length + "건 표시", "insight-feed__updated--ok");
+      }
+
       var html = "";
       for (var i = 0; i < cards.length; i++) {
         var c = cards[i] || {};
@@ -1571,6 +1612,7 @@
         var body = esc(c.body || c.excerpt || title);
         var url = esc(c.sourceUrl || "#");
         var cat = esc(c.category || "");
+        var topicCls = insightTopicClass(c.category);
 
         var imgTag =
           '<img src="' +
@@ -1582,7 +1624,9 @@
           " />";
 
         html +=
-          '<article class="insight-card" role="listitem" itemscope itemtype="https://schema.org/BlogPosting">' +
+          '<article class="insight-card' +
+          (topicCls ? " " + topicCls : "") +
+          '" role="listitem" itemscope itemtype="https://schema.org/BlogPosting">' +
           '<div class="insight-card__media">' +
           imgTag +
           "</div>" +
@@ -1644,7 +1688,7 @@
           renderError("표시할 국내 뉴스가 없습니다.");
           return;
         }
-        renderCards(cards);
+        renderCards(cards, data.fetchedAt);
       })
       .catch(function () {
         renderError("네트워크 오류로 뉴스를 불러오지 못했습니다.");
