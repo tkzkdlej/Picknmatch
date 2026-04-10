@@ -5,6 +5,7 @@
     "email:test": "node scripts/resend-hello-world.mjs"
   },
   "dependencies": {
-    "resend": "^4.0.1"
+    "resend": "^4.0.1",
+    "sharp": "^0.33.5"
   }
 }

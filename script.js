@@ -1396,4 +1396,130 @@
       form.reset();
     });
   });
+
+  /** 메인 — 국내 뉴스 인사이트 카드 (/api/kr-news-insights) */
+  (function initKrNewsInsightFeed() {
+    var root = document.getElementById("insight-feed");
+    var statusEl = document.getElementById("insight-feed-status");
+    if (!root || !document.body.classList.contains("page-main")) return;
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function setStatus(msg) {
+      if (statusEl) statusEl.textContent = msg;
+    }
+
+    var fallbackImgSrc =
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
+
+    var chev =
+      '<span class="insight-card__chev" aria-hidden="true">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+      "</span>";
+
+    function renderError(msg) {
+      root.classList.remove("insight-feed--loading");
+      root.innerHTML =
+        '<p class="insight-feed__error" role="alert">' + esc(msg) + "</p>";
+      setStatus(msg);
+    }
+
+    function renderCards(cards) {
+      var html = "";
+      for (var i = 0; i < cards.length; i++) {
+        var c = cards[i] || {};
+        var title = c.title || "뉴스";
+        var src = (c.image && String(c.image).trim()) || "";
+        var srcEsc = esc(src);
+        var dateAttr = c.date && String(c.date).length >= 10 ? esc(String(c.date).slice(0, 10)) : "";
+        var dateDisp = esc(c.dateDisplay || "—");
+        var excerpt = esc(c.excerpt || "");
+        var body = esc(c.body || c.excerpt || title);
+        var url = esc(c.sourceUrl || "#");
+        var cat = esc(c.category || "");
+
+        var imgTag =
+          '<img src="' +
+          (src ? srcEsc : esc(fallbackImgSrc)) +
+          '" width="640" height="360" alt="' +
+          esc(title) +
+          '" loading="lazy" decoding="async" itemprop="image"' +
+          (src ? ' onerror="this.onerror=null;this.src=\'' + fallbackImgSrc + '\'"' : "") +
+          " />";
+
+        html +=
+          '<article class="insight-card" role="listitem" itemscope itemtype="https://schema.org/BlogPosting">' +
+          '<div class="insight-card__media">' +
+          imgTag +
+          "</div>" +
+          '<div class="insight-card__content">' +
+          '<div class="insight-card__meta">' +
+          '<span class="insight-card__cat">' +
+          cat +
+          "</span>" +
+          (dateAttr
+            ? '<time datetime="' + dateAttr + '" itemprop="datePublished">' + dateDisp + "</time>"
+            : "<span>" + dateDisp + "</span>") +
+          "</div>" +
+          '<h3 class="insight-card__title" itemprop="headline">' +
+          esc(title) +
+          "</h3>" +
+          '<p class="insight-card__excerpt" itemprop="description">' +
+          excerpt +
+          "</p>" +
+          '<details class="insight-card__details">' +
+          '<summary class="insight-card__summary">' +
+          '<span class="insight-card__summary-text">인사이트 더 보기</span>' +
+          chev +
+          "</summary>" +
+          '<div class="insight-card__full">' +
+          '<p class="insight-card__body-copy" itemprop="articleBody">' +
+          body +
+          "</p>" +
+          '<p class="insight-card__sources">' +
+          '<span class="insight-card__sources-label">원문</span>' +
+          '<a href="' +
+          url +
+          '" rel="noopener noreferrer" target="_blank" itemprop="url">기사 전문 보기 (언론사)</a>' +
+          "</p>" +
+          "</div>" +
+          "</details>" +
+          "</div>" +
+          "</article>";
+      }
+      root.classList.remove("insight-feed--loading");
+      root.innerHTML = html;
+      setStatus("국내 뉴스 " + cards.length + "건을 표시 중입니다.");
+    }
+
+    setStatus("국내 뉴스를 불러오는 중입니다.");
+
+    fetch("/api/kr-news-insights")
+      .then(function (r) {
+        return r.json().catch(function () {
+          return null;
+        });
+      })
+      .then(function (data) {
+        if (!data || !data.ok) {
+          renderError((data && data.error) || "뉴스를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.");
+          return;
+        }
+        var cards = data.cards || [];
+        if (!cards.length) {
+          renderError("표시할 국내 뉴스가 없습니다.");
+          return;
+        }
+        renderCards(cards);
+      })
+      .catch(function () {
+        renderError("네트워크 오류로 뉴스를 불러오지 못했습니다.");
+      });
+  })();
 })();

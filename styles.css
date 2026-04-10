@@ -2840,6 +2840,82 @@ body.br-modal-open {
   margin-top: 0.25rem;
 }
 
+.insight-feed__error {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  background: rgba(18, 28, 46, 0.04);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(15, 34, 66, 0.08);
+}
+
+.insight-feed__noscript {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.insight-feed__noscript a {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.insight-card--skeleton {
+  pointer-events: none;
+  animation: insight-skel-pulse 1.25s ease-in-out infinite;
+}
+
+.insight-card--skeleton .insight-card__media {
+  background: linear-gradient(
+    110deg,
+    rgba(18, 28, 46, 0.08) 0%,
+    rgba(18, 28, 46, 0.14) 45%,
+    rgba(18, 28, 46, 0.08) 90%
+  );
+  background-size: 200% 100%;
+}
+
+.insight-card--skeleton .insight-card__content {
+  gap: 0.55rem;
+}
+
+.insight-skel-line {
+  height: 0.7rem;
+  border-radius: 6px;
+  background: rgba(18, 28, 46, 0.1);
+}
+
+.insight-skel-line--short {
+  width: 38%;
+}
+
+@keyframes insight-skel-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+.insight-card__body-copy {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.68;
+  color: var(--color-text-muted);
+  white-space: pre-line;
+}
+
 .insight-card {
   display: flex;
   flex-direction: column;
