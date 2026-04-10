@@ -181,16 +181,31 @@
   var MOBILE_NAV_MAX = 900;
   var navToggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".nav");
+  var navOverlay = null;
+
+  if (navToggle && nav) {
+    navOverlay = document.createElement("div");
+    navOverlay.className = "nav-overlay";
+    navOverlay.setAttribute("aria-hidden", "true");
+    document.body.appendChild(navOverlay);
+    navOverlay.addEventListener("click", function () {
+      setNavOpen(false);
+    });
+  }
 
   function setNavOpen(open) {
     if (!nav || !navToggle) return;
     nav.classList.toggle("is-open", open);
     document.body.classList.toggle("is-nav-open", open);
+    navToggle.classList.toggle("is-active", open);
     navToggle.setAttribute("aria-expanded", open ? "true" : "false");
     navToggle.setAttribute(
       "aria-label",
       open ? "메뉴 닫기" : "메뉴 열기"
     );
+    if (navOverlay) {
+      navOverlay.setAttribute("aria-hidden", open ? "false" : "true");
+    }
     if (open) {
       var qd = document.getElementById("quick-contact-dock");
       if (qd && qd._pnmDockSheetTimer) {

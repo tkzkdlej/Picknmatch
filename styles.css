@@ -4739,6 +4739,10 @@ body.has-quick-contact-dock.quick-contact-dock-open main {
 }
 
 @media print {
+  .nav-overlay {
+    display: none !important;
+  }
+
   .quick-contact-dock {
     display: none !important;
   }
@@ -6302,6 +6306,200 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   }
 }
 
+/* 모바일·태블릿(≤900px): LG식 전체 딤 + 우측 풀높이 슬라이드 패널 */
+@media (max-width: 900px) {
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    background: rgba(15, 23, 42, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.34s var(--ease-out),
+      visibility 0.34s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body.is-nav-open .nav-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  body.is-nav-open .header {
+    z-index: 200;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: min(22.5rem, 100vw);
+    max-height: none;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding:
+      calc(var(--header-offset) + 0.75rem) max(1rem, env(safe-area-inset-right, 0px))
+      max(1.15rem, env(safe-area-inset-bottom, 0px)) max(1.15rem, env(safe-area-inset-left, 0px));
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.15rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    background: linear-gradient(180deg, #fff 0%, #faf9f7 100%);
+    border-radius: 0;
+    border-left: 1px solid rgba(18, 28, 46, 0.07);
+    box-shadow: -16px 0 48px rgba(15, 23, 42, 0.14);
+    transform: translate3d(105%, 0, 0);
+    opacity: 1;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 0.4s var(--ease-out),
+      visibility 0.4s;
+    z-index: 150;
+  }
+
+  .nav.is-open {
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform 0.4s var(--ease-out),
+      visibility 0s;
+  }
+
+  body.page-main .header.header--over-hero .nav.is-open {
+    background: linear-gradient(180deg, #fff 0%, #f8f7f4 100%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-left: 1px solid rgba(18, 28, 46, 0.08);
+    box-shadow: -16px 0 52px rgba(15, 23, 42, 0.16);
+  }
+
+  body.page-main .header.header--over-hero .nav.is-open .nav-link {
+    color: var(--color-primary);
+    text-shadow: none;
+  }
+
+  body.page-main .header.header--over-hero .nav.is-open .nav-link--parent {
+    color: var(--color-primary);
+    opacity: 0.88;
+  }
+
+  body.page-main .header.header--over-hero .nav.is-open .nav-dropdown a,
+  body.page-main .header.header--over-hero .nav.is-open .nav-dropdown a:visited {
+    color: var(--color-text);
+    text-shadow: none;
+  }
+
+  body.page-main .header.header--over-hero .nav.is-open .nav-dropdown a:hover {
+    color: var(--color-primary);
+  }
+
+  .header-inner .nav {
+    justify-content: flex-start;
+    flex: none;
+  }
+
+  .nav.is-open .nav-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-item.has-dropdown > .nav-link::after {
+    display: none;
+  }
+
+  .nav.is-open .nav-dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 0 0.85rem;
+    margin: 0.1rem 0 0.4rem;
+    background: transparent;
+  }
+
+  .nav.is-open .nav-link,
+  .nav.is-open .nav-item > .nav-link {
+    min-height: 48px;
+    padding: 0.65rem 0.9rem;
+    align-items: center;
+    font-size: 0.8125rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .nav.is-open .nav-dropdown a {
+    min-height: 46px;
+    padding: 0.58rem 0.9rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+
+  .nav-toggle {
+    display: flex;
+    position: relative;
+    z-index: 210;
+  }
+
+  .nav-toggle span {
+    transition:
+      transform 0.34s var(--ease-out),
+      opacity 0.24s ease;
+    transform-origin: center;
+  }
+
+  .nav-toggle.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .nav-toggle.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  body.page-main .header.header--over-hero .nav-toggle.is-active span {
+    background: #fff;
+  }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .nav-overlay {
+    transition: none;
+  }
+
+  .nav {
+    transition: none;
+  }
+
+  .nav-toggle span {
+    transition: none;
+  }
+}
+
+@media (min-width: 901px) {
+  .nav-overlay {
+    display: none !important;
+  }
+}
+
 /* 모바일 메뉴 열림: 배경 스크롤 잠금(script.js가 body에 is-nav-open 부여) */
 body.is-nav-open {
   overflow: hidden;
@@ -6562,88 +6760,6 @@ body.is-nav-open .nav.is-open {
     bottom: 1rem;
   }
 
-  .nav {
-    position: fixed;
-    top: calc(var(--header-offset) + 0.25rem);
-    left: max(1rem, env(safe-area-inset-left, 0px));
-    right: max(1rem, env(safe-area-inset-right, 0px));
-    max-height: min(70vh, calc(100dvh - var(--header-offset) - 1.5rem));
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    background: linear-gradient(180deg, #ffffff 0%, #faf9f7 100%);
-    flex-direction: column;
-    padding: 1.25rem;
-    gap: 0.35rem;
-    border-radius: var(--radius-md);
-    box-shadow:
-      0 4px 24px rgba(15, 23, 42, 0.1),
-      0 0 0 1px rgba(18, 28, 46, 0.06);
-    transform: translateY(-120%);
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
-  }
-
-  .nav.is-open {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  body.page-main .header.header--over-hero .nav.is-open {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 42%),
-      linear-gradient(
-        180deg,
-        rgba(var(--hero-scrim-navy), 0.94) 0%,
-        rgba(var(--hero-scrim-navy), 0.84) 100%
-      );
-    backdrop-filter: blur(18px) saturate(1.35);
-    -webkit-backdrop-filter: blur(18px) saturate(1.35);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.1) inset,
-      0 10px 36px rgba(15, 23, 42, 0.24),
-      0 0 0 1px rgba(255, 255, 255, 0.06);
-  }
-
-  .header-inner .nav {
-    justify-content: flex-start;
-  }
-
-  .nav.is-open .nav-item { flex-direction: column; align-items: stretch; }
-
-  .nav-item.has-dropdown > .nav-link::after {
-    display: none;
-  }
-
-  .nav.is-open .nav-dropdown {
-    position: static;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    box-shadow: none;
-    border: none;
-    padding: 0 0 0 1rem;
-    margin: 0.25rem 0;
-  }
-
-  .nav.is-open .nav-link,
-  .nav.is-open .nav-item > .nav-link {
-    min-height: 44px;
-    padding: 0.65rem 1rem;
-    align-items: center;
-    font-size: 0.8125rem;
-  }
-
-  .nav.is-open .nav-dropdown a {
-    min-height: 44px;
-    padding: 0.65rem 1rem;
-    display: flex;
-    align-items: center;
-  }
-
   .request-form .form-row { grid-template-columns: 1fr; }
 
   .request-form__checks {
@@ -6727,8 +6843,6 @@ body.is-nav-open .nav.is-open {
     line-height: 1.68;
   }
 
-  .nav-toggle { display: flex; }
-
   /* 연락처/지도 — 뷰포트 높이에 맞춤, 가로 100% 유지 */
   .contact-box { padding: 1.5rem; }
 
@@ -6787,7 +6901,7 @@ body.is-nav-open .nav.is-open {
 }
 
 /* 모바일: 히어로 위 헤더 글래스 — GPU 부담 완화 + 가독성 유지 */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   body.page-main .header.header--over-hero {
     backdrop-filter: blur(14px) saturate(1.28);
     -webkit-backdrop-filter: blur(14px) saturate(1.28);
@@ -6796,11 +6910,6 @@ body.is-nav-open .nav.is-open {
   body.page-main .header.header--over-hero .nav-dropdown {
     backdrop-filter: blur(12px) saturate(1.22);
     -webkit-backdrop-filter: blur(12px) saturate(1.22);
-  }
-
-  body.page-main .header.header--over-hero .nav.is-open {
-    backdrop-filter: blur(12px) saturate(1.25);
-    -webkit-backdrop-filter: blur(12px) saturate(1.25);
   }
 }
 
