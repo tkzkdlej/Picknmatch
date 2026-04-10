@@ -953,7 +953,7 @@
 
     function setScrollDockOpen(open) {
       dock.classList.toggle("is-visible", open);
-      document.body.classList.toggle("quick-contact-dock-open", open);
+      /* body.quick-contact-dock-open 은 쓰지 않음 — 토글 시 main padding 이 바뀌며 PC·하단 스크롤에서 화면이 출렁임 */
       dock.setAttribute("aria-hidden", open ? "false" : "true");
       if (!open) setSheetExpanded(false);
     }

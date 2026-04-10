@@ -79,6 +79,8 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   overflow-x: clip;
+  /* 세로 스크롤바 등장/소멸로 가로 폭이 달라지며 푸터 근처에서 레이아웃이 흔들리는 현상 완화 */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -4452,17 +4454,16 @@ body.has-quick-contact-dock {
   padding-bottom: 0;
 }
 
-body.has-quick-contact-dock.quick-contact-dock-open main {
+/*
+ * 빠른 문의 FAB 높이만큼 main 하단 여백을 항상 확보.
+ * (이전: 스크롤 방향으로 body.quick-contact-dock-open 을 토글 → padding 이 들쭉날쭉)
+ */
+body.has-quick-contact-dock main {
   padding-bottom: calc(5.15rem + env(safe-area-inset-bottom, 0px));
 }
 
-/* 좁은 뷰포트: FAB가 본문·푸터 CTA를 가리지 않도록 main 하단 여백(열림 시 조금 더 확보) */
 @media (max-width: 900px) {
   body.has-quick-contact-dock main {
-    padding-bottom: calc(4.35rem + env(safe-area-inset-bottom, 0px));
-  }
-
-  body.has-quick-contact-dock.quick-contact-dock-open main {
     padding-bottom: calc(5.95rem + env(safe-area-inset-bottom, 0px));
   }
 }
@@ -4774,12 +4775,11 @@ body.has-quick-contact-dock.quick-contact-dock-open main {
     display: none !important;
   }
 
-  body.has-quick-contact-dock,
-  body.has-quick-contact-dock.quick-contact-dock-open {
+  body.has-quick-contact-dock {
     padding-bottom: 0;
   }
 
-  body.has-quick-contact-dock.quick-contact-dock-open main {
+  body.has-quick-contact-dock main {
     padding-bottom: 0;
   }
 }
