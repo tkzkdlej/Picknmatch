@@ -1367,6 +1367,7 @@
               submitBtn.textContent = "의뢰 보내기";
             }
             if (result.ok && result.data && result.data.ok) {
+              form.reset();
               showReferenceRequestInlineSuccess();
               return;
             }
