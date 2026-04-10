@@ -1534,7 +1534,7 @@
     if (!root || !document.body.classList.contains("page-main")) return;
 
     var LEAD_FALLBACK =
-      "핵심 산업 분야별 국내 뉴스 <strong>요약</strong>과 분야 <strong>이미지</strong>. 전문은 <strong>원문</strong>에서 확인하세요.";
+      "핵심 산업 분야의 국내 뉴스 요약입니다. 전문은 원문에서 확인하세요.";
 
     function esc(s) {
       return String(s == null ? "" : s)
@@ -1692,7 +1692,7 @@
       leadEl.innerHTML =
         "<strong>" +
         line +
-        "</strong> 분야의 국내 뉴스 <strong>요약</strong>과 <strong>이미지</strong>. 전문은 <strong>원문</strong>에서 확인하세요.";
+        "</strong> 분야의 국내 뉴스 요약입니다. 전문은 원문에서 확인하세요.";
     }
 
     function renderError(msg) {
