@@ -1808,7 +1808,7 @@
     var trigger = document.getElementById("why-us-stats-trigger");
     var panel = document.getElementById("success-stories-panel");
     var trackEl = document.getElementById("success-stories-track");
-    var collapseBtn = document.getElementById("success-stories-collapse");
+    var closeBtn = document.getElementById("success-stories-close");
     if (!trigger || !panel || !trackEl) return;
 
     /** 이름: 성 + ** / 회사: 일부만 블러(모자이크) 처리된 HTML */
@@ -1921,8 +1921,8 @@
       }
     });
 
-    if (collapseBtn) {
-      collapseBtn.addEventListener("click", closePanel);
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closePanel);
     }
   })();
 
