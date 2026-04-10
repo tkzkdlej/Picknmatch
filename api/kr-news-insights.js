@@ -9,23 +9,21 @@
 var UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36";
 
-/** 검색어·표시용 라벨 — 매 요청마다 3개를 무작위 추출 */
+/**
+ * 검색어·표시용 라벨 — 메인 「핵심 산업 분야」10개와 동일한 분야만 사용.
+ * 매 요청마다 3개를 무작위 추출.
+ */
 var TOPIC_POOL = [
+  { query: encodeURIComponent("화학"), category: "화학" },
+  { query: encodeURIComponent("중공업"), category: "중공업" },
   { query: encodeURIComponent("반도체"), category: "반도체" },
-  { query: encodeURIComponent("2차전지"), category: "2차전지 · 배터리" },
-  { query: encodeURIComponent("채용"), category: "채용 · 인력" },
-  { query: encodeURIComponent("바이오"), category: "바이오" },
-  { query: encodeURIComponent("인공지능"), category: "AI · 디지털" },
-  { query: encodeURIComponent("자동차"), category: "자동차" },
-  { query: encodeURIComponent("금융"), category: "금융" },
-  { query: encodeURIComponent("건설"), category: "건설" },
+  { query: encodeURIComponent("2차전지"), category: "2차전지" },
+  { query: encodeURIComponent("친환경"), category: "친환경" },
   { query: encodeURIComponent("에너지"), category: "에너지" },
-  { query: encodeURIComponent("유통"), category: "유통 · 물류" },
-  { query: encodeURIComponent("스타트업"), category: "스타트업" },
-  { query: encodeURIComponent("부동산"), category: "부동산" },
-  { query: encodeURIComponent("화학"), category: "화학 · 소재" },
-  { query: encodeURIComponent("게임"), category: "게임 · 엔터" },
-  { query: encodeURIComponent("로봇"), category: "로봇 · 자동화" },
+  { query: encodeURIComponent("소재"), category: "소재·재료" },
+  { query: encodeURIComponent("방산"), category: "방산" },
+  { query: encodeURIComponent("유통"), category: "유통" },
+  { query: encodeURIComponent("건설"), category: "건설" },
 ];
 
 function shuffleInPlace(arr) {

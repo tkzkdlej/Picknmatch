@@ -3376,6 +3376,22 @@ body.br-modal-open {
   border-top: 3px solid #475569;
 }
 
+.insight-card--topic-heavy {
+  border-top: 3px solid #57534e;
+}
+
+.insight-card--topic-eco {
+  border-top: 3px solid #16a34a;
+}
+
+.insight-card--topic-material {
+  border-top: 3px solid #78716c;
+}
+
+.insight-card--topic-defense {
+  border-top: 3px solid #92400e;
+}
+
 .insight-card--topic-n0 {
   border-top: 3px solid rgba(var(--color-accent-rgb), 0.85);
 }

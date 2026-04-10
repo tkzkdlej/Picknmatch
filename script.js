@@ -1620,24 +1620,20 @@
       }
     }
 
+    /** 메인 「핵심 산업 분야」10개 라벨과 매칭 */
     function insightTopicClass(cat, index) {
       var s = String(cat || "");
       var i = typeof index === "number" ? index : 0;
+      if (/소재·재료/.test(s)) return "insight-card--topic-material";
+      if (/화학/.test(s)) return "insight-card--topic-chem";
+      if (/중공업/.test(s)) return "insight-card--topic-heavy";
       if (/반도체/.test(s)) return "insight-card--topic-semi";
-      if (/2차|전지|배터리/.test(s)) return "insight-card--topic-battery";
-      if (/채용|인력/.test(s)) return "insight-card--topic-hiring";
-      if (/바이오/.test(s)) return "insight-card--topic-bio";
-      if (/AI|디지털/.test(s)) return "insight-card--topic-ai";
-      if (/자동차/.test(s)) return "insight-card--topic-auto";
-      if (/금융/.test(s)) return "insight-card--topic-fin";
-      if (/건설/.test(s)) return "insight-card--topic-build";
+      if (/2차전지/.test(s)) return "insight-card--topic-battery";
+      if (/친환경/.test(s)) return "insight-card--topic-eco";
       if (/에너지/.test(s)) return "insight-card--topic-energy";
-      if (/유통|물류/.test(s)) return "insight-card--topic-retail";
-      if (/스타트업/.test(s)) return "insight-card--topic-startup";
-      if (/부동산/.test(s)) return "insight-card--topic-re";
-      if (/화학|소재/.test(s)) return "insight-card--topic-chem";
-      if (/게임|엔터/.test(s)) return "insight-card--topic-game";
-      if (/로봇|자동화/.test(s)) return "insight-card--topic-robot";
+      if (/방산/.test(s)) return "insight-card--topic-defense";
+      if (/유통/.test(s)) return "insight-card--topic-retail";
+      if (/건설/.test(s)) return "insight-card--topic-build";
       return "insight-card--topic-n" + (i % 3);
     }
 
@@ -1660,24 +1656,16 @@
 
     function siteIndustryImageForCategory(cat) {
       var s = String(cat || "");
-      if (/반도체|칩|파운드리/.test(s)) return SITE_INDUSTRY_IMAGE.semi;
-      if (/2차|전지|배터리|리튬/.test(s)) return SITE_INDUSTRY_IMAGE.battery;
-      if (/채용|인력|인재/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
-      if (/바이오|의료|제약/.test(s)) return SITE_INDUSTRY_IMAGE.chem;
-      if (/AI|인공지능|디지털/.test(s)) return SITE_INDUSTRY_IMAGE.semi;
-      if (/자동차|모빌리티/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
-      if (/금융|은행|투자/.test(s)) return SITE_INDUSTRY_IMAGE.retail;
-      if (/건설|인프라/.test(s)) return SITE_INDUSTRY_IMAGE.build;
-      if (/에너지|전력|태양광|풍력/.test(s)) return SITE_INDUSTRY_IMAGE.energy;
-      if (/유통|물류|창고/.test(s)) return SITE_INDUSTRY_IMAGE.retail;
-      if (/스타트업/.test(s)) return SITE_INDUSTRY_IMAGE.green;
-      if (/부동산|리츠/.test(s)) return SITE_INDUSTRY_IMAGE.build;
+      if (/소재·재료/.test(s)) return SITE_INDUSTRY_IMAGE.material;
       if (/화학/.test(s)) return SITE_INDUSTRY_IMAGE.chem;
-      if (/소재|재료/.test(s)) return SITE_INDUSTRY_IMAGE.material;
-      if (/게임|엔터/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
-      if (/로봇|자동화/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
-      if (/방산|국방/.test(s)) return SITE_INDUSTRY_IMAGE.defense;
+      if (/중공업/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
+      if (/반도체/.test(s)) return SITE_INDUSTRY_IMAGE.semi;
+      if (/2차전지/.test(s)) return SITE_INDUSTRY_IMAGE.battery;
       if (/친환경/.test(s)) return SITE_INDUSTRY_IMAGE.green;
+      if (/에너지/.test(s)) return SITE_INDUSTRY_IMAGE.energy;
+      if (/방산/.test(s)) return SITE_INDUSTRY_IMAGE.defense;
+      if (/유통/.test(s)) return SITE_INDUSTRY_IMAGE.retail;
+      if (/건설/.test(s)) return SITE_INDUSTRY_IMAGE.build;
       return SITE_INDUSTRY_IMAGE.semi;
     }
 
