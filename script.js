@@ -1534,7 +1534,7 @@
     if (!root || !document.body.classList.contains("page-main")) return;
 
     var LEAD_FALLBACK =
-      "국내(한국) 뉴스 중 <strong>선택된 주제</strong>별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약·썸네일</strong>을 보여 드립니다. 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
+      "국내(한국) 뉴스 중 <strong>선택된 주제</strong>별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약</strong>을 보여 드립니다. 카드 이미지는 메인 페이지와 같은 <strong>분야 대표 사진</strong>을 쓰며, 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
 
     function esc(s) {
       return String(s == null ? "" : s)
@@ -1641,40 +1641,44 @@
       return "insight-card--topic-n" + (i % 3);
     }
 
-    function fallbackImageForCategory(cat) {
+    /**
+     * 메인 `index.html` 「핵심 산업 분야」 그리드와 동일 출처 이미지(w만 960으로 카드용).
+     * 인사이트 카드는 언론사/구글 OG 썸네일 대신 항상 이 매핑을 사용합니다.
+     */
+    var SITE_INDUSTRY_IMAGE = {
+      chem: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=960&q=80",
+      heavy: "https://images.unsplash.com/photo-1566930665082-4ae9dbbb5b6b?auto=format&fit=crop&w=960&q=80",
+      semi: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80",
+      battery: "https://images.unsplash.com/photo-1581244249923-172ef5029576?auto=format&fit=crop&w=960&q=80",
+      green: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=960&q=80",
+      energy: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=960&q=80",
+      material: "https://images.unsplash.com/photo-1697698532634-ea59b636ccea?auto=format&fit=crop&w=960&q=80",
+      defense: "https://images.unsplash.com/photo-1685839704154-96094d2617f3?auto=format&fit=crop&w=960&q=80",
+      retail: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=960&q=80",
+      build: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=960&q=80",
+    };
+
+    function siteIndustryImageForCategory(cat) {
       var s = String(cat || "");
-      var u = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
-      if (/반도체|칩|파운드리/.test(s))
-        return "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=960&q=80";
-      if (/2차|전지|배터리|리튬/.test(s))
-        return "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=960&q=80";
-      if (/채용|인력|인재/.test(s))
-        return "https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&fit=crop&w=960&q=80";
-      if (/바이오|의료|제약/.test(s))
-        return "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=960&q=80";
-      if (/AI|인공지능|디지털/.test(s))
-        return "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=960&q=80";
-      if (/자동차|모빌리티/.test(s))
-        return "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=960&q=80";
-      if (/금융|은행|투자/.test(s))
-        return "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=960&q=80";
-      if (/건설|인프라/.test(s))
-        return "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=960&q=80";
-      if (/에너지|전력|태양광|풍력/.test(s))
-        return "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=960&q=80";
-      if (/유통|물류|창고/.test(s))
-        return "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=960&q=80";
-      if (/스타트업/.test(s))
-        return "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=960&q=80";
-      if (/부동산|리츠/.test(s))
-        return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=960&q=80";
-      if (/화학|소재/.test(s))
-        return "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=960&q=80";
-      if (/게임|엔터/.test(s))
-        return "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=960&q=80";
-      if (/로봇|자동화/.test(s))
-        return "https://images.unsplash.com/photo-1485827404703-e89f11e2013d?auto=format&fit=crop&w=960&q=80";
-      return u;
+      if (/반도체|칩|파운드리/.test(s)) return SITE_INDUSTRY_IMAGE.semi;
+      if (/2차|전지|배터리|리튬/.test(s)) return SITE_INDUSTRY_IMAGE.battery;
+      if (/채용|인력|인재/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
+      if (/바이오|의료|제약/.test(s)) return SITE_INDUSTRY_IMAGE.chem;
+      if (/AI|인공지능|디지털/.test(s)) return SITE_INDUSTRY_IMAGE.semi;
+      if (/자동차|모빌리티/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
+      if (/금융|은행|투자/.test(s)) return SITE_INDUSTRY_IMAGE.retail;
+      if (/건설|인프라/.test(s)) return SITE_INDUSTRY_IMAGE.build;
+      if (/에너지|전력|태양광|풍력/.test(s)) return SITE_INDUSTRY_IMAGE.energy;
+      if (/유통|물류|창고/.test(s)) return SITE_INDUSTRY_IMAGE.retail;
+      if (/스타트업/.test(s)) return SITE_INDUSTRY_IMAGE.green;
+      if (/부동산|리츠/.test(s)) return SITE_INDUSTRY_IMAGE.build;
+      if (/화학/.test(s)) return SITE_INDUSTRY_IMAGE.chem;
+      if (/소재|재료/.test(s)) return SITE_INDUSTRY_IMAGE.material;
+      if (/게임|엔터/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
+      if (/로봇|자동화/.test(s)) return SITE_INDUSTRY_IMAGE.heavy;
+      if (/방산|국방/.test(s)) return SITE_INDUSTRY_IMAGE.defense;
+      if (/친환경/.test(s)) return SITE_INDUSTRY_IMAGE.green;
+      return SITE_INDUSTRY_IMAGE.semi;
     }
 
     function renderTopicToolbar(topics) {
@@ -1700,7 +1704,7 @@
       leadEl.innerHTML =
         "국내(한국) 뉴스 중 <strong>" +
         line +
-        "</strong> 등 이번에 무작위로 선택된 주제별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약·썸네일</strong>을 보여 드립니다. 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
+        "</strong> 등 이번에 무작위로 선택된 주제별 최신 기사를 골라, 언론사 페이지에 공개된 <strong>요약</strong>을 보여 드립니다. 카드 이미지는 메인 페이지와 같은 <strong>분야 대표 사진</strong>을 쓰며, 전문(전체 본문)은 저작권 보호를 위해 언론사 <strong>원문 기사 링크</strong>에서 확인해 주세요.";
     }
 
     function renderError(msg) {
@@ -1728,9 +1732,8 @@
       for (var i = 0; i < cards.length; i++) {
         var c = cards[i] || {};
         var title = c.title || "뉴스";
-        var src = (c.image && String(c.image).trim()) || "";
-        var fb = fallbackImageForCategory(c.category);
-        var primarySrc = src ? esc(src) : esc(fb);
+        var siteImg = siteIndustryImageForCategory(c.category);
+        var primarySrc = esc(siteImg);
         var dateAttr = c.date && String(c.date).length >= 10 ? esc(String(c.date).slice(0, 10)) : "";
         var dateDisp = esc(c.dateDisplay || "—");
         var excerpt = esc(c.excerpt || "");
@@ -1739,7 +1742,7 @@
         var linkLabel = "원문 기사 보기 (" + sourceLabelFromUrl(rawUrl) + ")";
         var cat = esc(c.category || "");
         var topicCls = insightTopicClass(c.category, i);
-        var fbEsc = esc(fb);
+        var fallbackEsc = esc(SITE_INDUSTRY_IMAGE.semi);
 
         var imgTag =
           '<img src="' +
@@ -1747,7 +1750,7 @@
           '" width="640" height="360" alt="' +
           esc(title) +
           '" loading="lazy" decoding="async" itemprop="image" onerror="this.onerror=null;this.src=\'' +
-          fbEsc +
+          fallbackEsc +
           '\'" />';
 
         html +=
