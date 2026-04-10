@@ -3687,6 +3687,15 @@ html.reveal main > .page-intro .page-name {
   max-width: 640px;
 }
 
+/* 평판조회 의뢰: 검증 알림 시 scrollIntoView — 고정 헤더와 겹침 완화 */
+.page-request-reference .request-form--reference input:not([type="hidden"]),
+.page-request-reference .request-form--reference select,
+.page-request-reference .request-form--reference textarea,
+.page-request-reference .request-form--reference .request-form__checks,
+.page-request-reference .request-form--reference .form-check--consent {
+  scroll-margin-top: 5.75rem;
+}
+
 .reference-request-feedback {
   padding: 1rem 1.15rem;
   border-radius: var(--radius-md);

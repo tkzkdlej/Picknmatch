@@ -1280,6 +1280,39 @@
         closeReferenceRequestSuccessModal({ instant: true });
       }
 
+      /** 알림 전 해당 필드로 스크롤·포커스 (고정 헤더는 CSS scroll-margin으로 보정) */
+      function referenceRequestAlertField(fieldEl, message) {
+        if (!fieldEl) {
+          alert(message);
+          return;
+        }
+        var smooth =
+          typeof window.matchMedia !== "function" ||
+          !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        try {
+          fieldEl.scrollIntoView({
+            behavior: smooth ? "smooth" : "auto",
+            block: "center",
+            inline: "nearest",
+          });
+        } catch (e1) {
+          try {
+            fieldEl.scrollIntoView(true);
+          } catch (e2) {}
+        }
+        var delay = smooth ? 340 : 40;
+        window.setTimeout(function () {
+          try {
+            if (fieldEl.focus) fieldEl.focus({ preventScroll: true });
+          } catch (e3) {
+            try {
+              fieldEl.focus();
+            } catch (e4) {}
+          }
+          alert(message);
+        }, delay);
+      }
+
       document.addEventListener("keydown", function onRefModalEscape(e) {
         if (e.key !== "Escape") return;
         if (!successModal || successModal.hidden || !successModal.classList.contains("is-open")) return;
@@ -1306,27 +1339,39 @@
         e.preventDefault();
         hideFeedback();
 
-        var consentEl = form.elements.namedItem("privacy_consent");
-        if (!consentEl || consentEl.type !== "checkbox" || !consentEl.checked) {
-          alert("개인정보 수집 및 이용에 동의해 주세요.");
-          if (consentEl && consentEl.focus) consentEl.focus();
+        if (!val(form, "company")) {
+          referenceRequestAlertField(document.getElementById("ref_company"), "회사명을 입력해 주세요.");
+          return;
+        }
+        if (!val(form, "name")) {
+          referenceRequestAlertField(document.getElementById("ref_name"), "담당자명을 입력해 주세요.");
           return;
         }
 
         var phone = val(form, "phone");
         var phoneDigits = phone.replace(/\D/g, "");
         if (phoneDigits.length !== 11) {
-          alert("연락처는 휴대전화 번호 숫자 11자리로 입력해 주세요.");
-          var phoneInput = form.elements.namedItem("phone");
-          if (phoneInput && phoneInput.focus) phoneInput.focus();
+          referenceRequestAlertField(form.elements.namedItem("phone"), "연락처는 휴대전화 번호 숫자 11자리로 입력해 주세요.");
           return;
         }
 
         var email = val(form, "email");
         if (!isValidEmail(email)) {
-          alert("유효한 이메일 주소를 입력해 주세요.");
-          var emailInput = form.elements.namedItem("email");
-          if (emailInput && emailInput.focus) emailInput.focus();
+          referenceRequestAlertField(document.getElementById("ref_email"), "유효한 이메일 주소를 입력해 주세요.");
+          return;
+        }
+
+        if (!val(form, "target_name")) {
+          referenceRequestAlertField(document.getElementById("ref_target_name"), "조회 대상 성명(또는 식별 호칭)을 입력해 주세요.");
+          return;
+        }
+        if (!val(form, "target_company")) {
+          referenceRequestAlertField(document.getElementById("ref_target_company"), "소속·경력 회사·기관을 입력해 주세요.");
+          return;
+        }
+
+        if (!val(form, "purpose")) {
+          referenceRequestAlertField(document.getElementById("ref_purpose"), "조회 목적 유형을 선택해 주세요.");
           return;
         }
 
@@ -1337,7 +1382,21 @@
           checked(form, "scope_legal") ||
           checked(form, "scope_other");
         if (!scopeOk) {
-          alert("희망 조회 항목을 한 가지 이상 선택해 주세요.");
+          referenceRequestAlertField(
+            form.querySelector(".request-form__checks") || form.elements.namedItem("scope_career"),
+            "희망 조회 항목을 한 가지 이상 선택해 주세요."
+          );
+          return;
+        }
+
+        if (!val(form, "deadline")) {
+          referenceRequestAlertField(document.getElementById("ref_deadline"), "완료 희망 시점을 선택해 주세요.");
+          return;
+        }
+
+        var consentEl = form.elements.namedItem("privacy_consent");
+        if (!consentEl || consentEl.type !== "checkbox" || !consentEl.checked) {
+          referenceRequestAlertField(consentEl, "개인정보 수집 및 이용에 동의해 주세요.");
           return;
         }
 
