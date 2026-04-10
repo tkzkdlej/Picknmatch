@@ -6336,9 +6336,11 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 /* 모바일·태블릿(≤900px): 부분 딤 + 우측 플로팅 드로어 · 카테고리 아코디언 · 브랜드 푸터 */
 @media (max-width: 900px) {
   :root {
-    --nav-drawer-dur: 0.68s;
-    --nav-drawer-ease: cubic-bezier(0.2, 0.92, 0.28, 1);
-    --nav-overlay-dur: 0.55s;
+    --nav-drawer-dur: 0.92s;
+    --nav-drawer-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --nav-overlay-dur: 0.78s;
+    --nav-acc-open: 0.52s;
+    --nav-acc-close: 0.38s;
   }
 
   .nav-overlay {
@@ -6371,14 +6373,16 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav {
     position: fixed;
-    top: calc(var(--header-offset) + 0.42rem);
-    right: max(0.55rem, env(safe-area-inset-right, 0px));
-    bottom: max(0.6rem, env(safe-area-inset-bottom, 0px));
+    top: calc(var(--header-offset) + 0.32rem);
+    right: max(0.45rem, env(safe-area-inset-right, 0px));
+    bottom: max(0.45rem, env(safe-area-inset-bottom, 0px));
     left: auto;
-    width: min(18.75rem, calc(100vw - 1.35rem));
+    width: min(19.5rem, calc(100vw - 1.1rem));
     height: auto;
-    max-height: calc(100dvh - var(--header-offset) - 1.05rem);
-    max-height: calc(100vh - var(--header-offset) - 1.05rem);
+    min-height: calc(100dvh - var(--header-offset) - 0.85rem);
+    min-height: calc(100vh - var(--header-offset) - 0.85rem);
+    max-height: calc(100dvh - var(--header-offset) - 0.85rem);
+    max-height: calc(100vh - var(--header-offset) - 0.85rem);
     margin: 0;
     padding: 0;
     display: flex;
@@ -6401,8 +6405,10 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     pointer-events: none;
     transition:
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
+      opacity calc(var(--nav-drawer-dur) * 0.85) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear var(--nav-drawer-dur);
+    opacity: 0;
     z-index: 150;
   }
 
@@ -6410,8 +6416,10 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     transform: translate3d(0, 0, 0);
     visibility: visible;
     pointer-events: auto;
+    opacity: 1;
     transition:
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
+      opacity calc(var(--nav-drawer-dur) * 0.85) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear 0s;
   }
@@ -6483,21 +6491,21 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav-drawer-brand {
     flex-shrink: 0;
-    padding: 0.65rem 0.85rem 0.15rem;
+    padding: 0.5rem 0.8rem 0.05rem;
     border-bottom: none;
   }
 
   .nav-drawer-brand__link {
-    display: inline-block;
+    display: block;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
   }
 
   .nav-drawer-brand__img {
     display: block;
-    height: 2.35rem;
+    height: 3.05rem;
     width: auto;
-    max-width: min(220px, 82%);
+    max-width: min(260px, 92%);
     object-fit: contain;
     object-position: left center;
   }
@@ -6513,18 +6521,26 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    padding: 0.35rem 0.65rem 0.5rem;
+    padding: 0.2rem 0.55rem 0.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+  }
+
+  .nav-drawer-scroll > .nav-item {
+    flex-shrink: 0;
   }
 
   .nav-drawer-meta {
     flex-shrink: 0;
-    padding: 0.95rem 0.85rem 0.8rem;
-    border-top: 1px solid rgba(18, 28, 46, 0.07);
-    background: linear-gradient(180deg, rgba(var(--color-accent-rgb), 0.07) 0%, transparent 72%);
+    margin-top: auto;
+    padding: 0.65rem 0.75rem 0.65rem;
+    border-top: 1px solid rgba(18, 28, 46, 0.08);
+    background: linear-gradient(180deg, rgba(var(--color-accent-rgb), 0.09) 0%, rgba(var(--color-accent-rgb), 0.02) 55%, transparent 100%);
   }
 
   .nav-drawer-meta__kicker {
-    margin: 0 0 0.3rem;
+    margin: 0 0 0.22rem;
     font-family: var(--font-page-hero);
     font-size: 0.625rem;
     font-weight: 600;
@@ -6534,10 +6550,10 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   }
 
   .nav-drawer-meta__lead {
-    margin: 0 0 0.7rem;
-    font-size: 0.8125rem;
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    line-height: 1.45;
+    line-height: 1.42;
     letter-spacing: -0.02em;
     color: var(--color-primary);
   }
@@ -6549,8 +6565,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     box-sizing: border-box;
     width: 100%;
     min-height: 44px;
-    margin: 0 0 0.6rem;
-    padding: 0.5rem 1rem;
+    margin: 0 0 0.45rem;
+    padding: 0.48rem 0.85rem;
     font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -6622,8 +6638,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     opacity: 0.52;
     transform: translateY(-58%) rotate(45deg);
     transition:
-      transform 0.45s var(--nav-drawer-ease),
-      opacity 0.25s ease;
+      transform 0.55s var(--nav-drawer-ease),
+      opacity 0.32s ease;
   }
 
   .nav.is-open .nav-item.has-dropdown.is-expanded > .nav-link::after {
@@ -6639,6 +6655,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     background-image: none !important;
   }
 
+  /* 닫힐 때: opacity 먼저 줄이고 visibility 지연 없음 → 잔상·번짐 완화 */
   .nav.is-open .nav-item.has-dropdown:not(.is-expanded) .nav-dropdown {
     max-height: 0 !important;
     opacity: 0 !important;
@@ -6649,11 +6666,11 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     border: none !important;
     pointer-events: none !important;
     transition:
-      max-height 0.52s var(--nav-drawer-ease),
-      opacity 0.32s ease,
-      padding 0.32s ease,
-      margin 0.32s ease,
-      visibility 0s linear 0.48s;
+      opacity 0.14s ease,
+      visibility 0s linear 0.14s,
+      max-height var(--nav-acc-close) var(--nav-drawer-ease),
+      padding var(--nav-acc-close) var(--nav-drawer-ease),
+      margin var(--nav-acc-close) var(--nav-drawer-ease);
   }
 
   .nav.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown,
@@ -6663,19 +6680,19 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
-    margin: 0.12rem 0 0.35rem !important;
-    padding: 0.25rem 0 0.35rem 0.75rem !important;
-    overflow: visible !important;
+    margin: 0.1rem 0 0.28rem !important;
+    padding: 0.2rem 0 0.3rem 0.65rem !important;
+    overflow: hidden !important;
     box-shadow: inset 0 0 0 1px rgba(18, 28, 46, 0.06) !important;
     border: none !important;
     background: rgba(255, 255, 255, 0.38) !important;
     border-radius: var(--radius-md) !important;
     pointer-events: auto !important;
     transition:
-      max-height 0.58s var(--nav-drawer-ease),
-      opacity 0.38s ease 0.06s,
-      padding 0.4s ease,
-      margin 0.4s ease,
+      max-height var(--nav-acc-open) var(--nav-drawer-ease),
+      opacity 0.28s ease 0.05s,
+      padding var(--nav-acc-open) var(--nav-drawer-ease),
+      margin var(--nav-acc-open) var(--nav-drawer-ease),
       visibility 0s linear 0s;
   }
 
@@ -6687,16 +6704,16 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav.is-open .nav-link,
   .nav.is-open .nav-item > .nav-link {
-    min-height: 48px;
-    padding: 0.65rem 2.1rem 0.65rem 0.85rem;
+    min-height: 46px;
+    padding: 0.55rem 2rem 0.55rem 0.75rem;
     align-items: center;
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     border-radius: var(--radius-sm);
   }
 
   .nav.is-open .nav-dropdown a {
-    min-height: 46px;
-    padding: 0.55rem 0.85rem;
+    min-height: 44px;
+    padding: 0.48rem 0.75rem;
     display: flex;
     align-items: center;
     font-size: 0.875rem;
@@ -6711,8 +6728,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav-toggle span {
     transition:
-      transform 0.45s var(--nav-drawer-ease),
-      opacity 0.28s ease;
+      transform 0.58s var(--nav-drawer-ease),
+      opacity 0.36s ease;
     transform-origin: center;
   }
 
@@ -6738,6 +6755,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   :root {
     --nav-drawer-dur: 0.01s;
     --nav-overlay-dur: 0.01s;
+    --nav-acc-open: 0.01s;
+    --nav-acc-close: 0.01s;
   }
 
   .nav-overlay {
@@ -6746,6 +6765,11 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav {
     transition: none;
+    opacity: 1;
+  }
+
+  .nav:not(.is-open) {
+    opacity: 0;
   }
 
   .nav-toggle span {
