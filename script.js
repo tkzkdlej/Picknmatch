@@ -1203,6 +1203,8 @@
       var btnSuccessAgain = document.getElementById("reference-request-success-again");
       var errorEl = document.getElementById("reference-request-error");
       var submitBtn = form.querySelector('[type="submit"]');
+      /** form.reset() 이 input/change 를 일으켜 hideFeedback → 모달 즉시 닫힘 방지 */
+      var suppressReferenceHideFeedback = false;
 
       function closeReferenceRequestSuccessModal(opts) {
         opts = opts || {};
@@ -1252,6 +1254,7 @@
           errorEl.hidden = true;
           errorEl.textContent = "";
         }
+        if (suppressReferenceHideFeedback) return;
         closeReferenceRequestSuccessModal({ instant: true });
       }
 
@@ -1392,8 +1395,12 @@
               submitBtn.textContent = "의뢰 보내기";
             }
             if (result.ok && result.data && result.data.ok) {
+              suppressReferenceHideFeedback = true;
               form.reset();
               openReferenceRequestSuccessModal();
+              window.setTimeout(function () {
+                suppressReferenceHideFeedback = false;
+              }, 200);
               return;
             }
             var rawErr = (result.data && result.data.error) || "";
