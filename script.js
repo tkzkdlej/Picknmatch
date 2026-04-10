@@ -1542,4 +1542,18 @@
         renderError("네트워크 오류로 뉴스를 불러오지 못했습니다.");
       });
   })();
+
+  /** 연락처 필드: 번호(숫자)만 입력 — `input[type="tel"][name="phone"]`. 예외 시 `data-allow-non-phone-chars="true"` */
+  (function initPhoneDigitsOnlyInputs() {
+    function bind(el) {
+      if (el.getAttribute("data-allow-non-phone-chars") === "true") return;
+      function strip() {
+        var v = String(el.value || "").replace(/\D/g, "");
+        if (v !== el.value) el.value = v;
+      }
+      el.addEventListener("input", strip);
+      el.addEventListener("blur", strip);
+    }
+    document.querySelectorAll('input[type="tel"][name="phone"]').forEach(bind);
+  })();
 })();

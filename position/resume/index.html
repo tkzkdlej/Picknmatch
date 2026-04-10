@@ -84,7 +84,7 @@
             <form class="request-form" data-type="resume">
               <div class="form-row">
                 <input type="text" name="name" placeholder="성명" required />
-                <input type="tel" name="phone" placeholder="연락처" required />
+                <input type="tel" name="phone" placeholder="연락처" required inputmode="numeric" pattern="[0-9]*" autocomplete="tel" />
               </div>
               <div class="form-row">
                 <input type="email" name="email" placeholder="이메일" required />
