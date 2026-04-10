@@ -1813,14 +1813,15 @@
       });
   })();
 
-  /** 메인 — Why us: 통계 배너 클릭 시 대표 매칭 실적 사례(가명) 다이얼로그 */
-  (function initSuccessStoriesDialog() {
+  /** 메인 — Why us: 통계 배너 클릭 시 하단 인라인 패널 + 가로 마퀴 실적 사례 */
+  (function initSuccessStoriesPanel() {
     if (!document.body.classList.contains("page-main")) return;
 
     var trigger = document.getElementById("why-us-stats-trigger");
-    var dialog = document.getElementById("success-stories-dialog");
-    var listEl = document.getElementById("success-stories-list");
-    if (!trigger || !dialog || !listEl) return;
+    var panel = document.getElementById("success-stories-panel");
+    var trackEl = document.getElementById("success-stories-track");
+    var collapseBtn = document.getElementById("success-stories-collapse");
+    if (!trigger || !panel || !trackEl) return;
 
     /** 이름: 성 + ** / 회사: 일부만 블러(모자이크) 처리된 HTML */
     var MOCK_STORIES = [
@@ -1875,72 +1876,66 @@
         .replace(/"/g, "&quot;");
     }
 
-    function renderList() {
-      var html = "";
+    function cardHtml(s) {
+      return (
+        '<article class="success-story-card">' +
+        '<div class="success-story-card__meta">' +
+        '<span class="success-story-card__name">' +
+        esc(s.name) +
+        "</span>" +
+        s.companyHtml +
+        "</div>" +
+        '<p class="success-story-card__text">' +
+        esc(s.text) +
+        "</p>" +
+        "</article>"
+      );
+    }
+
+    function renderTrack() {
+      var chunk = "";
       for (var i = 0; i < MOCK_STORIES.length; i++) {
-        var s = MOCK_STORIES[i];
-        html +=
-          '<li class="success-story-card">' +
-          '<div class="success-story-card__meta">' +
-          '<span class="success-story-card__name">' +
-          esc(s.name) +
-          "</span>" +
-          s.companyHtml +
-          "</div>" +
-          '<p class="success-story-card__text">' +
-          esc(s.text) +
-          "</p>" +
-          "</li>";
+        chunk += cardHtml(MOCK_STORIES[i]);
       }
-      listEl.innerHTML = html;
+      trackEl.innerHTML = chunk + chunk;
     }
 
-    function openDialog() {
-      renderList();
-      if (typeof dialog.showModal === "function") {
-        dialog.showModal();
-      } else {
-        dialog.setAttribute("open", "");
-      }
+    function openPanel() {
+      renderTrack();
+      panel.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
       trigger.setAttribute("aria-expanded", "true");
-      document.documentElement.classList.add("success-stories-dialog-open");
     }
 
-    function closeDialog() {
-      if (typeof dialog.close === "function") {
-        dialog.close();
-      } else {
-        dialog.removeAttribute("open");
-      }
-    }
-
-    dialog.addEventListener("close", function () {
+    function closePanel() {
+      panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
       trigger.setAttribute("aria-expanded", "false");
-      document.documentElement.classList.remove("success-stories-dialog-open");
       try {
         trigger.focus();
       } catch (err) {}
-    });
+    }
+
+    function togglePanel() {
+      if (panel.classList.contains("is-open")) closePanel();
+      else openPanel();
+    }
 
     trigger.addEventListener("click", function (e) {
       e.preventDefault();
-      openDialog();
+      togglePanel();
     });
 
     trigger.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        openDialog();
+        togglePanel();
       }
     });
 
-    dialog.addEventListener("click", function (e) {
-      if (e.target === dialog) closeDialog();
-    });
-
-    dialog.querySelectorAll(".success-stories-dialog__close").forEach(function (btn) {
-      btn.addEventListener("click", closeDialog);
-    });
+    if (collapseBtn) {
+      collapseBtn.addEventListener("click", closePanel);
+    }
   })();
 
   /** 연락처 필드: 번호(숫자)만 입력 — `input[type="tel"][name="phone"]`. 예외 시 `data-allow-non-phone-chars="true"` */
