@@ -183,6 +183,21 @@
   var nav = document.querySelector(".nav");
   var navOverlay = null;
 
+  /** ≤900px: .nav 를 body 직속으로 두어 fixed 드로어가 항상 뷰포트 기준이 되게 함(헤더 containing block 이슈 방지). */
+  function relocateNavForViewport() {
+    var navEl = document.querySelector(".nav");
+    var headerInner = document.querySelector(".header-inner");
+    var toggle = document.querySelector(".nav-toggle");
+    if (!navEl || !headerInner || !toggle) return;
+    if (window.innerWidth <= MOBILE_NAV_MAX) {
+      if (navEl.parentElement !== document.body) {
+        document.body.appendChild(navEl);
+      }
+    } else if (navEl.parentElement === document.body) {
+      headerInner.insertBefore(navEl, toggle);
+    }
+  }
+
   if (navToggle && nav) {
     navOverlay = document.createElement("div");
     navOverlay.className = "nav-overlay";
@@ -306,6 +321,8 @@
         }
       });
     });
+
+    relocateNavForViewport();
   }
 
   function collapseNavAccordions() {
@@ -441,6 +458,7 @@
           setNavOpen(false);
           collapseNavAccordions();
         }
+        relocateNavForViewport();
         syncNavParentTabindex();
         syncMobileNavDrawerTheme();
       },

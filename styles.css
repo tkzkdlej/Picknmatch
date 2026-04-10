@@ -388,12 +388,27 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   }
 
   /*
-   * fixed 자식(.nav 드로어)은 transform/will-change 가 있는 조상을 기준으로 크기가 잡힘.
-   * 헤더가 짧아 top+bottom 고정 높이가 0에 가까워지는 문제 방지 → 뷰포트 기준으로 복원.
+   * fixed 자식(.nav 드로어)은 transform/filter/backdrop-filter 등이 있는 조상을
+   * 기준(containing block)으로 잡히면 헤더 높이만큼만 그려져 패널이 비어 보임.
+   * 모바일에서는 뷰포트 기준이 되도록 헤더의 효과를 끈다.
    */
   .header {
     transform: none;
     will-change: auto;
+    isolation: auto;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .header.header--elevated,
+  body.page-main .header.header--over-hero {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body.page-main .header.header--over-hero .nav-dropdown {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 
@@ -6396,6 +6411,11 @@ body.page-strength .st-cta__actions .btn-outline:hover {
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear 0s;
+  }
+
+  /* body 직속 fixed 드로어: 본문·보조 UI보다 위, 헤더(200)·토글(210)과 겹치지 않는 영역만 차지 */
+  body.is-nav-open .nav.is-open {
+    z-index: 195;
   }
 
   /* 메인 히어로 위(어두운 배경)에서 메뉴 열림: JS가 .nav--on-dark-canvas 부여 */
