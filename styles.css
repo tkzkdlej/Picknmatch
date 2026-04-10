@@ -6402,12 +6402,10 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     transform: translate3d(calc(100% + 1.5rem), 0, 0);
     visibility: hidden;
     pointer-events: none;
-    opacity: 0;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transition:
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
-      opacity var(--nav-drawer-dur) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear var(--nav-drawer-dur);
     z-index: 150;
@@ -6417,10 +6415,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     transform: translate3d(0, 0, 0);
     visibility: visible;
     pointer-events: auto;
-    opacity: 1;
     transition:
       transform var(--nav-drawer-dur) var(--nav-drawer-ease),
-      opacity var(--nav-drawer-dur) var(--nav-drawer-ease),
       box-shadow var(--nav-drawer-dur) var(--nav-drawer-ease),
       visibility 0s linear 0s;
   }
@@ -6490,31 +6486,6 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     border-bottom-color: rgba(251, 191, 36, 0.35);
   }
 
-  .nav-drawer-brand {
-    flex-shrink: 0;
-    padding: 0.5rem 0.8rem 0.05rem;
-    border-bottom: none;
-  }
-
-  .nav-drawer-brand__link {
-    display: block;
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .nav-drawer-brand__img {
-    display: block;
-    height: 2.72rem;
-    width: auto;
-    max-width: min(248px, 90%);
-    object-fit: contain;
-    object-position: left center;
-  }
-
-  .nav.nav--on-dark-canvas.is-open .nav-drawer-brand__img {
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
-  }
-
   .nav-drawer-scroll {
     flex: 1 1 auto;
     min-height: 0;
@@ -6522,7 +6493,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    padding: 0.2rem 0.55rem 0.35rem;
+    padding: 0.45rem 0.55rem 0.35rem;
     display: flex;
     flex-direction: column;
     gap: 0.12rem;
@@ -6607,9 +6578,28 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     flex: none;
   }
 
-  .nav.is-open .nav-item {
+  .nav.is-open .nav-item:not(.has-dropdown) {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  /* 아코디언: max-height 대신 grid 0fr/1fr + shell overflow 로 잔상 없이 접힘 */
+  .nav.is-open .nav-item.has-dropdown {
+    display: grid;
+    grid-template-rows: auto 0fr;
+    align-items: stretch;
+    transition: grid-template-rows var(--nav-acc-close) var(--nav-drawer-ease);
+  }
+
+  .nav.is-open .nav-item.has-dropdown.is-expanded {
+    grid-template-rows: auto 1fr;
+    transition: grid-template-rows var(--nav-acc-open) var(--nav-drawer-ease);
+  }
+
+  .nav-dropdown-shell {
+    min-height: 0;
+    overflow: hidden;
   }
 
   .nav-item.has-dropdown > .nav-link--parent {
@@ -6656,50 +6646,26 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     background-image: none !important;
   }
 
-  /* 닫힘: 높이·패딩을 드로어와 같은 이징으로 줄이고, opacity·visibility는 짧게 맞춰 잔상 최소화 */
-  .nav.is-open .nav-item.has-dropdown:not(.is-expanded) .nav-dropdown {
-    max-height: 0 !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    border: none !important;
-    pointer-events: none !important;
-    transform: translate3d(0, 0, 0);
-    transition:
-      max-height var(--nav-acc-close) var(--nav-drawer-ease),
-      padding var(--nav-acc-close) var(--nav-drawer-ease),
-      margin var(--nav-acc-close) var(--nav-drawer-ease),
-      opacity calc(var(--nav-acc-close) * 0.45) ease,
-      visibility 0s linear calc(var(--nav-acc-close) * 0.4);
-  }
-
-  .nav.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown,
-  .nav.is-open .nav-item.has-dropdown.is-expanded:hover .nav-dropdown {
+  .nav.is-open .nav-item.has-dropdown .nav-dropdown {
     position: static !important;
-    max-height: 22rem !important;
+    top: auto !important;
+    left: auto !important;
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
+    max-height: none !important;
     margin: 0.1rem 0 0.28rem !important;
     padding: 0.2rem 0 0.3rem 0.65rem !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     box-shadow: inset 0 0 0 1px rgba(18, 28, 46, 0.06) !important;
     border: none !important;
     background: rgba(255, 255, 255, 0.38) !important;
     border-radius: var(--radius-md) !important;
     pointer-events: auto !important;
-    transition:
-      max-height var(--nav-acc-open) var(--nav-drawer-ease),
-      padding var(--nav-acc-open) var(--nav-drawer-ease),
-      margin var(--nav-acc-open) var(--nav-drawer-ease),
-      opacity calc(var(--nav-acc-open) * 0.55) ease 0.08s,
-      visibility 0s linear 0s;
+    transition: none !important;
   }
 
-  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown,
-  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown.is-expanded:hover .nav-dropdown {
+  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown .nav-dropdown {
     background: rgba(255, 255, 255, 0.06) !important;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09) !important;
   }
@@ -6767,11 +6733,6 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav {
     transition: none;
-    opacity: 1;
-  }
-
-  .nav:not(.is-open) {
-    opacity: 0;
   }
 
   .nav-toggle span {
@@ -6782,8 +6743,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     transition: none;
   }
 
-  .nav.is-open .nav-item.has-dropdown:not(.is-expanded) .nav-dropdown,
-  .nav.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown {
+  .nav.is-open .nav-item.has-dropdown,
+  .nav.is-open .nav-item.has-dropdown.is-expanded {
     transition: none !important;
   }
 }
@@ -6802,8 +6763,9 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     display: none !important;
   }
 
-  .nav-drawer-brand {
-    display: none !important;
+  /* 모바일용 서브메뉴 래퍼 — 데스크톱에서는 레이아웃에 끼어들지 않음 */
+  .nav-dropdown-shell {
+    display: contents;
   }
 }
 

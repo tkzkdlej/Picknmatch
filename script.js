@@ -182,14 +182,6 @@
   var navToggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".nav");
   var navOverlay = null;
-  var navCloseCollapseTimer = null;
-
-  function mobileNavDrawerCollapseDelayMs() {
-    try {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return 0;
-    } catch (err) {}
-    return 950;
-  }
 
   /** ≤900px: .nav 를 body 직속으로 두어 fixed 드로어가 항상 뷰포트 기준이 되게 함(헤더 containing block 이슈 방지). */
   function relocateNavForViewport() {
@@ -228,30 +220,22 @@
         }
       }
 
-      if (!nav.querySelector(".nav-drawer-brand")) {
-        var brand = document.createElement("div");
-        brand.className = "nav-drawer-brand";
-        var brandLink = document.createElement("a");
-        brandLink.className = "nav-drawer-brand__link";
-        brandLink.href = isMainPagePath() ? "#top" : "/";
-        brandLink.setAttribute("aria-label", "Pick & Match 홈으로 이동");
-        var brandImg = document.createElement("img");
-        brandImg.className = "nav-drawer-brand__img";
-        brandImg.alt = "Pick & Match 공식 로고";
-        brandImg.decoding = "async";
-        brandImg.draggable = false;
-        brandImg.setAttribute("data-logo-drawer-light", "/images/logo-transparent.png");
-        brandImg.setAttribute("data-logo-drawer-dark", "/images/logo-white.png");
-        brandImg.src = "/images/logo-transparent.png";
-        brandLink.appendChild(brandImg);
-        brand.appendChild(brandLink);
-        var scrollEl = nav.querySelector(".nav-drawer-scroll");
-        if (scrollEl) {
-          nav.insertBefore(brand, scrollEl);
-        } else {
-          nav.insertBefore(brand, nav.firstChild);
-        }
+      var rmBrand = nav.querySelector(".nav-drawer-brand");
+      if (rmBrand) {
+        rmBrand.remove();
       }
+
+      nav.querySelectorAll(".nav-item.has-dropdown").forEach(function (item) {
+        var submenu = item.querySelector(":scope > ul.nav-dropdown");
+        if (!submenu) return;
+        if (submenu.parentElement && submenu.parentElement.classList.contains("nav-dropdown-shell")) {
+          return;
+        }
+        var shell = document.createElement("div");
+        shell.className = "nav-dropdown-shell";
+        submenu.parentNode.insertBefore(shell, submenu);
+        shell.appendChild(submenu);
+      });
 
       if (nav.querySelector(".nav-drawer-meta")) return;
 
@@ -352,61 +336,27 @@
 
   function syncMobileNavDrawerTheme() {
     if (!nav) return;
-    var drawerImg = nav.querySelector(".nav-drawer-brand__img");
     if (window.innerWidth > MOBILE_NAV_MAX) {
       nav.classList.remove("nav--on-dark-canvas");
-      if (drawerImg) {
-        var resetSrc = drawerImg.getAttribute("data-logo-drawer-light") || "/images/logo-transparent.png";
-        drawerImg.setAttribute("src", resetSrc);
-      }
       return;
     }
     var headerEl = document.querySelector(".header");
     if (!nav.classList.contains("is-open")) {
       nav.classList.remove("nav--on-dark-canvas");
-      if (drawerImg) {
-        var defClosed = drawerImg.getAttribute("data-logo-drawer-light") || "/images/logo-transparent.png";
-        drawerImg.setAttribute("src", defClosed);
-      }
       return;
     }
-    /* 드로어만: 히어로 위 → 다크 글리프 로고, 그 외(밝은 패널) → 흰 로고(헤더와 별개) */
     var onDark =
       document.body.classList.contains("page-main") &&
       headerEl &&
       headerEl.classList.contains("header--over-hero");
     nav.classList.toggle("nav--on-dark-canvas", onDark);
-    if (drawerImg) {
-      var lightPanelSrc = drawerImg.getAttribute("data-logo-drawer-light") || "/images/logo-transparent.png";
-      var darkPanelSrc = drawerImg.getAttribute("data-logo-drawer-dark") || "/images/logo-white.png";
-      drawerImg.setAttribute("src", onDark ? lightPanelSrc : darkPanelSrc);
-    }
   }
 
   function setNavOpen(open) {
     if (!nav || !navToggle) return;
 
     if (open) {
-      if (navCloseCollapseTimer !== null) {
-        clearTimeout(navCloseCollapseTimer);
-        navCloseCollapseTimer = null;
-      }
       collapseNavAccordions();
-    } else {
-      if (navCloseCollapseTimer !== null) {
-        clearTimeout(navCloseCollapseTimer);
-        navCloseCollapseTimer = null;
-      }
-      var collapseDelay =
-        window.innerWidth <= MOBILE_NAV_MAX ? mobileNavDrawerCollapseDelayMs() : 0;
-      if (collapseDelay > 0) {
-        navCloseCollapseTimer = setTimeout(function () {
-          navCloseCollapseTimer = null;
-          collapseNavAccordions();
-        }, collapseDelay);
-      } else {
-        collapseNavAccordions();
-      }
     }
 
     nav.classList.toggle("is-open", open);
@@ -488,10 +438,6 @@
       "resize",
       function () {
         if (window.innerWidth > MOBILE_NAV_MAX) {
-          if (navCloseCollapseTimer !== null) {
-            clearTimeout(navCloseCollapseTimer);
-            navCloseCollapseTimer = null;
-          }
           setNavOpen(false);
           collapseNavAccordions();
         }
