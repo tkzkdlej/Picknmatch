@@ -154,7 +154,11 @@ module.exports = async function handler(req, res) {
   }
 
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=3600");
+  /* 엣지 캐시: 최대 6시간(21600s) 동안 동일 JSON 재사용 → 이후 재검증. SWR로 짧은 stale 허용 */
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=21600, stale-while-revalidate=7200"
+  );
 
   try {
     var rssBodies = await Promise.all(
