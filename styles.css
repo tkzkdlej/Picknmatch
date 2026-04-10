@@ -533,10 +533,13 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
   opacity: 0;
 }
 
-.nav-item.has-dropdown:hover > .nav-link::after,
-.nav-item.has-dropdown:focus-within > .nav-link::after {
-  width: calc(100% - 1.25rem);
-  opacity: 1;
+/* 밑줄 확장은 데스크톱만 — 모바일 드로어는 ::after 를 화살표로 쓰므로 width 가 커지면 깨짐 */
+@media (min-width: 901px) {
+  .nav-item.has-dropdown:hover > .nav-link::after,
+  .nav-item.has-dropdown:focus-within > .nav-link::after {
+    width: calc(100% - 1.25rem);
+    opacity: 1;
+  }
 }
 
 .nav-item .nav-link:hover:not(.nav-link--parent),
@@ -6449,10 +6452,6 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     color: #fff;
   }
 
-  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown {
-    background: rgba(255, 255, 255, 0.08) !important;
-  }
-
   .nav.nav--on-dark-canvas.is-open .nav-drawer-meta {
     border-top-color: rgba(255, 255, 255, 0.1);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 72%);
@@ -6484,8 +6483,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav-drawer-brand {
     flex-shrink: 0;
-    padding: 0.55rem 0.75rem 0.4rem;
-    border-bottom: 1px solid rgba(18, 28, 46, 0.08);
+    padding: 0.65rem 0.85rem 0.15rem;
+    border-bottom: none;
   }
 
   .nav-drawer-brand__link {
@@ -6496,13 +6495,15 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
   .nav-drawer-brand__img {
     display: block;
-    height: 2rem;
+    height: 2.35rem;
     width: auto;
-    max-width: min(200px, 78%);
+    max-width: min(220px, 82%);
+    object-fit: contain;
+    object-position: left center;
   }
 
-  .nav.nav--on-dark-canvas.is-open .nav-drawer-brand {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-brand__img {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
   }
 
   .nav-drawer-scroll {
@@ -6512,7 +6513,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    padding: 0.7rem 0.65rem 0.45rem;
+    padding: 0.35rem 0.65rem 0.5rem;
   }
 
   .nav-drawer-meta {
@@ -6599,30 +6600,43 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     -webkit-tap-highlight-color: rgba(var(--color-accent-rgb), 0.1);
   }
 
-  .nav-item.has-dropdown > .nav-link::after {
-    display: block;
-    left: auto;
-    right: 0.72rem;
-    bottom: auto;
+  /* 드로어: 데스크톱 밑줄 ::after 와 분리 — 고정 크기 화살표만 */
+  .nav.is-open .nav-item.has-dropdown > .nav-link::after {
+    display: block !important;
+    left: auto !important;
+    right: 0.85rem;
+    bottom: auto !important;
     top: 50%;
-    width: 0.4rem;
-    height: 0.4rem;
-    margin-top: -0.26rem;
-    border: none;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    background: none;
-    border-radius: 0;
-    opacity: 0.5;
-    transform: translateY(-20%) rotate(45deg);
+    width: 0.42rem !important;
+    height: 0.42rem !important;
+    margin: 0;
+    padding: 0;
+    border: none !important;
+    border-right: 2px solid currentColor !important;
+    border-bottom: 2px solid currentColor !important;
+    border-top: none !important;
+    border-left: none !important;
+    background: none !important;
+    background-image: none !important;
+    border-radius: 0 !important;
+    opacity: 0.52;
+    transform: translateY(-58%) rotate(45deg);
     transition:
       transform 0.45s var(--nav-drawer-ease),
       opacity 0.25s ease;
   }
 
-  .nav-item.has-dropdown.is-expanded > .nav-link::after {
-    transform: translateY(10%) rotate(-135deg);
-    opacity: 0.82;
+  .nav.is-open .nav-item.has-dropdown.is-expanded > .nav-link::after {
+    transform: translateY(-35%) rotate(-135deg);
+    opacity: 0.78;
+  }
+
+  .nav.is-open .nav-item.has-dropdown:hover > .nav-link::after,
+  .nav.is-open .nav-item.has-dropdown:focus-within > .nav-link::after {
+    width: 0.42rem !important;
+    height: 0.42rem !important;
+    background: none !important;
+    background-image: none !important;
   }
 
   .nav.is-open .nav-item.has-dropdown:not(.is-expanded) .nav-dropdown {
@@ -6649,13 +6663,13 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
-    margin: 0.08rem 0 0.4rem !important;
-    padding: 0.2rem 0 0.4rem 0.85rem !important;
+    margin: 0.12rem 0 0.35rem !important;
+    padding: 0.25rem 0 0.35rem 0.75rem !important;
     overflow: visible !important;
-    box-shadow: none !important;
+    box-shadow: inset 0 0 0 1px rgba(18, 28, 46, 0.06) !important;
     border: none !important;
-    background: rgba(255, 255, 255, 0.45) !important;
-    border-radius: var(--radius-sm) !important;
+    background: rgba(255, 255, 255, 0.38) !important;
+    border-radius: var(--radius-md) !important;
     pointer-events: auto !important;
     transition:
       max-height 0.58s var(--nav-drawer-ease),
@@ -6663,6 +6677,12 @@ body.page-strength .st-cta__actions .btn-outline:hover {
       padding 0.4s ease,
       margin 0.4s ease,
       visibility 0s linear 0s;
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown,
+  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown.is-expanded:hover .nav-dropdown {
+    background: rgba(255, 255, 255, 0.06) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09) !important;
   }
 
   .nav.is-open .nav-link,
