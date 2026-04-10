@@ -386,6 +386,15 @@ body.page-main .header.header--over-hero .nav-dropdown a:focus-visible {
     transform: none;
     pointer-events: auto;
   }
+
+  /*
+   * fixed 자식(.nav 드로어)은 transform/will-change 가 있는 조상을 기준으로 크기가 잡힘.
+   * 헤더가 짧아 top+bottom 고정 높이가 0에 가까워지는 문제 방지 → 뷰포트 기준으로 복원.
+   */
+  .header {
+    transform: none;
+    will-change: auto;
+  }
 }
 
 .header::after {
@@ -6334,6 +6343,10 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     pointer-events: auto;
   }
 
+  body.page-main.is-nav-open:has(.header.header--over-hero) .nav-overlay {
+    background: rgba(2, 6, 23, 0.55);
+  }
+
   body.is-nav-open .header {
     z-index: 200;
   }
@@ -6385,36 +6398,91 @@ body.page-strength .st-cta__actions .btn-outline:hover {
       visibility 0s linear 0s;
   }
 
-  body.page-main .header.header--over-hero .nav.is-open {
-    background: linear-gradient(168deg, #fff 0%, #faf8f4 42%, #f3f0e8 100%);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border: 1px solid rgba(var(--color-accent-rgb), 0.24);
+  /* 메인 히어로 위(어두운 배경)에서 메뉴 열림: JS가 .nav--on-dark-canvas 부여 */
+  .nav.nav--on-dark-canvas.is-open {
+    background: linear-gradient(168deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.92) 48%, rgba(15, 23, 42, 0.9) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.9) inset,
-      0 3px 0 rgba(var(--color-accent-rgb), 0.32) inset,
-      -8px 0 40px rgba(15, 23, 42, 0.09),
-      0 28px 56px rgba(18, 28, 46, 0.12);
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 28px 56px rgba(0, 0, 0, 0.35);
   }
 
-  body.page-main .header.header--over-hero .nav.is-open .nav-link {
-    color: var(--color-primary);
+  .nav.nav--on-dark-canvas.is-open .nav-link,
+  .nav.nav--on-dark-canvas.is-open .nav-link--parent {
+    color: rgba(248, 250, 252, 0.95);
     text-shadow: none;
   }
 
-  body.page-main .header.header--over-hero .nav.is-open .nav-link--parent {
-    color: var(--color-primary);
-    opacity: 0.92;
+  .nav.nav--on-dark-canvas.is-open .nav-link--parent {
+    opacity: 0.9;
   }
 
-  body.page-main .header.header--over-hero .nav.is-open .nav-dropdown a,
-  body.page-main .header.header--over-hero .nav.is-open .nav-dropdown a:visited {
-    color: var(--color-text);
+  .nav.nav--on-dark-canvas.is-open .nav-dropdown a,
+  .nav.nav--on-dark-canvas.is-open .nav-dropdown a:visited {
+    color: rgba(226, 232, 240, 0.92);
     text-shadow: none;
   }
 
-  body.page-main .header.header--over-hero .nav.is-open .nav-dropdown a:hover {
-    color: var(--color-primary);
+  .nav.nav--on-dark-canvas.is-open .nav-dropdown a:hover {
+    color: #fff;
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-item.has-dropdown.is-expanded .nav-dropdown {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-meta {
+    border-top-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 72%);
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-meta__kicker {
+    color: rgba(var(--color-accent-rgb), 0.95);
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-meta__lead {
+    color: rgba(248, 250, 252, 0.95);
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-meta__cta {
+    color: rgba(15, 23, 42, 0.95);
+    border-color: rgba(255, 255, 255, 0.35);
+    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-meta__note {
+    color: rgba(203, 213, 225, 0.88);
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-meta__note a {
+    color: rgba(251, 191, 36, 0.95);
+    border-bottom-color: rgba(251, 191, 36, 0.35);
+  }
+
+  .nav-drawer-brand {
+    flex-shrink: 0;
+    padding: 0.55rem 0.75rem 0.4rem;
+    border-bottom: 1px solid rgba(18, 28, 46, 0.08);
+  }
+
+  .nav-drawer-brand__link {
+    display: inline-block;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-drawer-brand__img {
+    display: block;
+    height: 2rem;
+    width: auto;
+    max-width: min(200px, 78%);
+  }
+
+  .nav.nav--on-dark-canvas.is-open .nav-drawer-brand {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 
   .nav-drawer-scroll {
@@ -6665,6 +6733,10 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   }
 
   .nav-drawer-meta {
+    display: none !important;
+  }
+
+  .nav-drawer-brand {
     display: none !important;
   }
 }
