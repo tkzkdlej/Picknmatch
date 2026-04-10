@@ -6336,11 +6336,11 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 /* 모바일·태블릿(≤900px): 부분 딤 + 우측 플로팅 드로어 · 카테고리 아코디언 · 브랜드 푸터 */
 @media (max-width: 900px) {
   :root {
-    --nav-drawer-dur: 0.92s;
+    --nav-drawer-dur: 1.08s;
     --nav-drawer-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    --nav-overlay-dur: 0.92s;
-    --nav-acc-open: 0.68s;
-    --nav-acc-close: 0.58s;
+    --nav-overlay-dur: 1.08s;
+    --nav-acc-open: 0.8s;
+    --nav-acc-close: 0.7s;
   }
 
   .nav-overlay {
@@ -6549,8 +6549,8 @@ body.page-strength .st-cta__actions .btn-outline:hover {
     background: linear-gradient(180deg, #fffefb 0%, #f5f1e8 100%);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset;
     transition:
-      border-color 0.22s ease,
-      box-shadow 0.22s ease;
+      border-color 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.36s cubic-bezier(0.22, 1, 0.36, 1);
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -6751,6 +6751,69 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   .nav.is-open .nav-item.has-dropdown,
   .nav.is-open .nav-item.has-dropdown.is-expanded {
     transition: none !important;
+  }
+}
+
+/* 모바일·태블릿: 빠른 문의 도크·FAQ 열림·닫힘을 데스크톱과 비슷한 리듬으로 */
+@media (max-width: 900px) {
+  .quick-contact-dock__backdrop {
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .quick-contact-dock__anchor {
+    transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .quick-contact-dock__panel {
+    transition:
+      opacity 0.46s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.54s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .quick-contact-dock__sheet-link {
+    transition:
+      background 0.32s ease,
+      border-color 0.32s ease;
+  }
+
+  .quick-contact-dock__fab {
+    transition:
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.42s ease;
+  }
+
+  .quick-contact-dock__fab-icon {
+    transition:
+      opacity 0.38s ease,
+      transform 0.48s cubic-bezier(0.26, 1, 0.4, 1);
+  }
+
+  body.page-reference .ref-faq__item {
+    transition:
+      box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  body.page-reference .ref-faq__q::after {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .quick-contact-dock__backdrop,
+  .quick-contact-dock__anchor,
+  .quick-contact-dock__panel,
+  .quick-contact-dock__sheet-link,
+  .quick-contact-dock__fab,
+  .quick-contact-dock__fab-icon {
+    transition-duration: 0.2s !important;
+  }
+
+  body.page-reference .ref-faq__item,
+  body.page-reference .ref-faq__q::after {
+    transition-duration: 0.2s !important;
   }
 }
 
@@ -7204,7 +7267,29 @@ body.is-nav-open .nav.is-open .nav-drawer-scroll {
   }
 }
 
-/* 데스크톱: 열림·닫힘·헤더 전환을 더 길고 부드럽게 (모바일 타이밍은 유지) */
+@keyframes ui-br-modal-bg-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ui-br-modal-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.972);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 데스크톱: 열림·닫힘·헤더 전환을 더 길고 부드럽게 */
 @media (min-width: 901px) {
   :root {
     --ui-dur-1: 0.48s;
@@ -7298,37 +7383,15 @@ body.is-nav-open .nav.is-open .nav-drawer-scroll {
   body.page-reference .ref-faq__q::after {
     transition: transform 0.48s var(--ui-ease-soft);
   }
-
-  @keyframes ui-br-modal-bg-in {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes ui-br-modal-panel-in {
-    from {
-      opacity: 0;
-      transform: translateY(14px) scale(0.972);
-    }
-
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
 }
 
-@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .br-success-modal:not([hidden]) {
-    animation: ui-br-modal-bg-in 0.52s var(--ui-ease-soft) both;
+    animation: ui-br-modal-bg-in 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .br-success-modal:not([hidden]) .br-success-modal__panel {
-    animation: ui-br-modal-panel-in 0.62s var(--ui-ease-soft) 0.05s both;
+    animation: ui-br-modal-panel-in 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
   }
 
   .position-inline-detail.is-visible {
