@@ -1811,7 +1811,7 @@
     var closeBtn = document.getElementById("success-stories-close");
     if (!trigger || !panel || !trackEl) return;
 
-    /** 이름: 성 + ** / 회사는 실명 대신 업종·규모 등 포괄 표기 — 실제 헤드헌팅 실적(가명) */
+    /** 이름: 성 + ** / 회사: 실명 대신 업종·규모 포괄 표기 — 실제 헤드헌팅 실적 요약 */
     var MOCK_STORIES = [
       {
         name: "김**",
