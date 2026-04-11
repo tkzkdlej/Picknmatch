@@ -3089,9 +3089,10 @@ body.br-modal-open {
 
 .success-story-card__company .mask {
   display: inline-block;
-  filter: blur(3px);
-  opacity: 0.72;
+  filter: blur(4.5px);
+  opacity: 0.58;
   user-select: none;
+  -webkit-user-select: none;
   vertical-align: baseline;
   margin: 0 0.06em;
 }
