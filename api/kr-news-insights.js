@@ -1,6 +1,6 @@
 /**
  * 국내(한국) 뉴스 — Google News RSS(ko-KR) × 3주제(요청마다 풀에서 무작위 3개)
- * 주제별 RSS에서 여러 기사를 읽은 뒤, 분야 관련성·최신도를 고려해 1건 채택합니다.
+ * 주제별 RSS(최근 7일 when: + pubDate 재검증)에서 관련성·최신도로 1건 채택합니다.
  * 기사 링크를 따라 메타(og:description, og:image)를 보강합니다.
  *
  * 저작권: 전문 본문이 아니라 RSS·OG 메타에 공개된 요약·썸네일만 사용합니다.
@@ -80,8 +80,12 @@ var BIZ_INDUSTRY_RE =
 var NOISE_TITLE_RE =
   /연예|프로야구|KBO|K리그|손흥민|이강인|배우\s|가수\s|아이돌|드라마\s|예능|프로축구/i;
 
-var RSS_ITEM_CAP = 22;
+var RSS_ITEM_CAP = 36;
 var MIN_ACCEPT_SCORE = 8;
+
+/** 표시·선별 기준: 이보다 오래된 기사는 제외(일). Google when: 연산자만으로는 옛 기사가 섞일 수 있어 서버에서 재검증 */
+var MAX_ARTICLE_AGE_DAYS = 7;
+var MAX_ARTICLE_AGE_MS = MAX_ARTICLE_AGE_DAYS * 24 * 60 * 60 * 1000;
 
 function shuffleInPlace(arr) {
   var a = arr;
@@ -100,8 +104,13 @@ function pickRandomFeeds(n) {
   return copy.slice(0, Math.min(n, copy.length));
 }
 
-function rssUrl(q) {
-  return "https://news.google.com/rss/search?q=" + q + "&hl=ko&gl=KR&ceid=KR:ko";
+function rssUrl(encodedQuery) {
+  return (
+    "https://news.google.com/rss/search?q=" +
+    encodedQuery +
+    encodeURIComponent(" when:7d") +
+    "&hl=ko&gl=KR&ceid=KR:ko"
+  );
 }
 
 function decodeHtmlEntities(s) {
@@ -180,22 +189,35 @@ function pubDateToMs(pubDate) {
   }
 }
 
-/** 3→7→14→30일 순으로 좁혀, 가능한 한 최근 기사만 후보로 남김 */
-var RECENCY_DAY_STEPS = [3, 7, 14, 30];
-
-function narrowByRecency(items) {
-  if (!items || !items.length) return items;
+/** RSS pubDate 기준 — 오래된 기사는 후보에서 제외(옛날 기사로 되돌아가지 않음) */
+function filterByMaxAgeDays(items, maxDays) {
+  if (!items || !items.length) return [];
+  var maxMs = maxDays * 24 * 60 * 60 * 1000;
   var now = Date.now();
-  for (var s = 0; s < RECENCY_DAY_STEPS.length; s++) {
-    var maxMs = RECENCY_DAY_STEPS[s] * 24 * 60 * 60 * 1000;
-    var out = [];
-    for (var i = 0; i < items.length; i++) {
-      var ms = pubDateToMs(items[i].pubDate);
-      if (ms && now - ms <= maxMs) out.push(items[i]);
-    }
-    if (out.length) return out;
+  var out = [];
+  for (var i = 0; i < items.length; i++) {
+    var ms = pubDateToMs(items[i].pubDate);
+    if (!ms) continue;
+    var age = now - ms;
+    if (age < 0) continue;
+    if (age <= maxMs) out.push(items[i]);
   }
-  return items;
+  return out;
+}
+
+function sortNewestFirst(items) {
+  return items.slice().sort(function (a, b) {
+    return pubDateToMs(b.pubDate) - pubDateToMs(a.pubDate);
+  });
+}
+
+/** 최종 표시일이 기준을 넘으면 카드 제외(원문 OG에 옛 날짜가 있을 때) */
+function isWithinMaxAgeMs(dateInput) {
+  var ms = pubDateToMs(dateInput);
+  if (!ms) return false;
+  var age = Date.now() - ms;
+  if (age < 0) return false;
+  return age <= MAX_ARTICLE_AGE_MS;
 }
 
 /**
@@ -269,7 +291,7 @@ async function fetchText(url, ms) {
 }
 
 async function enrichArticle(googleLink) {
-  if (!googleLink) return { sourceUrl: "", ogImage: "", ogDescription: "" };
+  if (!googleLink) return { sourceUrl: "", ogImage: "", ogDescription: "", publishedAt: "" };
   try {
     var { text, finalUrl } = await fetchText(googleLink, 9000);
     var ogImage = metaFromHtml(text, "og:image");
@@ -285,9 +307,16 @@ async function enrichArticle(googleLink) {
     }
     var ogDescription = metaFromHtml(text, "og:description");
     if (!ogDescription) ogDescription = metaFromHtml(text, "description");
-    return { sourceUrl: finalUrl || googleLink, ogImage: ogImage, ogDescription: ogDescription };
+    var publishedAt = metaFromHtml(text, "article:published_time");
+    if (!publishedAt) publishedAt = metaFromHtml(text, "article:modified_time");
+    return {
+      sourceUrl: finalUrl || googleLink,
+      ogImage: ogImage,
+      ogDescription: ogDescription,
+      publishedAt: publishedAt,
+    };
   } catch (e) {
-    return { sourceUrl: googleLink, ogImage: "", ogDescription: "" };
+    return { sourceUrl: googleLink, ogImage: "", ogDescription: "", publishedAt: "" };
   }
 }
 
@@ -324,10 +353,10 @@ module.exports = async function handler(req, res) {
   }
 
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  /* 엣지 캐시: 최대 6시간(21600s) 동안 동일 JSON 재사용 → 이후 재검증. SWR로 짧은 stale 허용 */
+  /* 짧은 캐시 — 인사이트 뉴스가 최근 기사 위주로 보이도록 CDN 재검증 주기 단축 */
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=21600, stale-while-revalidate=7200"
+    "public, s-maxage=900, stale-while-revalidate=300"
   );
 
   try {
@@ -344,7 +373,8 @@ module.exports = async function handler(req, res) {
     var rawItems = [];
     for (var i = 0; i < feeds.length; i++) {
       var list = parseItems(rssBodies[i] || "", RSS_ITEM_CAP);
-      list = narrowByRecency(list);
+      list = filterByMaxAgeDays(list, MAX_ARTICLE_AGE_DAYS);
+      list = sortNewestFirst(list);
       var item = pickBestIndustryItem(feeds[i].category, list);
       if (item) rawItems.push({ feed: feeds[i], item: item });
     }
@@ -366,7 +396,16 @@ module.exports = async function handler(req, res) {
         it.title;
       body = truncate(stripTags(body), 2000);
       var excerpt = truncate(body, 220);
-      var iso = toISODate(it.pubDate);
+
+      var og = en.publishedAt && String(en.publishedAt).trim();
+      if (og && pubDateToMs(og) && !isWithinMaxAgeMs(og)) {
+        continue;
+      }
+      var dateRaw = og && isWithinMaxAgeMs(og) ? og : it.pubDate;
+      if (!isWithinMaxAgeMs(dateRaw)) {
+        continue;
+      }
+      var iso = toISODate(dateRaw);
       var img = en.ogImage ? thumbProxyPath(en.ogImage) : "";
 
       cards.push({
