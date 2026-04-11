@@ -1,5 +1,6 @@
 /**
- * 국내(한국) 뉴스 — Google News RSS(ko-KR) 최신 1건씩 × 3주제(요청마다 풀에서 무작위 3개)
+ * 국내(한국) 뉴스 — Google News RSS(ko-KR) × 3주제(요청마다 풀에서 무작위 3개)
+ * 각 주제별 RSS에서 여러 기사를 읽은 뒤, 해당 산업·기업(경제) 맥락과의 관련성이 높은 1건만 채택합니다.
  * 기사 링크를 따라 메타(og:description, og:image)를 보강합니다.
  *
  * 저작권: 전문 본문이 아니라 RSS·OG 메타에 공개된 요약·썸네일만 사용합니다.
@@ -10,21 +11,77 @@ var UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36";
 
 /**
- * 검색어·표시용 라벨 — 메인 「핵심 산업 분야」10개와 동일한 분야만 사용.
+ * 검색어·표시용 라벨 — 메인 「핵심 산업 분야」10개와 동일.
+ * 단일 키워드 대신 산업·기업·실적 등이 함께 걸리도록 쿼리를 구성(노이즈 기사 비중 완화).
  * 매 요청마다 3개를 무작위 추출.
  */
 var TOPIC_POOL = [
-  { query: encodeURIComponent("화학"), category: "화학" },
-  { query: encodeURIComponent("중공업"), category: "중공업" },
-  { query: encodeURIComponent("반도체"), category: "반도체" },
-  { query: encodeURIComponent("2차전지"), category: "2차전지" },
-  { query: encodeURIComponent("친환경"), category: "친환경" },
-  { query: encodeURIComponent("에너지"), category: "에너지" },
-  { query: encodeURIComponent("소재"), category: "소재·재료" },
-  { query: encodeURIComponent("방산"), category: "방산" },
-  { query: encodeURIComponent("유통"), category: "유통" },
-  { query: encodeURIComponent("건설"), category: "건설" },
+  {
+    query: encodeURIComponent("석유화학 화학 산업 기업 실적"),
+    category: "화학",
+  },
+  {
+    query: encodeURIComponent("중공업 기계 조선 철강 산업 기업"),
+    category: "중공업",
+  },
+  {
+    query: encodeURIComponent("반도체 산업 기업 실적 투자"),
+    category: "반도체",
+  },
+  {
+    query: encodeURIComponent("2차전지 배터리 산업 기업 실적"),
+    category: "2차전지",
+  },
+  {
+    query: encodeURIComponent("친환경 ESG 탄소중립 산업 기업"),
+    category: "친환경",
+  },
+  {
+    query: encodeURIComponent("에너지 전력 산업 기업 투자"),
+    category: "에너지",
+  },
+  {
+    query: encodeURIComponent("첨단소재 소재 산업 기업"),
+    category: "소재·재료",
+  },
+  {
+    query: encodeURIComponent("방산 국방 산업 기업"),
+    category: "방산",
+  },
+  {
+    query: encodeURIComponent("유통 물류 리테일 산업 기업"),
+    category: "유통",
+  },
+  {
+    query: encodeURIComponent("건설 건설사 산업 실적"),
+    category: "건설",
+  },
 ];
+
+/** 분야별: 해당 산업·대표 이슈 키워드(제목·스니펫에 나타나야 관련 기사로 판단) */
+var TOPIC_INDUSTRY_PATTERNS = {
+  화학: /화학|석유화학|정유|폴리머|기초소재|정밀화학|케미칼|LG화학|롯데케미칼|한화솔루션/i,
+  중공업: /중공업|조선|철강|중기계|플랜트|건설기계|공작기계|두산|HD현대|현대중공업/i,
+  반도체: /반도체|파운드리|웨이퍼|팹|메모리|낸드|DRAM|시스템\s*반도체|삼성전자|SK하이닉스|팹리스/i,
+  "2차전지": /2차전지|배터리|전고체|리튬|양극재|음극재|전지|LG에너지|삼성SDI|SK온/i,
+  친환경: /친환경|탄소중립|ESG|재생에너지|그린|온실가스|배출권|탄소/i,
+  에너지: /에너지|전력|발전|송배전|원전|신재생|한전|가스\s*공사|전기\s*사업/i,
+  "소재·재료": /소재|재료|소부장|첨단소재|신소재|디스플레이\s*소재|소재부품/i,
+  방산: /방산|국방|항공|우주|무기|K\s*방산|방위산업|군수/i,
+  유통: /유통|물류|리테일|도소매|유통업|유통\s*산업|이커머스|마트|편의점/i,
+  건설: /건설|건설사|토목|EPC|시공|플랜트\s*건설|아파트\s*분양|건설\s*실적/i,
+};
+
+/** 산업·기업·재무 맥락(해당 분야 외 일반 사회 뉴스 제외) */
+var BIZ_INDUSTRY_RE =
+  /산업|기업|회사|법인|그룹|계열사|매출|실적|영업이익|순이익|투자|공장|생산|수출|수주|기술|개발|시장|경영|영업|공시|상장|채용|설비|공정|전망|증권|코스피|코스닥|납품|계약|호황|침체|구조조정|M&A|인수/i;
+
+/** 명백한 비경제 단신 위주(제목에 강하게 뜨면 감점) */
+var NOISE_TITLE_RE =
+  /연예|프로야구|KBO|K리그|손흥민|이강인|배우\s|가수\s|아이돌|드라마\s|예능|프로축구/i;
+
+var RSS_ITEM_CAP = 22;
+var MIN_ACCEPT_SCORE = 8;
 
 function shuffleInPlace(arr) {
   var a = arr;
@@ -83,16 +140,15 @@ function extractTag(block, tag) {
   return m ? m[1] : "";
 }
 
-function parseFirstItem(xml) {
-  var m = /<item>([\s\S]*?)<\/item>/i.exec(xml);
-  if (!m) return null;
-  var block = m[1];
+function parseItemBlock(block) {
+  if (!block) return null;
 
   var titleRaw = extractTag(block, "title");
   if (titleRaw.indexOf("<![CDATA[") !== -1) {
     titleRaw = titleRaw.replace(/^[\s\S]*?<!\[CDATA\[/, "").replace(/\]\]>[\s\S]*$/, "");
   }
   var title = cleanGoogleTitle(titleRaw);
+  if (!title) return null;
 
   var link = extractTag(block, "link").trim();
   var pubDate = extractTag(block, "pubDate").trim();
@@ -100,6 +156,60 @@ function parseFirstItem(xml) {
   var descText = cleanGoogleTitle(descBlock);
 
   return { title: title, link: link, pubDate: pubDate, rssSnippet: descText };
+}
+
+function parseItems(xml, limit) {
+  var items = [];
+  var re = /<item>([\s\S]*?)<\/item>/gi;
+  var m;
+  while ((m = re.exec(xml)) !== null) {
+    if (items.length >= limit) break;
+    var parsed = parseItemBlock(m[1]);
+    if (parsed) items.push(parsed);
+  }
+  return items;
+}
+
+/**
+ * 해당 산업 분야 키워드 + 산업·기업 맥락이 함께 보일 때만 높은 점수.
+ */
+function relevanceScore(category, item) {
+  var title = String((item && item.title) || "");
+  var sn = String((item && item.rssSnippet) || "");
+  var t = title + " " + sn;
+
+  var topicRe = TOPIC_INDUSTRY_PATTERNS[category];
+  if (!topicRe) return 0;
+
+  var score = 0;
+  if (topicRe.test(t)) score += 12;
+  else return 0;
+
+  if (BIZ_INDUSTRY_RE.test(t)) score += 6;
+
+  if (NOISE_TITLE_RE.test(title)) score -= 25;
+
+  return score;
+}
+
+function pickBestIndustryItem(category, items) {
+  if (!items || !items.length) return null;
+
+  var best = null;
+  var bestScore = -Infinity;
+  for (var i = 0; i < items.length; i++) {
+    var sc = relevanceScore(category, items[i]);
+    if (sc > bestScore) {
+      bestScore = sc;
+      best = items[i];
+    }
+  }
+  if (best && bestScore >= MIN_ACCEPT_SCORE) return best;
+
+  /* 산업 키워드는 맞으나 점수만 낮은 경우(쿼리 변동) — 양수일 때만 채택 */
+  if (best && bestScore > 0) return best;
+
+  return null;
 }
 
 function metaFromHtml(html, prop) {
@@ -201,7 +311,8 @@ module.exports = async function handler(req, res) {
 
     var rawItems = [];
     for (var i = 0; i < feeds.length; i++) {
-      var item = parseFirstItem(rssBodies[i] || "");
+      var list = parseItems(rssBodies[i] || "", RSS_ITEM_CAP);
+      var item = pickBestIndustryItem(feeds[i].category, list);
       if (item) rawItems.push({ feed: feeds[i], item: item });
     }
 
