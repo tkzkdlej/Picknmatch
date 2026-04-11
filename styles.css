@@ -3087,16 +3087,6 @@ body.br-modal-open {
   font-weight: 600;
 }
 
-.success-story-card__company .mask {
-  display: inline-block;
-  filter: blur(4.5px);
-  opacity: 0.58;
-  user-select: none;
-  -webkit-user-select: none;
-  vertical-align: baseline;
-  margin: 0 0.06em;
-}
-
 .success-story-card__text {
   margin: 0;
   font-size: 0.9rem;
