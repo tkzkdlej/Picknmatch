@@ -1811,49 +1811,98 @@
     var closeBtn = document.getElementById("success-stories-close");
     if (!trigger || !panel || !trackEl) return;
 
-    /** 이름: 성 + ** / 회사: 일부만 블러(모자이크) 처리된 HTML */
+    /** 이름: 성 + ** / 회사: 일부만 블러(모자이크) 처리된 HTML — 실제 헤드헌팅 실적(가명) */
     var MOCK_STORIES = [
       {
         name: "김**",
         companyHtml:
-          '<span class="success-story-card__company">반도체 대기업 <span class="mask">중</span>·후공정 계열</span>',
+          '<span class="success-story-card__company">녹<span class="mask">십</span>자 계열 · 재무·회계</span>',
         text:
-          "파운드리 공정 엔지니어 포지션으로 3주 내 후보군 제시 후 최종 합류. 대표이사의 반도체 현장 네트워크가 후보·기업 간 기대치 조율에 큰 도움이 되었다고 전해졌습니다.",
-      },
-      {
-        name: "이**",
-        companyHtml:
-          '<span class="success-story-card__company">2차전지 소재 <span class="mask">내</span>·글로벌</span>',
-        text:
-          "양극재 개발 리드급 인재 영입 건으로, 비공개 리스트 기반으로 본사·연구소 동시 서치를 진행해 연내 입사에 성공했습니다.",
-      },
-      {
-        name: "박**",
-        companyHtml:
-          '<span class="success-story-card__company">S<span class="mask">K</span>그룹 계열사</span>',
-        text:
-          "배터리 설비 투자 확대에 맞춰 공장장급 후보를 다수 면접까지 연결. 최종 협상 단계에서 조건 정리까지 지원한 사례입니다.",
+          "2차전지·바이오 소재 분야 상장 계열사 재무회계 과장 포지션으로 적격 후보를 매칭해 입사까지 완료한 사례입니다.",
       },
       {
         name: "최**",
         companyHtml:
-          '<span class="success-story-card__company">중공업 <span class="mask">장</span>비·플랜트</span>',
+          '<span class="success-story-card__company">셀바<span class="mask">이오</span>텍 계열 · 쇼핑몰 웹개발</span>',
         text:
-          "해외 프로젝트 수주 증가로 현장 PM 인력이 필요했던 건으로, 관련 경력 15년+ 후보를 소개해 계약 후 빠르게 투입되었습니다.",
+          "바이오·헬스케어 유통 채널 강화에 맞춰 쇼핑몰 웹개발 직무로 합류. 실무 검증 후 최종 오퍼까지 조율했습니다.",
       },
       {
-        name: "정**",
+        name: "이**",
         companyHtml:
-          '<span class="success-story-card__company">화학·소재 <span class="mask">다</span>국적 기업</span>',
+          '<span class="success-story-card__company">알<span class="mask">피</span>니언 메디칼 · 소프트웨어 개발</span>',
         text:
-          "촉매·정밀화학 분야 연구책임자 채용. 학계·타사 동시 접촉이 필요했으나 기밀 유지하며 일정에 맞춰 마감했습니다.",
+          "의료기기·SW 스타트업의 소프트웨어 개발 포지션으로, 요구 스택에 맞는 후보를 소개해 채용 일정 내에 마감했습니다.",
       },
       {
-        name: "한**",
+        name: "윤**",
         companyHtml:
-          '<span class="success-story-card__company">에너지·전력 <span class="mask">발</span>전사업</span>',
+          '<span class="success-story-card__company">세<span class="mask">원</span>정공 · 서울 영업</span>',
         text:
-          "신재생 EPC 프로젝트 관리자 포지션. 자격·언어 조건이 까다로웠으나 필터링된 후보만 추천해 면접 전환율을 높였습니다.",
+          "자동차 부품·중공업 영업 조직의 서울권 영업 포지션. 산업별 네트워크를 활용해 면접부터 처우 협의까지 지원했습니다.",
+      },
+      {
+        name: "조**",
+        companyHtml:
+          '<span class="success-story-card__company">L<span class="mask">S</span> EV 계열 · 원가관리</span>',
+        text:
+          "전동화·배터리 밸류체인 내 원가관리 직무. 관련 경력자를 선별해 현장 면접·협상 단계까지 동행한 건입니다.",
+      },
+      {
+        name: "박**",
+        companyHtml:
+          '<span class="success-story-card__company">셀바<span class="mask">이오</span>텍 계열 · 해외영업</span>',
+        text:
+          "해외 바이어 대응이 중요한 해외영업 포지션으로, 언어·경력 조건에 맞는 후보를 연결해 합류에 성공했습니다.",
+      },
+      {
+        name: "최**",
+        companyHtml:
+          '<span class="success-story-card__company">세<span class="mask">원</span>정공 · 해외영업</span>',
+        text:
+          "중공업 수출 확대에 따른 해외영업 보강 건. 글로벌 영업 경력자를 매칭해 본사 일정에 맞춰 입사를 완료했습니다.",
+      },
+      {
+        name: "강**",
+        companyHtml:
+          '<span class="success-story-card__company">S<span class="mask">K</span>CHTM · 증착·코팅 개발</span>',
+        text:
+          "디스플레이·소재 분야 증착·코팅 공정 개발 직무. 연구·개발 이력이 검증된 후보를 추천해 채용까지 이어진 사례입니다.",
+      },
+      {
+        name: "이**",
+        companyHtml:
+          '<span class="success-story-card__company">세<span class="mask">원</span>정공 · 생산관리</span>',
+        text:
+          "생산기지 생산관리·운영 포지션. 현장 경험과 리더십을 고려한 후보를 제시해 기업 요청 일정 내에 마감했습니다.",
+      },
+      {
+        name: "고**",
+        companyHtml:
+          '<span class="success-story-card__company">한<span class="mask">화</span> 에어로 계열 · 외자구매</span>',
+        text:
+          "방산·항공 우주 분야 외자·구매 직무. 보안·자격 요건을 반영해 후보를 선별하고, 협상 조건 정리까지 지원했습니다.",
+      },
+      {
+        name: "이**",
+        companyHtml:
+          '<span class="success-story-card__company">셀바<span class="mask">이오</span>텍 · 인사기획</span>',
+        text:
+          "바이오 조직의 인사기획·HR 전략 포지션. 대기업·성장기업 경험을 아우르는 후보를 매칭해 입사에 성공했습니다.",
+      },
+      {
+        name: "임**",
+        companyHtml:
+          '<span class="success-story-card__company">한<span class="mask">양</span>이엔지 · 전기공사</span>',
+        text:
+          "플랜트·전기 EPC 현장의 전기공사·시공 직무. 자격·프로젝트 이력을 기준으로 적합 인재를 연결한 사례입니다.",
+      },
+      {
+        name: "김**",
+        companyHtml:
+          '<span class="success-story-card__company">S<span class="mask">K</span>CHTM · 개발</span>',
+        text:
+          "소재·장비 분야 연구개발 직무. 기술 스택과 경력을 맞춰 후보를 제시하고, 최종 합류까지 지원한 건입니다.",
       },
     ];
 
