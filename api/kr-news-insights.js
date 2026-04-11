@@ -1,6 +1,6 @@
 /**
  * 국내(한국) 뉴스 — Google News RSS(ko-KR) × 3주제(요청마다 풀에서 무작위 3개)
- * 각 주제별 RSS에서 여러 기사를 읽은 뒤, 해당 산업·기업(경제) 맥락과의 관련성이 높은 1건만 채택합니다.
+ * 주제별 RSS에서 여러 기사를 읽은 뒤, 분야 관련성·최신도를 고려해 1건 채택합니다.
  * 기사 링크를 따라 메타(og:description, og:image)를 보강합니다.
  *
  * 저작권: 전문 본문이 아니라 RSS·OG 메타에 공개된 요약·썸네일만 사용합니다.
@@ -170,8 +170,36 @@ function parseItems(xml, limit) {
   return items;
 }
 
+function pubDateToMs(pubDate) {
+  try {
+    var d = new Date(pubDate);
+    if (isNaN(d.getTime())) return 0;
+    return d.getTime();
+  } catch (e) {
+    return 0;
+  }
+}
+
+/** 3→7→14→30일 순으로 좁혀, 가능한 한 최근 기사만 후보로 남김 */
+var RECENCY_DAY_STEPS = [3, 7, 14, 30];
+
+function narrowByRecency(items) {
+  if (!items || !items.length) return items;
+  var now = Date.now();
+  for (var s = 0; s < RECENCY_DAY_STEPS.length; s++) {
+    var maxMs = RECENCY_DAY_STEPS[s] * 24 * 60 * 60 * 1000;
+    var out = [];
+    for (var i = 0; i < items.length; i++) {
+      var ms = pubDateToMs(items[i].pubDate);
+      if (ms && now - ms <= maxMs) out.push(items[i]);
+    }
+    if (out.length) return out;
+  }
+  return items;
+}
+
 /**
- * 해당 산업 분야 키워드 + 산업·기업 맥락이 함께 보일 때만 높은 점수.
+ * 해당 산업 분야 키워드 + 기업·재무 맥락이 함께 보일 때 높은 점수.
  */
 function relevanceScore(category, item) {
   var title = String((item && item.title) || "");
@@ -197,11 +225,15 @@ function pickBestIndustryItem(category, items) {
 
   var best = null;
   var bestScore = -Infinity;
+  var bestDateMs = -Infinity;
   for (var i = 0; i < items.length; i++) {
-    var sc = relevanceScore(category, items[i]);
-    if (sc > bestScore) {
+    var it = items[i];
+    var sc = relevanceScore(category, it);
+    var ms = pubDateToMs(it.pubDate);
+    if (sc > bestScore || (sc === bestScore && ms > bestDateMs)) {
       bestScore = sc;
-      best = items[i];
+      bestDateMs = ms;
+      best = it;
     }
   }
   if (best && bestScore >= MIN_ACCEPT_SCORE) return best;
@@ -312,6 +344,7 @@ module.exports = async function handler(req, res) {
     var rawItems = [];
     for (var i = 0; i < feeds.length; i++) {
       var list = parseItems(rssBodies[i] || "", RSS_ITEM_CAP);
+      list = narrowByRecency(list);
       var item = pickBestIndustryItem(feeds[i].category, list);
       if (item) rawItems.push({ feed: feeds[i], item: item });
     }
