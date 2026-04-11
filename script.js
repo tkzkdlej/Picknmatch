@@ -1760,9 +1760,6 @@
           '<h3 class="insight-card__title" itemprop="headline">' +
           esc(title) +
           "</h3>" +
-          '<p class="insight-card__source-note" aria-hidden="true">' +
-          "국내 언론의 최신 기사를 요약했으며, 검색 흐름은 Google 뉴스(한국)를 참고했습니다." +
-          "</p>" +
           '<p class="insight-card__excerpt" itemprop="description">' +
           excerpt +
           "</p>" +
