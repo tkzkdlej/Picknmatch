@@ -2,6 +2,7 @@
  * 국내(한국) 뉴스 — Google News RSS(ko-KR) × 3주제(요청마다 풀에서 무작위 3개)
  * 주제별 RSS(최근 7일 when: + pubDate 재검증)에서 관련성·최신도로 1건 채택합니다.
  * 제목에 한글이 없거나 해외 시장 전용인데 국내 맥락이 없으면 제외합니다.
+ * 베트남(.vn) 등 비한국 도메인·현지 전용 사안은 출처 URL·본문으로 제외합니다.
  * 기사 링크를 따라 메타(og:description, og:image)를 보강합니다.
  *
  * 저작권: 전문 본문이 아니라 RSS·OG 메타에 공개된 요약·썸네일만 사용합니다.
@@ -109,6 +110,10 @@ function passesKoreaDomesticFilter(title, snippet, extra) {
 
   if (!tit) return false;
 
+  if (isForeignLocalOnlyStory(combined)) {
+    return false;
+  }
+
   /* 한글 제목이 없으면 국내 한국어 기사로 보기 어려움(외신·로이터 원제 등) */
   if (!/[가-힣]/.test(tit)) {
     return false;
@@ -129,6 +134,44 @@ function passesKoreaDomesticFilter(title, snippet, extra) {
   }
 
   return true;
+}
+
+function hostnameFromUrl(urlStr) {
+  try {
+    var u = new URL(String(urlStr || "").trim());
+    return String(u.hostname || "")
+      .replace(/^www\./i, "")
+      .toLowerCase();
+  } catch (e) {
+    return "";
+  }
+}
+
+/** 국내 언론·한국 발행이 아닌 출처(예: 베트남 .vn 도메인) */
+function isBlockedNonKrPublisherUrl(urlStr) {
+  var h = hostnameFromUrl(urlStr);
+  if (!h) return false;
+  if (h === "vietnam.vn" || h.endsWith(".vietnam.vn")) return true;
+  if (/\.vn$/i.test(h)) return true;
+  return false;
+}
+
+/**
+ * 한국 연계 없이 베트남 등 현지 사안만 다루는 기사(한국어 번역 페이지 포함)
+ */
+function isForeignLocalOnlyStory(combined) {
+  var t = String(combined || "").replace(/\s+/g, " ");
+  if (/vietnam\.vn|베트남\.vn/i.test(t)) return true;
+  if (
+    /(손라전력|손라성|송라|메콩\s*델타|호치민시|다낭시|쩐\s*탄|VND\s*[\d,]+억)/i.test(t) &&
+    !/(한국|국내|대한민국|한[·\s\-]베|한베|수출입\s*협|주한)/i.test(t)
+  ) {
+    return true;
+  }
+  if (/\b베트남\b/i.test(t) && /(전력공사|성\s*내|지방자치|인민위원회)/i.test(t) && !/(한국|국내|대한민국)/i.test(t)) {
+    return true;
+  }
+  return false;
 }
 
 function shuffleInPlace(arr) {
@@ -437,6 +480,9 @@ module.exports = async function handler(req, res) {
       var row = rawItems[j];
       var it = row.item;
       var en = enriched[j] || {};
+      if (isBlockedNonKrPublisherUrl(en.sourceUrl || it.link)) {
+        continue;
+      }
       var body =
         (en.ogDescription && String(en.ogDescription).trim()) ||
         it.rssSnippet ||
