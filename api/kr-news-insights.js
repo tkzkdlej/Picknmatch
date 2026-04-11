@@ -1,6 +1,7 @@
 /**
  * 국내(한국) 뉴스 — Google News RSS(ko-KR) × 3주제(요청마다 풀에서 무작위 3개)
  * 주제별 RSS(최근 7일 when: + pubDate 재검증)에서 관련성·최신도로 1건 채택합니다.
+ * 제목에 한글이 없거나 해외 시장 전용인데 국내 맥락이 없으면 제외합니다.
  * 기사 링크를 따라 메타(og:description, og:image)를 보강합니다.
  *
  * 저작권: 전문 본문이 아니라 RSS·OG 메타에 공개된 요약·썸네일만 사용합니다.
@@ -86,6 +87,49 @@ var MIN_ACCEPT_SCORE = 8;
 /** 표시·선별 기준: 이보다 오래된 기사는 제외(일). Google when: 연산자만으로는 옛 기사가 섞일 수 있어 서버에서 재검증 */
 var MAX_ARTICLE_AGE_DAYS = 7;
 var MAX_ARTICLE_AGE_MS = MAX_ARTICLE_AGE_DAYS * 24 * 60 * 60 * 1000;
+
+/**
+ * 국내(한국) 맥락 신호 — 하나라도 있으면 해외 전용 필터를 통과하기 쉬움
+ * (지명·시장·주요 그룹·국내 매체·정부 기관)
+ */
+var KOREA_DOMESTIC_RE =
+  /한국|국내|대한민국|서울|부산|인천|대구|광주|대전|울산|세종|수원|성남|코스피|코스닥|KOSPI|KOSDAQ|한국은행|한국거래소|금융위|금융감독원|산업통상|산업부|기획재정|기재부|국회|여의도|과천|정부|청와대|삼성전자|삼성|SK하이닉스|SK\s*온|LG에너지|LG화학|LG\b|SK\b|현대차|현대|기아|포스코|현대중공업|HD현대|두산|한화|롯데|CJ|GS\s*그룹|네이버|카카오|SK텔레콤|KT|LG유플러스|한국전력|한전|셀트리온|아모레|신한|KB국민|하나은행|우리은행|NH투자|한국경제|매일경제|조선일보|중앙일보|동아일보|한겨레|연합뉴스|YTN|JTBC|MBN|채널A/i;
+
+/**
+ * 제목·요약이 해외 증시·거점만 강조하고 국내 신호가 없을 때(국내 한국판 뉴스 아님)
+ */
+var FOREIGN_ONLY_MARKET_RE =
+  /미국\s*증시|뉴욕\s*증시|뉴욕\s*증권|나스닥\s*종목|다우\s*지수|다우존스|S\s*&\s*P\s*500|유럽\s*증시|영국\s*증시|프랑크푸르트|일본\s*증시|니케이\s*평균|상하이\s*종합|홍콩\s*항셍|홍콩증시|선전\s*증시|대만\s*증시|월\s*스트리트|워싱턴|백악관|연준\s*금리|\bFOMC\b|유럽\s*중앙은행|\bECB\b\s*금리/i;
+
+function passesKoreaDomesticFilter(title, snippet, extra) {
+  var tit = String(title || "").trim();
+  var sn = String(snippet || "").trim();
+  var ex = String(extra || "").trim();
+  var combined = (tit + " " + sn + " " + ex).replace(/\s+/g, " ");
+
+  if (!tit) return false;
+
+  /* 한글 제목이 없으면 국내 한국어 기사로 보기 어려움(외신·로이터 원제 등) */
+  if (!/[가-힣]/.test(tit)) {
+    return false;
+  }
+
+  var hasKr = KOREA_DOMESTIC_RE.test(combined);
+
+  if (FOREIGN_ONLY_MARKET_RE.test(combined) && !hasKr) {
+    return false;
+  }
+
+  /* 해외 거시만, 한국 언급 전무 */
+  if (
+    /\b(Federal\s*Reserve|FOMC\s*결정|White\s*House|European\s*Central\s*Bank)\b/i.test(combined) &&
+    !hasKr
+  ) {
+    return false;
+  }
+
+  return true;
+}
 
 function shuffleInPlace(arr) {
   var a = arr;
@@ -374,6 +418,9 @@ module.exports = async function handler(req, res) {
     for (var i = 0; i < feeds.length; i++) {
       var list = parseItems(rssBodies[i] || "", RSS_ITEM_CAP);
       list = filterByMaxAgeDays(list, MAX_ARTICLE_AGE_DAYS);
+      list = list.filter(function (it) {
+        return passesKoreaDomesticFilter(it.title, it.rssSnippet, "");
+      });
       list = sortNewestFirst(list);
       var item = pickBestIndustryItem(feeds[i].category, list);
       if (item) rawItems.push({ feed: feeds[i], item: item });
@@ -396,6 +443,10 @@ module.exports = async function handler(req, res) {
         it.title;
       body = truncate(stripTags(body), 2000);
       var excerpt = truncate(body, 220);
+
+      if (!passesKoreaDomesticFilter(it.title, it.rssSnippet, stripTags(body))) {
+        continue;
+      }
 
       var og = en.publishedAt && String(en.publishedAt).trim();
       if (og && pubDateToMs(og) && !isWithinMaxAgeMs(og)) {
