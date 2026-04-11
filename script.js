@@ -1815,92 +1815,79 @@
     var MOCK_STORIES = [
       {
         name: "김**",
-        companyHtml:
-          '<span class="success-story-card__company">제약·바이오 소재 상장 계열사 · 재무·회계</span>',
+        companyLine: "제약·바이오 소재 상장 계열사 · 재무·회계",
         text:
           "2차전지·바이오 소재 분야 상장 계열사 재무회계 과장 포지션으로 적격 후보를 매칭해 입사까지 완료한 사례입니다.",
       },
       {
         name: "최**",
-        companyHtml:
-          '<span class="success-story-card__company">바이오·헬스케어 유통 상장 계열 · 쇼핑몰 웹개발</span>',
+        companyLine: "바이오·헬스케어 유통 상장 계열 · 쇼핑몰 웹개발",
         text:
           "바이오·헬스케어 유통 채널 강화에 맞춰 쇼핑몰 웹개발 직무로 합류. 실무 검증 후 최종 오퍼까지 조율했습니다.",
       },
       {
         name: "이**",
-        companyHtml:
-          '<span class="success-story-card__company">의료기기·SW 전문 스타트업 · 소프트웨어 개발</span>',
+        companyLine: "의료기기·SW 전문 스타트업 · 소프트웨어 개발",
         text:
           "의료기기·SW 스타트업의 소프트웨어 개발 포지션으로, 요구 스택에 맞는 후보를 소개해 채용 일정 내에 마감했습니다.",
       },
       {
         name: "윤**",
-        companyHtml:
-          '<span class="success-story-card__company">자동차 부품·중공업 중견 제조사 · 서울 영업</span>',
+        companyLine: "자동차 부품·중공업 중견 제조사 · 서울 영업",
         text:
           "자동차 부품·중공업 영업 조직의 서울권 영업 포지션. 산업별 네트워크를 활용해 면접부터 처우 협의까지 지원했습니다.",
       },
       {
         name: "조**",
-        companyHtml:
-          '<span class="success-story-card__company">전동화·2차전지 대기업 계열 · 원가관리</span>',
+        companyLine: "전동화·2차전지 대기업 계열 · 원가관리",
         text:
           "전동화·배터리 밸류체인 내 원가관리 직무. 관련 경력자를 선별해 현장 면접·협상 단계까지 동행한 건입니다.",
       },
       {
         name: "박**",
-        companyHtml:
-          '<span class="success-story-card__company">바이오·헬스케어 유통 상장 계열 · 해외영업</span>',
+        companyLine: "바이오·헬스케어 유통 상장 계열 · 해외영업",
         text:
           "해외 바이어 대응이 중요한 해외영업 포지션으로, 언어·경력 조건에 맞는 후보를 연결해 합류에 성공했습니다.",
       },
       {
         name: "최**",
-        companyHtml:
-          '<span class="success-story-card__company">자동차 부품·플랜트 중견 제조사 · 해외영업</span>',
+        companyLine: "자동차 부품·플랜트 중견 제조사 · 해외영업",
         text:
           "중공업 수출 확대에 따른 해외영업 보강 건. 글로벌 영업 경력자를 매칭해 본사 일정에 맞춰 입사를 완료했습니다.",
       },
       {
         name: "강**",
-        companyHtml:
-          '<span class="success-story-card__company">디스플레이·첨단소재 대기업 계열 · 증착·코팅 개발</span>',
+        companyLine: "디스플레이·첨단소재 대기업 계열 · 증착·코팅 개발",
         text:
           "디스플레이·소재 분야 증착·코팅 공정 개발 직무. 연구·개발 이력이 검증된 후보를 추천해 채용까지 이어진 사례입니다.",
       },
       {
         name: "이**",
-        companyHtml:
-          '<span class="success-story-card__company">자동차 부품·중공업 중견 제조사 · 생산관리</span>',
+        companyLine: "자동차 부품·중공업 중견 제조사 · 생산관리",
         text:
           "생산기지 생산관리·운영 포지션. 현장 경험과 리더십을 고려한 후보를 제시해 기업 요청 일정 내에 마감했습니다.",
       },
       {
         name: "고**",
-        companyHtml:
-          '<span class="success-story-card__company">방산·항공우주 대기업 계열 · 외자구매</span>',
+        companyLine: "방산·항공우주 대기업 계열 · 외자구매",
         text:
           "방산·항공 우주 분야 외자·구매 직무. 보안·자격 요건을 반영해 후보를 선별하고, 협상 조건 정리까지 지원했습니다.",
       },
       {
         name: "이**",
-        companyHtml:
-          '<span class="success-story-card__company">바이오 제약 상장 계열 · 인사기획</span>',
+        companyLine: "바이오 제약 상장 계열 · 인사기획",
         text:
           "바이오 조직의 인사기획·HR 전략 포지션. 대기업·성장기업 경험을 아우르는 후보를 매칭해 입사에 성공했습니다.",
       },
       {
         name: "임**",
-        companyHtml:
-          '<span class="success-story-card__company">전기·플랜트 EPC 중견기업 · 전기공사</span>',
+        companyLine: "전기·플랜트 EPC 중견기업 · 전기공사",
         text:
           "플랜트·전기 EPC 현장의 전기공사·시공 직무. 자격·프로젝트 이력을 기준으로 적합 인재를 연결한 사례입니다.",
       },
       {
         name: "김**",
-        companyHtml:
-          '<span class="success-story-card__company">디스플레이·소재·장비 대기업 계열 · 개발</span>',
+        companyLine: "디스플레이·소재·장비 대기업 계열 · 개발",
         text:
           "소재·장비 분야 연구개발 직무. 기술 스택과 경력을 맞춰 후보를 제시하고, 최종 합류까지 지원한 건입니다.",
       },
@@ -1913,14 +1900,40 @@
         .replace(/"/g, "&quot;");
     }
 
+    /** "업종 … · 직무" → 두 줄로 고정 (마지막 ' · ' 기준으로 직무 분리) */
+    function splitCompanyLine(raw) {
+      var s = String(raw == null ? "" : raw).trim();
+      var sep = " · ";
+      var i = s.lastIndexOf(sep);
+      if (i === -1) {
+        return { primary: s, secondary: "" };
+      }
+      return {
+        primary: s.slice(0, i).trim(),
+        secondary: s.slice(i + sep.length).trim(),
+      };
+    }
+
     function cardHtml(s) {
+      var c = splitCompanyLine(s.companyLine);
+      var companyBlock =
+        '<div class="success-story-card__company">' +
+        '<span class="success-story-card__company-primary">' +
+        esc(c.primary) +
+        "</span>" +
+        (c.secondary
+          ? '<span class="success-story-card__company-secondary">' +
+            esc(c.secondary) +
+            "</span>"
+          : "") +
+        "</div>";
       return (
         '<article class="success-story-card">' +
         '<div class="success-story-card__meta">' +
         '<span class="success-story-card__name">' +
         esc(s.name) +
         "</span>" +
-        s.companyHtml +
+        companyBlock +
         "</div>" +
         '<p class="success-story-card__text">' +
         esc(s.text) +

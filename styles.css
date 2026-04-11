@@ -3011,6 +3011,7 @@ body.br-modal-open {
 
 .success-stories-marquee__track {
   display: flex;
+  align-items: stretch;
   gap: 1rem;
   width: max-content;
   padding: 0.25rem 0 0.35rem;
@@ -3058,6 +3059,8 @@ body.br-modal-open {
 }
 
 .success-story-card {
+  display: flex;
+  flex-direction: column;
   flex: 0 0 min(300px, 78vw);
   max-width: min(300px, 78vw);
   padding: 1rem 1.05rem;
@@ -3069,29 +3072,57 @@ body.br-modal-open {
 
 .success-story-card__meta {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.75rem;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
   font-size: 0.8125rem;
+  line-height: 1.45;
 }
 
 .success-story-card__name {
+  flex-shrink: 0;
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: 0.02em;
 }
 
 .success-story-card__company {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.22rem;
+  width: 100%;
+  min-width: 0;
   color: var(--color-text-muted);
   font-weight: 600;
 }
 
+.success-story-card__company-primary,
+.success-story-card__company-secondary {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.success-story-card__company-secondary {
+  padding-top: 0.08rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  opacity: 0.92;
+}
+
 .success-story-card__text {
+  flex: 1 1 auto;
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.72;
   color: var(--color-text);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .stat-item { text-align: center; }
