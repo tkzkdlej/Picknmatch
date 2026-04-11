@@ -2780,6 +2780,7 @@ body.br-modal-open {
 
 /* Why us — 성공 사례 인라인 패널 + 가로 마퀴 */
 .success-stories-panel {
+  scroll-margin-top: calc(var(--header-offset) + 0.75rem);
   margin-top: 0.85rem;
   max-height: 0;
   opacity: 0;
@@ -5110,26 +5111,56 @@ button.position-card {
 }
 
 .position-inline-detail__close:hover {
-  color: rgba(18, 28, 46, 0.92);
-  border-color: rgba(var(--color-accent-rgb), 0.22);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: linear-gradient(
+    145deg,
+    #1c2433 0%,
+    #2a3140 32%,
+    #3d3830 68%,
+    #7a6548 100%
+  );
   box-shadow:
-    0 4px 8px rgba(15, 34, 66, 0.06),
-    0 12px 28px rgba(15, 34, 66, 0.1),
-    0 14px 36px rgba(var(--color-accent-rgb), 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.28),
+    0 4px 6px rgba(0, 0, 0, 0.12),
+    0 14px 32px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
   transform: scale(1.05);
 }
 
 .position-inline-detail__close:hover .position-inline-detail__close-glow {
-  opacity: 0.85;
+  opacity: 0.55;
+  filter: blur(14px);
+  background: linear-gradient(
+    135deg,
+    rgba(28, 36, 51, 0.85) 0%,
+    rgba(122, 101, 72, 0.45) 100%
+  );
 }
 
 .position-inline-detail__close:hover .position-inline-detail__close-icon {
   transform: rotate(90deg);
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35));
 }
 
 .position-inline-detail__close:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
   transition-duration: 0.12s;
+}
+
+.position-inline-detail__close:active:hover {
+  background: linear-gradient(
+    145deg,
+    #171e2b 0%,
+    #232a38 32%,
+    #342f28 68%,
+    #6a5840 100%
+  );
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .position-inline-detail__close:active .position-inline-detail__close-icon {

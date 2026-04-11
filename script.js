@@ -1896,6 +1896,17 @@
       panel.classList.add("is-open");
       panel.setAttribute("aria-hidden", "false");
       trigger.setAttribute("aria-expanded", "true");
+      var reduceMotion = false;
+      try {
+        reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      } catch (err) {}
+      window.setTimeout(function () {
+        panel.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "center",
+          inline: "nearest",
+        });
+      }, 100);
     }
 
     function closePanel() {
