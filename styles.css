@@ -885,7 +885,7 @@ body.entry-splash-on {
   object-fit: contain;
   margin: 0 auto;
   display: block;
-  filter: drop-shadow(0 8px 32px rgba(18, 28, 46, 0.12));
+  filter: drop-shadow(0 8px 32px rgba(18, 28, 46, 0.14));
   -webkit-user-drag: none;
   user-select: none;
 }
@@ -1033,7 +1033,12 @@ body.entry-splash-on {
   .entry-splash__logo {
     width: min(85vw, 280px);
     max-height: min(22vh, 150px);
-    filter: drop-shadow(0 8px 28px rgba(18, 28, 46, 0.1));
+    /* logo-white: 밝은 스플래시 배경과 외곽 합성 */
+    filter:
+      drop-shadow(0 0 1px rgba(251, 251, 252, 0.95))
+      drop-shadow(0 0 10px rgba(251, 251, 252, 0.7))
+      drop-shadow(0 0 22px rgba(244, 246, 249, 0.55))
+      drop-shadow(0 6px 18px rgba(18, 28, 46, 0.04));
   }
 
   .entry-splash__kicker {
