@@ -105,6 +105,12 @@ def main() -> None:
     header_img = upscale_width(base_norm, target_w=900)
     header_img.save(images_dir / "logo-white.png", optimize=True, compress_level=9)
 
+    # 스플래시·OG 등 밝은 배경용 — 흰 종이 영역 제거 후 logo-white와 동일 폭(900)
+    header_transparent = make_background_transparent(header_img.copy())
+    header_transparent.save(
+        images_dir / "logo-transparent.png", optimize=True, compress_level=9
+    )
+
     icon_src = monogram_crop(base_norm)
     icon_large = icon_src.resize((512, 512), Image.Resampling.LANCZOS)
     icon_large = icon_large.filter(ImageFilter.UnsharpMask(radius=1.2, percent=130, threshold=3))
@@ -146,7 +152,9 @@ def main() -> None:
         append_images=[_fl32, _fl16],
     )
 
-    print("OK: transparent favicon-light / favicon-dark + logo-white.png + favicon.ico")
+    print(
+        "OK: favicon-light / favicon-dark + logo-white.png + logo-transparent.png + favicon.ico"
+    )
 
 
 if __name__ == "__main__":
