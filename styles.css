@@ -7658,7 +7658,7 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .introduce-value-cards > li,
@@ -7668,9 +7668,9 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 
 .introduce-value-card {
   display: flex;
-  flex-direction: column;
-  padding: 0;
-  overflow: hidden;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.05rem 1.15rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-soft);
   background: var(--color-surface);
@@ -7687,36 +7687,41 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   transform: translateY(-2px);
 }
 
-.introduce-value-card__visual {
-  position: relative;
-  aspect-ratio: 3 / 2;
-  width: 100%;
-  background: var(--color-primary);
+.introduce-value-card--1 {
+  border-left: 3px solid rgba(var(--color-accent-rgb), 0.88);
 }
 
-.introduce-value-card__visual img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
+.introduce-value-card--2 {
+  border-left: 3px solid var(--color-primary-light);
 }
 
-.introduce-value-card--1 .introduce-value-card__visual {
-  box-shadow: inset 0 -4px 0 rgba(var(--color-accent-rgb), 0.65);
+.introduce-value-card--3 {
+  border-left: 3px solid var(--color-accent-soft);
 }
 
-.introduce-value-card--2 .introduce-value-card__visual {
-  box-shadow: inset 0 -4px 0 rgba(42, 58, 86, 0.55);
+.introduce-value-card__icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.16), rgba(18, 28, 46, 0.06));
+  color: var(--color-accent-dark);
 }
 
-.introduce-value-card--3 .introduce-value-card__visual {
-  box-shadow: inset 0 -4px 0 rgba(var(--color-accent-rgb), 0.4);
+.introduce-value-card--2 .introduce-value-card__icon {
+  background: linear-gradient(145deg, rgba(18, 28, 46, 0.1), rgba(var(--color-accent-rgb), 0.08));
+  color: var(--color-primary);
+}
+
+.introduce-value-card--3 .introduce-value-card__icon {
+  background: linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.2), rgba(255, 255, 255, 0.5));
+  color: var(--color-accent-dark);
 }
 
 .introduce-value-card__body {
   min-width: 0;
-  padding: 1rem 1.15rem 1.1rem;
 }
 
 .introduce-value-card__title {
@@ -7735,48 +7740,34 @@ body.page-strength .st-cta__actions .btn-outline:hover {
 }
 
 .introduce-biz-card {
-  display: grid;
-  grid-template-columns: clamp(6.25rem, 32%, 10.5rem) minmax(0, 1fr);
-  gap: 0;
-  align-items: stretch;
-  padding: 0;
-  overflow: hidden;
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.78rem 1rem;
   border-radius: var(--radius-md);
-  background: linear-gradient(100deg, rgba(var(--color-accent-rgb), 0.06), rgba(255, 255, 255, 0.92) 48%, #fff);
+  background: linear-gradient(100deg, rgba(var(--color-accent-rgb), 0.08), rgba(255, 255, 255, 0.4) 52%, rgba(255, 255, 255, 0.85));
   border: 1px solid var(--color-border-soft);
   transition:
     border-color 0.22s var(--ease-out),
-    box-shadow 0.22s var(--ease-out),
+    background 0.22s var(--ease-out),
     transform 0.22s var(--ease-out);
 }
 
 .introduce-biz-card:hover {
-  border-color: rgba(var(--color-accent-rgb), 0.28);
-  box-shadow: var(--shadow-md);
-  transform: translateX(2px);
+  border-color: rgba(var(--color-accent-rgb), 0.3);
+  background: linear-gradient(100deg, rgba(var(--color-accent-rgb), 0.14), rgba(255, 255, 255, 0.55) 55%, #fff);
+  transform: translateX(3px);
 }
 
-.introduce-biz-card__visual {
-  position: relative;
-  min-height: 100%;
-  background: var(--color-primary);
-}
-
-.introduce-biz-card__visual img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 5.5rem;
-  object-fit: cover;
-  object-position: center center;
-}
-
-.introduce-biz-card__text {
-  padding: 0.85rem 1rem 0.85rem 1.05rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
+.introduce-biz-card__badge {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(155deg, var(--color-primary-soft), var(--color-primary));
+  color: var(--color-gold-highlight);
 }
 
 .introduce-biz-card__title {
@@ -7798,27 +7789,6 @@ body.page-strength .st-cta__actions .btn-outline:hover {
   .introduce-value-card:hover,
   .introduce-biz-card:hover {
     transform: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .introduce-biz-card {
-    grid-template-columns: 1fr;
-  }
-
-  .introduce-biz-card__visual {
-    aspect-ratio: 16 / 9;
-    max-height: 11rem;
-  }
-
-  .introduce-biz-card__visual img {
-    min-height: unset;
-    height: 100%;
-    max-height: 11rem;
-  }
-
-  .introduce-biz-card__text {
-    padding: 0.75rem 1rem 0.95rem;
   }
 }
 
