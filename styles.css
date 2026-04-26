@@ -2613,7 +2613,8 @@ body.br-modal-open {
 /* 인사말 — 대표 사진 + 본문 한 화면(데스크톱 좌측 초상, 우측 말씀) */
 .content-box--greeting.two-col {
   max-width: min(1080px, 100%);
-  grid-template-columns: minmax(200px, 0.36fr) 1fr;
+  /* 초상 열을 조금 넓혀 원본 세로 구도에 가깝게 */
+  grid-template-columns: minmax(220px, 0.42fr) 1fr;
   gap: clamp(1.35rem, 3.2vw, 2.5rem);
   align-items: start;
 }
@@ -2628,13 +2629,14 @@ body.br-modal-open {
   box-shadow: var(--shadow-sm);
 }
 
+/* 원본처럼 머리 위 여백·상체(팔짱·상의)까지 한 프레임에 — cover 대신 contain */
 .content-box--greeting .greeting-portrait img {
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(70vh, 31rem);
-  object-fit: cover;
-  object-position: center 20%;
+  max-height: min(84vh, 40rem);
+  object-fit: contain;
+  object-position: center top;
 }
 
 .content-box--greeting .greeting-body .signature {
@@ -2647,13 +2649,14 @@ body.br-modal-open {
   }
 
   .content-box--greeting .greeting-portrait {
-    max-width: min(15rem, 52vw);
+    max-width: min(17.5rem, 72vw);
     margin: 0 auto 0.35rem;
   }
 
   .content-box--greeting .greeting-portrait img {
-    max-height: min(36vh, 15.5rem);
-    object-position: center 18%;
+    max-height: min(48vh, 22rem);
+    object-fit: contain;
+    object-position: center top;
   }
 }
 
